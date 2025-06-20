@@ -1,0 +1,187 @@
+<div class="home-page min-h-[calc(100vh-4rem)]">
+  <!-- Hero Section -->
+  <section class="hero py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row gap-12 items-center">
+        <!-- Profile Image -->
+        <div class="w-full md:w-2/5 flex justify-center">
+          <div class="relative">
+            <div class="bg-gray-200 border-2 border-dashed rounded-xl w-64 h-64 md:w-80 md:h-80 animate-pulse" id="profile-image-placeholder"></div>
+            <div class="absolute -bottom-4 -right-4 bg-primary-500 dark:bg-primary-600 text-white p-3 rounded-full shadow-lg">
+              <i class="fa-solid fa-star text-xl"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Profile Information -->
+        <div class="w-full md:w-3/5 text-center md:text-left">
+          <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4">
+            <span id="profile-name" class="animate-pulse bg-gray-300 dark:bg-gray-700 rounded h-10 w-64 inline-block"></span>
+          </h1>
+          <h2 class="text-2xl md:text-3xl font-semibold text-primary-600 dark:text-primary-400 mb-6">
+            <span id="profile-title" class="animate-pulse bg-gray-300 dark:bg-gray-700 rounded h-8 w-48 inline-block"></span>
+          </h2>
+          <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+            <span id="profile-bio" class="animate-pulse bg-gray-300 dark:bg-gray-700 rounded h-24 w-full inline-block"></span>
+          </p>
+          
+          <!-- Contact Information -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            <div class="flex items-center justify-center md:justify-start space-x-2">
+              <i class="fa-solid fa-envelope text-primary-500 dark:text-primary-400"></i>
+              <span id="profile-email" class="animate-pulse bg-gray-300 dark:bg-gray-700 rounded h-5 w-40 inline-block"></span>
+            </div>
+            <div class="flex items-center justify-center md:justify-start space-x-2">
+              <i class="fa-solid fa-phone text-primary-500 dark:text-primary-400"></i>
+              <span id="profile-phone" class="animate-pulse bg-gray-300 dark:bg-gray-700 rounded h-5 w-32 inline-block"></span>
+            </div>
+            <div class="flex items-center justify-center md:justify-start space-x-2">
+              <i class="fa-solid fa-location-dot text-primary-500 dark:text-primary-400"></i>
+              <span id="profile-address" class="animate-pulse bg-gray-300 dark:bg-gray-700 rounded h-5 w-48 inline-block"></span>
+            </div>
+          </div>
+          
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap justify-center md:justify-start gap-4">
+            <a href="#" id="resume-button" class="px-6 py-3 bg-primary-500 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700 text-white rounded-lg font-medium transition-colors shadow-md">
+              <i class="fa-solid fa-download mr-2"></i>Download Resume
+            </a>
+            <a href="#contact" class="px-6 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg font-medium transition-colors shadow-md">
+              <i class="fa-solid fa-envelope mr-2"></i>Contact Me
+            </a>
+          </div>
+          
+          <!-- Social Links -->
+          <div class="mt-8 flex justify-center md:justify-start space-x-4">
+            <a href="#" id="github-link" class="text-gray-500 hover:text-primary-500 dark:text-gray-400 dark:hover:text-primary-400 transition-colors">
+              <i class="fab fa-github fa-2x"></i>
+            </a>
+            <a href="#" id="linkedin-link" class="text-gray-500 hover:text-primary-500 dark:text-gray-400 dark:hover:text-primary-400 transition-colors">
+              <i class="fab fa-linkedin fa-2x"></i>
+            </a>
+            <a href="#" id="twitter-link" class="text-gray-500 hover:text-primary-500 dark:text-gray-400 dark:hover:text-primary-400 transition-colors">
+              <i class="fab fa-twitter fa-2x"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects Section -->
+  <section class="featured-projects py-16 bg-gray-100 dark:bg-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Featured Projects</h2>
+        <div class="w-24 h-1 bg-primary-500 dark:bg-primary-400 mx-auto mt-4 rounded"></div>
+        <p class="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Some of my most notable work and contributions</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Project Card 1 -->
+        <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden transition-transform hover:-translate-y-2">
+          <div class="h-48 bg-gray-200 dark:bg-gray-600 border-2 border-dashed"></div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">E-Commerce Platform</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">A full-featured online shopping platform with payment integration and inventory management.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">React</span>
+              <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">Node.js</span>
+              <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">MongoDB</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Project Card 2 -->
+        <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden transition-transform hover:-translate-y-2">
+          <div class="h-48 bg-gray-200 dark:bg-gray-600 border-2 border-dashed"></div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Task Management App</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Productivity application for teams to collaborate and manage projects efficiently.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">Vue.js</span>
+              <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">Firebase</span>
+              <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">Tailwind CSS</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Project Card 3 -->
+        <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden transition-transform hover:-translate-y-2">
+          <div class="h-48 bg-gray-200 dark:bg-gray-600 border-2 border-dashed"></div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Health & Fitness Tracker</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Mobile application for tracking workouts, nutrition, and health metrics.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">React Native</span>
+              <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">GraphQL</span>
+              <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">PostgreSQL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-12">
+        <a href="#projects" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary-500 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700">
+          View All Projects
+          <i class="fa-solid fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Preview Section -->
+  <section class="skills-preview py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Technical Expertise</h2>
+        <div class="w-24 h-1 bg-primary-500 dark:bg-primary-400 mx-auto mt-4 rounded"></div>
+        <p class="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Technologies I specialize in and work with daily</p>
+      </div>
+      
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8">
+        <div class="flex flex-col items-center">
+          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
+            <i class="fab fa-js text-4xl text-yellow-500"></i>
+          </div>
+          <span class="font-medium text-gray-800 dark:text-gray-200">JavaScript</span>
+        </div>
+        
+        <div class="flex flex-col items-center">
+          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
+            <i class="fab fa-react text-4xl text-blue-500"></i>
+          </div>
+          <span class="font-medium text-gray-800 dark:text-gray-200">React</span>
+        </div>
+        
+        <div class="flex flex-col items-center">
+          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
+            <i class="fab fa-node-js text-4xl text-green-600"></i>
+          </div>
+          <span class="font-medium text-gray-800 dark:text-gray-200">Node.js</span>
+        </div>
+        
+        <div class="flex flex-col items-center">
+          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
+            <i class="fab fa-python text-4xl text-blue-700"></i>
+          </div>
+          <span class="font-medium text-gray-800 dark:text-gray-200">Python</span>
+        </div>
+        
+        <div class="flex flex-col items-center">
+          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-database text-4xl text-blue-400"></i>
+          </div>
+          <span class="font-medium text-gray-800 dark:text-gray-200">SQL</span>
+        </div>
+      </div>
+      
+      <div class="text-center mt-12">
+        <a href="#skills" class="inline-flex items-center text-primary-500 dark:text-primary-400 font-medium hover:underline">
+          Explore all skills and technologies
+          <i class="fa-solid fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>

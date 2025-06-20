@@ -1,0 +1,330 @@
+<div class="blog-page min-h-screen">
+  <!-- Page Header -->
+  <div class="relative py-24 bg-gradient-to-r from-primary-500 to-blue-600 dark:from-primary-700 dark:to-blue-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">My Blog</h1>
+        <div class="w-24 h-1 bg-white/80 mx-auto mb-6 rounded"></div>
+        <p class="text-xl text-white/90 max-w-3xl mx-auto">
+          Insights, tutorials, and thoughts on web development, design, and technology
+        </p>
+      </div>
+    </div>
+    <div class="absolute inset-0 bg-gray-900/60"></div>
+  </div>
+
+  <!-- Blog Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="flex flex-col lg:flex-row gap-12">
+      <!-- Blog Posts Section -->
+      <div class="w-full lg:w-8/12">
+        <!-- Filtering Options -->
+        <div class="flex flex-wrap justify-between items-center mb-10 gap-4">
+          <div class="flex space-x-2">
+            <button class="px-4 py-2 bg-primary-500 text-white rounded-lg font-medium shadow">
+              All Posts
+            </button>
+            <button class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg font-medium shadow hover:bg-gray-50 dark:hover:bg-gray-700">
+              Web Dev
+            </button>
+            <button class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg font-medium shadow hover:bg-gray-50 dark:hover:bg-gray-700">
+              Design
+            </button>
+            <button class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg font-medium shadow hover:bg-gray-50 dark:hover:bg-gray-700">
+              Career
+            </button>
+          </div>
+          
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+            </div>
+            <input type="text" class="pl-10 pr-4 py-2 w-full md:w-64 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-primary-500 focus:border-primary-500" placeholder="Search articles...">
+          </div>
+        </div>
+        
+        <!-- Featured Blog Posts -->
+        <div class="mb-16">
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center">
+            <i class="fa-solid fa-star text-yellow-500 mr-2"></i>
+            Featured Articles
+          </h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Featured Post 1 -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
+              <div class="relative h-48">
+                <div class="bg-gray-200 border-2 border-dashed w-full h-full"></div>
+                <div class="absolute top-4 right-4 bg-primary-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  Featured
+                </div>
+              </div>
+              <div class="p-6">
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+                  <span class="mr-4">Feb 15, 2024</span>
+                  <span><i class="fa-regular fa-eye mr-1"></i> 120 views</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">React Best Practices for 2024</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Learn the most effective React patterns and practices to improve your application performance and maintainability.</p>
+                <a href="#blog/react-best-practices" class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium">
+                  Read more
+                  <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                </a>
+              </div>
+            </div>
+            
+            <!-- Featured Post 2 -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
+              <div class="relative h-48">
+                <div class="bg-gray-200 border-2 border-dashed w-full h-full"></div>
+                <div class="absolute top-4 right-4 bg-primary-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  Featured
+                </div>
+              </div>
+              <div class="p-6">
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+                  <span class="mr-4">Jan 28, 2024</span>
+                  <span><i class="fa-regular fa-eye mr-1"></i> 98 views</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Mastering Tailwind CSS Layouts</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Advanced techniques for creating responsive layouts with Tailwind CSS that work perfectly across all devices.</p>
+                <a href="#blog/tailwind-layouts" class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium">
+                  Read more
+                  <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- All Blog Posts -->
+        <div>
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">All Articles</h2>
+          
+          <div class="space-y-10">
+            <!-- Blog Post 1 -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl md:flex">
+              <div class="md:w-1/3">
+                <div class="bg-gray-200 border-2 border-dashed w-full h-64 md:h-full"></div>
+              </div>
+              <div class="p-6 md:w-2/3">
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+                  <span class="mr-4">Mar 10, 2024</span>
+                  <span><i class="fa-regular fa-eye mr-1"></i> 85 views</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Building Accessible Web Applications</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">A comprehensive guide to implementing accessibility standards in modern web applications to ensure everyone can use your products.</p>
+                <a href="#blog/accessible-web" class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium">
+                  Read more
+                  <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                </a>
+              </div>
+            </div>
+            
+            <!-- Blog Post 2 -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl md:flex">
+              <div class="md:w-1/3">
+                <div class="bg-gray-200 border-2 border-dashed w-full h-64 md:h-full"></div>
+              </div>
+              <div class="p-6 md:w-2/3">
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+                  <span class="mr-4">Feb 28, 2024</span>
+                  <span><i class="fa-regular fa-eye mr-1"></i> 76 views</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">State Management in Vue 3</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Exploring Pinia and Vuex for state management in Vue 3 applications. Which solution is best for your project?</p>
+                <a href="#blog/vue-state" class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium">
+                  Read more
+                  <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                </a>
+              </div>
+            </div>
+            
+            <!-- Blog Post 3 -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl md:flex">
+              <div class="md:w-1/3">
+                <div class="bg-gray-200 border-2 border-dashed w-full h-64 md:h-full"></div>
+              </div>
+              <div class="p-6 md:w-2/3">
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+                  <span class="mr-4">Feb 18, 2024</span>
+                  <span><i class="fa-regular fa-eye mr-1"></i> 92 views</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">The Future of CSS: New Features to Watch</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">An overview of upcoming CSS features that will change how we build websites, including container queries and cascade layers.</p>
+                <a href="#blog/future-css" class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium">
+                  Read more
+                  <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                </a>
+              </div>
+            </div>
+            
+            <!-- Blog Post 4 -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl md:flex">
+              <div class="md:w-1/3">
+                <div class="bg-gray-200 border-2 border-dashed w-full h-64 md:h-full"></div>
+              </div>
+              <div class="p-6 md:w-2/3">
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+                  <span class="mr-4">Feb 5, 2024</span>
+                  <span><i class="fa-regular fa-eye mr-1"></i> 68 views</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Optimizing API Performance</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Strategies to improve your API response times and handle high traffic without compromising user experience.</p>
+                <a href="#blog/api-performance" class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium">
+                  Read more
+                  <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                </a>
+              </div>
+            </div>
+            
+            <!-- Blog Post 5 -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl md:flex">
+              <div class="md:w-1/3">
+                <div class="bg-gray-200 border-2 border-dashed w-full h-64 md:h-full"></div>
+              </div>
+              <div class="p-6 md:w-2/3">
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+                  <span class="mr-4">Jan 20, 2024</span>
+                  <span><i class="fa-regular fa-eye mr-1"></i> 103 views</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Building a Design System from Scratch</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">A step-by-step guide to creating a scalable design system that improves consistency across your products.</p>
+                <a href="#blog/design-system" class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium">
+                  Read more
+                  <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="mt-16 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 pt-8">
+          <div>
+            <p class="text-sm text-gray-700 dark:text-gray-300">
+              Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">8</span> articles
+            </p>
+          </div>
+          <div class="flex space-x-2">
+            <button class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium shadow hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50" disabled>
+              <i class="fa-solid fa-chevron-left mr-2"></i> Previous
+            </button>
+            <button class="px-4 py-2 bg-primary-500 text-white rounded-lg font-medium shadow hover:bg-primary-600">
+              Next <i class="fa-solid fa-chevron-right ml-2"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sidebar -->
+      <div class="w-full lg:w-4/12">
+        <!-- About Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">About the Blog</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">
+            Welcome to my development blog where I share insights, tutorials, and experiences from my journey as a full-stack developer.
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">
+            Subscribe to get notified when new articles are published.
+          </p>
+          <div class="mt-6">
+            <div class="flex">
+              <input type="email" placeholder="Your email address" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              <button class="px-4 py-2 bg-primary-500 text-white rounded-r-lg font-medium hover:bg-primary-600">
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Popular Posts -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Popular Articles</h3>
+          <div class="space-y-4">
+            <a href="#blog/react-best-practices" class="flex items-start group">
+              <div class="flex-shrink-0 mr-4">
+                <div class="bg-gray-200 border-2 border-dashed rounded-lg w-16 h-16"></div>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800 dark:text-white group-hover:text-primary-500 dark:group-hover:text-primary-400">React Best Practices</h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Feb 15, 2024</p>
+              </div>
+            </a>
+            
+            <a href="#blog/api-performance" class="flex items-start group">
+              <div class="flex-shrink-0 mr-4">
+                <div class="bg-gray-200 border-2 border-dashed rounded-lg w-16 h-16"></div>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800 dark:text-white group-hover:text-primary-500 dark:group-hover:text-primary-400">Optimizing API Performance</h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Feb 5, 2024</p>
+              </div>
+            </a>
+            
+            <a href="#blog/design-system" class="flex items-start group">
+              <div class="flex-shrink-0 mr-4">
+                <div class="bg-gray-200 border-2 border-dashed rounded-lg w-16 h-16"></div>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800 dark:text-white group-hover:text-primary-500 dark:group-hover:text-primary-400">Building a Design System</h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Jan 20, 2024</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Categories -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Categories</h3>
+          <div class="space-y-2">
+            <a href="#" class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700 group">
+              <span class="text-gray-700 dark:text-gray-300 group-hover:text-primary-500 dark:group-hover:text-primary-400">Web Development</span>
+              <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs font-medium px-2 py-1 rounded-full">12</span>
+            </a>
+            <a href="#" class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700 group">
+              <span class="text-gray-700 dark:text-gray-300 group-hover:text-primary-500 dark:group-hover:text-primary-400">JavaScript</span>
+              <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs font-medium px-2 py-1 rounded-full">8</span>
+            </a>
+            <a href="#" class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700 group">
+              <span class="text-gray-700 dark:text-gray-300 group-hover:text-primary-500 dark:group-hover:text-primary-400">UI/UX Design</span>
+              <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs font-medium px-2 py-1 rounded-full">5</span>
+            </a>
+            <a href="#" class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700 group">
+              <span class="text-gray-700 dark:text-gray-300 group-hover:text-primary-500 dark:group-hover:text-primary-400">Career Advice</span>
+              <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs font-medium px-2 py-1 rounded-full">3</span>
+            </a>
+            <a href="#" class="flex justify-between items-center py-2 group">
+              <span class="text-gray-700 dark:text-gray-300 group-hover:text-primary-500 dark:group-hover:text-primary-400">Performance</span>
+              <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs font-medium px-2 py-1 rounded-full">7</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Newsletter Section -->
+  <div class="bg-gray-100 dark:bg-gray-800 py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="inline-flex items-center justify-center bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-full p-3 mb-6">
+        <i class="fa-solid fa-envelope-open-text text-2xl"></i>
+      </div>
+      <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">Stay Updated</h2>
+      <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
+        Subscribe to my newsletter to receive the latest articles and updates directly in your inbox.
+      </p>
+      <div class="max-w-xl mx-auto">
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input type="email" placeholder="Your email address" class="flex-1 px-5 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+          <button class="px-6 py-3 bg-primary-500 text-white rounded-lg font-medium hover:bg-primary-600 transition-colors">
+            Subscribe
+          </button>
+        </div>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">
+          No spam, just valuable content. Unsubscribe anytime.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

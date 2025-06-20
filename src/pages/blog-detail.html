@@ -1,0 +1,440 @@
+<div class="blog-detail-page min-h-screen">
+  <!-- Blog Hero Section -->
+  <div class="relative pt-16 pb-24 md:py-32 bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-700 dark:to-indigo-800">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center">
+        <div class="inline-block mb-4">
+          <span class="px-4 py-1 bg-white/20 text-white rounded-full text-sm font-medium">Web Development</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">Django Performance Tips: Optimizing Your Web Applications</h1>
+        
+        <!-- Author & Date Info -->
+        <div class="flex items-center justify-center mt-8">
+          <div class="flex-shrink-0 mr-4">
+            <div class="bg-gray-200 border-2 border-dashed rounded-full w-12 h-12"></div>
+          </div>
+          <div class="text-left">
+            <p class="font-medium text-white">John Doe</p>
+            <div class="flex items-center text-white/80 text-sm">
+              <span class="mr-4">Jan 10, 2024</span>
+              <span><i class="fa-regular fa-clock mr-1"></i> 8 min read</span>
+              <span class="mx-2">•</span>
+              <span><i class="fa-regular fa-eye mr-1"></i> 255 views</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="absolute inset-0 bg-gray-900/30"></div>
+  </div>
+
+  <!-- Featured Image -->
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 md:-mt-24 relative z-20">
+    <div class="rounded-2xl shadow-xl overflow-hidden">
+      <div class="bg-gray-200 border-2 border-dashed w-full h-64 md:h-96"></div>
+    </div>
+  </div>
+
+  <!-- Blog Content -->
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <!-- Excerpt Section -->
+    <div class="bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 dark:border-blue-400 p-6 rounded-lg mb-12">
+      <p class="text-xl text-blue-800 dark:text-blue-200 italic">
+        "Optimize your Django applications with these proven techniques to handle increased traffic, reduce response times, and improve overall user experience."
+      </p>
+    </div>
+
+    <!-- Article Content -->
+    <article class="prose prose-lg dark:prose-invert max-w-none">
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        Django is a powerful web framework that enables rapid development of robust applications. However, as your application grows and handles more traffic, performance bottlenecks can emerge. In this article, I'll share practical strategies I've used to optimize Django applications in production environments.
+      </p>
+      
+      <h2 class="text-2xl font-bold text-gray-800 dark:text-white mt-12 mb-6">1. Database Optimization</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        Database queries are often the primary bottleneck in Django applications. Here are key strategies to optimize them:
+      </p>
+      
+      <h3 class="text-xl font-semibold text-gray-800 dark:text-white mt-8 mb-4">Use select_related and prefetch_related</h3>
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        These QuerySet methods are essential for optimizing database access when dealing with related objects. <code>select_related</code> works by creating a SQL join and including the fields of the related object in the SELECT statement, while <code>prefetch_related</code> does a separate lookup for each relationship and does the "joining" in Python.
+      </p>
+      
+      <div class="bg-gray-800 rounded-lg p-4 mb-6">
+        <pre class="text-sm text-gray-200 overflow-x-auto">
+          <code class="language-python">
+# Instead of this:
+authors = [book.author for book in Book.objects.all()]
+
+# Do this:
+authors = [book.author for book in Book.objects.select_related('author')]
+          </code>
+        </pre>
+      </div>
+      
+      <h3 class="text-xl font-semibold text-gray-800 dark:text-white mt-8 mb-4">Database Indexing</h3>
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        Proper indexing can dramatically improve query performance. Add indexes to fields that are frequently used in filters, ordering, or as foreign keys.
+      </p>
+      
+      <h2 class="text-2xl font-bold text-gray-800 dark:text-white mt-12 mb-6">2. Caching Strategies</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        Implementing effective caching can reduce database load and improve response times:
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow">
+          <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mb-4">
+            <i class="fa-solid fa-layer-group text-blue-500 text-xl"></i>
+          </div>
+          <h4 class="font-bold text-gray-800 dark:text-white mb-2">Per-view Caching</h4>
+          <p class="text-gray-600 dark:text-gray-300 text-sm">Cache entire views for frequently accessed pages with stable content.</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow">
+          <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mb-4">
+            <i class="fa-solid fa-database text-green-500 text-xl"></i>
+          </div>
+          <h4 class="font-bold text-gray-800 dark:text-white mb-2">Template Fragment Caching</h4>
+          <p class="text-gray-600 dark:text-gray-300 text-sm">Cache specific parts of templates that are expensive to render.</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow">
+          <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mb-4">
+            <i class="fa-solid fa-bolt text-purple-500 text-xl"></i>
+          </div>
+          <h4 class="font-bold text-gray-800 dark:text-white mb-2">Low-level Cache API</h4>
+          <p class="text-gray-600 dark:text-gray-300 text-sm">Cache specific computations or database queries that are reused.</p>
+        </div>
+      </div>
+      
+      <h2 class="text-2xl font-bold text-gray-800 dark:text-white mt-12 mb-6">3. Asynchronous Tasks</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        For long-running processes, use task queues like Celery to offload work from the request/response cycle:
+      </p>
+      
+      <ul class="text-gray-600 dark:text-gray-300 mb-6 pl-5 list-disc space-y-2">
+        <li>Sending emails</li>
+        <li>Processing uploaded files</li>
+        <li>Generating reports</li>
+        <li>External API calls</li>
+        <li>Data processing tasks</li>
+      </ul>
+      
+      <div class="bg-gray-800 rounded-lg p-4 mb-6">
+        <pre class="text-sm text-gray-200 overflow-x-auto">
+          <code class="language-python">
+# Use Celery for background tasks
+from celery import shared_task
+
+@shared_task
+def send_welcome_email(user_id):
+    user = User.objects.get(id=user_id)
+    # Send email logic here
+          </code>
+        </pre>
+      </div>
+      
+      <h2 class="text-2xl font-bold text-gray-800 dark:text-white mt-12 mb-6">4. Static File Optimization</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        Proper handling of static files is crucial for performance:
+      </p>
+      
+      <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-500 dark:border-yellow-400 p-6 rounded-lg mb-6">
+        <div class="flex items-start">
+          <i class="fa-solid fa-lightbulb text-yellow-500 text-xl mr-3 mt-1"></i>
+          <p class="text-yellow-800 dark:text-yellow-200">
+            <strong>Pro Tip:</strong> Always use Django's <code>collectstatic</code> in production and serve static files from a CDN to reduce server load and improve load times globally.
+          </p>
+        </div>
+      </div>
+      
+      <h2 class="text-2xl font-bold text-gray-800 dark:text-white mt-12 mb-6">5. Middleware Optimization</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        Review your middleware stack and remove any unnecessary middleware. Each middleware adds overhead to every request. Consider:
+      </p>
+      
+      <ul class="text-gray-600 dark:text-gray-300 mb-6 pl-5 list-disc space-y-2">
+        <li>Removing unused middleware</li>
+        <li>Optimizing custom middleware</li>
+        <li>Using conditional middleware where appropriate</li>
+      </ul>
+      
+      <h2 class="text-2xl font-bold text-gray-800 dark:text-white mt-12 mb-6">Performance Comparison</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        After implementing these optimizations on a recent project, we saw significant improvements:
+      </p>
+      
+      <div class="bg-gray-100 dark:bg-gray-800 rounded-2xl p-6 mb-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div class="text-center">
+            <div class="text-3xl font-bold text-blue-500 dark:text-blue-400 mb-2">72%</div>
+            <p class="text-gray-600 dark:text-gray-300">Reduced page load time</p>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-blue-500 dark:text-blue-400 mb-2">65%</div>
+            <p class="text-gray-600 dark:text-gray-300">Fewer database queries</p>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-blue-500 dark:text-blue-400 mb-2">3.5×</div>
+            <p class="text-gray-600 dark:text-gray-300">More concurrent users</p>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-blue-500 dark:text-blue-400 mb-2">40%</div>
+            <p class="text-gray-600 dark:text-gray-300">Lower server costs</p>
+          </div>
+        </div>
+      </div>
+      
+      <h2 class="text-2xl font-bold text-gray-800 dark:text-white mt-12 mb-6">Conclusion</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        Optimizing Django applications requires a systematic approach. Start by identifying bottlenecks using Django Debug Toolbar or monitoring tools, then apply the appropriate optimization techniques. Remember that premature optimization can complicate your codebase, so focus first on the biggest performance gains.
+      </p>
+      <p class="text-gray-600 dark:text-gray-300">
+        By implementing these strategies - efficient database queries, proper caching, background processing, static file optimization, and middleware review - you can significantly improve your Django application's performance and scalability.
+      </p>
+    </article>
+    
+    <!-- Tags -->
+    <div class="flex flex-wrap gap-3 mt-12 mb-8">
+      <a href="#" class="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700">#Django</a>
+      <a href="#" class="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700">#Python</a>
+      <a href="#" class="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700">#Performance</a>
+      <a href="#" class="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700">#Backend</a>
+      <a href="#" class="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700">#WebDevelopment</a>
+    </div>
+    
+    <!-- Share Buttons -->
+    <div class="flex items-center border-t border-b border-gray-200 dark:border-gray-700 py-6 mb-12">
+      <span class="text-gray-700 dark:text-gray-300 mr-4">Share:</span>
+      <div class="flex space-x-4">
+        <a href="#" class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-500 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-800">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#" class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white hover:bg-blue-700">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-gray-900">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="#" class="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white hover:bg-red-600">
+          <i class="fab fa-youtube"></i>
+        </a>
+      </div>
+    </div>
+    
+    <!-- Author Bio -->
+    <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 mb-16">
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="flex-shrink-0 mb-6 md:mb-0 md:mr-6">
+          <div class="bg-gray-200 border-2 border-dashed rounded-full w-24 h-24"></div>
+        </div>
+        <div class="text-center md:text-left">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">John Doe</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">Senior Full-Stack Developer with over 10 years of experience building scalable web applications. Passionate about Python, Django, and performance optimization.</p>
+          <div class="flex justify-center md:justify-start space-x-4">
+            <a href="#" class="text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="#" class="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="#" class="text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Comments Section -->
+    <div class="mb-16">
+      <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Comments (3)</h3>
+      
+      <!-- Comment 1 -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-6">
+        <div class="flex items-start mb-4">
+          <div class="flex-shrink-0 mr-4">
+            <div class="bg-gray-200 border-2 border-dashed rounded-full w-12 h-12"></div>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-800 dark:text-white">Sarah Johnson</h4>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Jan 12, 2024 at 2:30 PM</p>
+          </div>
+        </div>
+        <p class="text-gray-600 dark:text-gray-300 mb-4">
+          Great article! The section on database indexing was particularly helpful. I implemented your suggestions and saw a 40% improvement in query times.
+        </p>
+        <button class="text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 text-sm font-medium">
+          <i class="fa-regular fa-comment-dots mr-1"></i> Reply
+        </button>
+      </div>
+      
+      <!-- Comment 2 -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-6">
+        <div class="flex items-start mb-4">
+          <div class="flex-shrink-0 mr-4">
+            <div class="bg-gray-200 border-2 border-dashed rounded-full w-12 h-12"></div>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-800 dark:text-white">Michael Chen</h4>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Jan 11, 2024 at 10:15 AM</p>
+          </div>
+        </div>
+        <p class="text-gray-600 dark:text-gray-300 mb-4">
+          Thanks for the tips! Do you have any recommendations for monitoring tools to identify performance bottlenecks?
+        </p>
+        <button class="text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 text-sm font-medium">
+          <i class="fa-regular fa-comment-dots mr-1"></i> Reply
+        </button>
+      </div>
+      
+      <!-- Comment Form -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+        <h4 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Leave a Comment</h4>
+        <form>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+              <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+              <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+            </div>
+          </div>
+          <div class="mb-6">
+            <label for="comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Comment</label>
+            <textarea id="comment" rows="4" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+          </div>
+          <button type="submit" class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium shadow-md transition-colors">
+            Post Comment
+          </button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Related Articles -->
+    <div class="mb-16">
+      <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Related Articles</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Article 1 -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden transition-transform hover:-translate-y-2">
+          <div class="h-48 bg-gray-200 dark:bg-gray-700 border-2 border-dashed"></div>
+          <div class="p-6">
+            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+              <span class="mr-4">Dec 15, 2023</span>
+              <span><i class="fa-regular fa-clock mr-1"></i> 6 min read</span>
+            </div>
+            <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Advanced Python Decorators Explained</h4>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Learn how to create and use decorators effectively to enhance your Python code.</p>
+            <a href="#blog-detail" class="inline-flex items-center text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 font-medium">
+              Read more
+              <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Article 2 -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden transition-transform hover:-translate-y-2">
+          <div class="h-48 bg-gray-200 dark:bg-gray-700 border-2 border-dashed"></div>
+          <div class="p-6">
+            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+              <span class="mr-4">Nov 28, 2023</span>
+              <span><i class="fa-regular fa-clock mr-1"></i> 9 min read</span>
+            </div>
+            <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Building RESTful APIs with Django REST Framework</h4>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">A comprehensive guide to creating robust and scalable APIs using Django's powerful REST framework.</p>
+            <a href="#blog-detail" class="inline-flex items-center text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 font-medium">
+              Read more
+              <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Newsletter -->
+    <div class="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-8">
+      <div class="text-center">
+        <div class="inline-flex items-center justify-center bg-blue-100 dark:bg-blue-900 text-blue-500 dark:text-blue-400 rounded-full p-4 mb-6">
+          <i class="fa-solid fa-envelope-open-text text-2xl"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Subscribe to my newsletter</h3>
+        <p class="text-gray-600 dark:text-gray-300 max-w-xl mx-auto mb-6">
+          Get the latest articles, tutorials, and resources on web development delivered straight to your inbox.
+        </p>
+        <form class="max-w-md mx-auto">
+          <div class="flex">
+            <input type="email" placeholder="Your email address" class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+            <button class="px-6 py-3 bg-blue-500 text-white rounded-r-lg font-medium hover:bg-blue-600 transition-colors">
+              Subscribe
+            </button>
+          </div>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">
+            No spam, just valuable content. Unsubscribe anytime.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .blog-detail-page {
+    scroll-behavior: smooth;
+  }
+  .prose {
+    color: #4b5563;
+    line-height: 1.75;
+  }
+  .dark .prose {
+    color: #d1d5db;
+  }
+  .prose h2 {
+    font-size: 1.875rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+  }
+  .prose h3 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  .prose p {
+    margin-bottom: 1.5rem;
+  }
+  .prose ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .prose li {
+    margin-bottom: 0.5rem;
+  }
+  .prose code {
+    background-color: #e5e7eb;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-family: monospace;
+  }
+  .dark .prose code {
+    background-color: #374151;
+    color: #f3f4f6;
+  }
+  .prose pre {
+    background-color: #1f2937;
+    color: #f9fafb;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+  .prose pre code {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+  }
+</style>
