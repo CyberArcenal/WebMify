@@ -2,10 +2,9 @@
 import axios from "axios";
 import { authStore } from "./authStore";
 import { global_base_url } from "./global";
-import { showError, showSuccess } from "../utils/notifications";
 
 // Axios instance configuration
-const apiClient = axios.create({
+export const apiClient = axios.create({
   baseURL: global_base_url(),
   timeout: 15000,
   headers: {
@@ -46,60 +45,3 @@ apiClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-export const authService = {
-  handleAuthError(err) {
-    const res = err?.response;
-    const data = res?.data || {};
-    const status = res?.status || 0;
-
-    /* --- extract server-side text ---------------------------------- */
-    let msg;
-    if (typeof data === "string") {
-      msg = data;
-    } else if (data && typeof data === "object") {
-      msg =
-        data.message ||
-        data.detail ||
-        (Array.isArray(data.non_field_errors)
-          ? data.non_field_errors.join(" ")
-          : null) ||
-        // first string we can find in field errors
-        Object.values(data)
-          .flat()
-          .find((v) => typeof v === "string");
-    }
-
-    /* --- fallbacks when server is silent --------------------------- */
-    if (!msg) {
-      const fallback = {
-        400: "Invalid email or password format",
-        401: "Authentication failed",
-        403: "Account not verified",
-        404: "Resource not found",
-        500: "Server error",
-      };
-      msg = fallback[status] || "Connection error";
-    }
-
-    /* --- notify UI once ------------------------------------------- */
-    showError(msg);
-
-    /* --- propagate as Error object -------------------------------- */
-    return new Error(msg);
-  },
-
-  /* Token refresh request (adapt URL / payload to your backend) */
-  async refreshToken() {
-    const { data } = await apiClient.post(`${global_base_url()}/auth/refresh`, {
-      refresh: authStore.getRefreshToken(),
-    });
-    authStore.setAccessToken(data.access);
-    return data.access;
-  },
-
-  logout() {
-    authStore.clear();
-    window.location.href = "/login";
-  },
-};

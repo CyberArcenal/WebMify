@@ -1,11 +1,11 @@
 // src/js/utils/authStore.js
 class AuthStore {
   constructor() {
-    this.STORAGE_KEY = "pospro_auth_store";
-    this.ACCESS_TOKEN_KEY = "pospro_access_token";
-    this.REFRESH_TOKEN_KEY = "pospro_refresh_token";
-    this.USER_DATA_KEY = "pospro_user_data";
-    this.TOKEN_EXPIRATION_KEY = "pospro_token_expiration";
+    this.STORAGE_KEY = "dariusportfolio_auth_store";
+    this.ACCESS_TOKEN_KEY = "dariusportfolio_access_token";
+    this.REFRESH_TOKEN_KEY = "dariusportfolio_refresh_token";
+    this.USER_DATA_KEY = "dariusportfolio_user_data";
+    this.TOKEN_EXPIRATION_KEY = "dariusportfolio_token_expiration";
 }
   // Main authentication methods
   setAuthData = ({ user, accessToken, refreshToken, expiresIn }) => {

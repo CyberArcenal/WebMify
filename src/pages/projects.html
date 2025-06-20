@@ -9,26 +9,26 @@
       </p>
       <div class="mt-8 flex justify-center">
         <div class="inline-flex bg-white dark:bg-gray-800 rounded-lg shadow p-1">
-          <button type="button" class="px-4 py-2 text-sm font-medium rounded-md bg-primary-500 text-white">
-            All Projects
-          </button>
-          <button type="button" class="px-4 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-            Web Apps
-          </button>
-          <button type="button" class="px-4 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-            Mobile Apps
-          </button>
-          <button type="button" class="px-4 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-            Open Source
-          </button>
-        </div>
+  <button type="button" class="project-filter-btn px-4 py-2 text-sm font-medium rounded-md" data-filter="all">
+    All Projects
+  </button>
+  <button type="button" class="project-filter-btn px-4 py-2 text-sm font-medium rounded-md" data-filter="web">
+    Web Apps
+  </button>
+  <button type="button" class="project-filter-btn px-4 py-2 text-sm font-medium rounded-md" data-filter="mobile">
+    Mobile Apps
+  </button>
+  <button type="button" class="project-filter-btn px-4 py-2 text-sm font-medium rounded-md" data-filter="open-source">
+    Open Source
+  </button>
+</div>
       </div>
     </div>
   </div>
 
   <!-- Projects Grid -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <!-- Project Card 1 -->
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
         <div class="h-48 bg-gray-200 dark:bg-gray-700 relative">
@@ -242,12 +242,13 @@
       </div>
       <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
         <div>
-          <p class="text-sm text-gray-700 dark:text-gray-300">
+          <p class="pagination-info text-sm text-gray-700 dark:text-gray-300">
             Showing <span class="font-medium">6</span> of <span class="font-medium">23</span> projects
           </p>
         </div>
         <div>
           <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+            <div id="pagination-links" class="flex">
             <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
               <span class="sr-only">Previous</span>
               <i class="fa-solid fa-chevron-left h-5 w-5"></i>
@@ -271,6 +272,7 @@
               <span class="sr-only">Next</span>
               <i class="fa-solid fa-chevron-right h-5 w-5"></i>
             </a>
+            </div>
           </nav>
         </div>
       </div>
