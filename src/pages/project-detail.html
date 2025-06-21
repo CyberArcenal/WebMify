@@ -1,3 +1,33 @@
+
+<style>
+  .project-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .project-card:hover {
+    transform: scale(0.98);
+  }
+  
+  .project-card .view-project-btn {
+    transform: translateY(10px);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .project-card:hover .view-project-btn {
+    transform: translateY(0);
+  }
+</style>
+<!-- Project Modal -->
+<div id="project-modal" class="project-modal-overlay fixed inset-0 z-50 hidden opacity-0 transition-opacity duration-300 bg-black/70 flex items-center justify-center p-4">
+  <div id="project-modal-content" class="w-full max-w-3xl"></div>
+</div>
+
+<style>
+.project-modal-overlay {
+  backdrop-filter: blur(4px);
+}
+</style>
+
 <div
   id="project-error"
   class="hidden container mx-auto px-4 py-8 max-w-4xl"
@@ -325,7 +355,7 @@
               Project Impact
             </h3>
 
-            <div class="space-y-4">
+            <div class="space-y-4 project-impact-container">
               <div class="flex items-center">
                 <div
                   class="mr-4 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 p-3 rounded-lg"
@@ -581,3 +611,6 @@
     margin-bottom: 0.5em;
   }
 </style>
+
+
+<script type="module" src="/src/js/module/project-detail.js"></script>

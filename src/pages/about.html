@@ -19,7 +19,7 @@
       <!-- Profile Image -->
       <div class="w-full lg:w-5/12 flex justify-center">
         <div class="relative">
-          <div class="bg-gray-200 border-2 border-dashed rounded-full w-64 h-64 md:w-80 md:h-80"></div>
+          <div class="bg-gray-200 profile-image-placeholder border-2 border-dashed rounded-full w-64 h-64 md:w-80 md:h-80"></div>
           <div class="absolute -bottom-4 -right-4 bg-blue-500 dark:bg-blue-600 text-white p-3 rounded-full shadow-lg">
             <i class="fa-solid fa-star text-xl"></i>
           </div>
@@ -38,47 +38,52 @@
         </div>
         
         <!-- Contact Information -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div class="flex items-center">
-            <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4">
-              <i class="fa-solid fa-envelope text-blue-500 dark:text-blue-400"></i>
-            </div>
-            <div>
-              <p class="text-sm text-gray-500 dark:text-gray-400">Email</p>
-              <p class="text-gray-800 dark:text-white">john@example.com</p>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 contact-grid">
+        <!-- Email -->
+        <div class="flex items-center contact-item">
+          <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4 contact-icon">
+            <i class="fa-solid fa-envelope text-blue-500 dark:text-blue-400"></i>
           </div>
-          
-          <div class="flex items-center">
-            <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4">
-              <i class="fa-solid fa-phone text-blue-500 dark:text-blue-400"></i>
-            </div>
-            <div>
-              <p class="text-sm text-gray-500 dark:text-gray-400">Phone</p>
-              <p class="text-gray-800 dark:text-white">+1234567890</p>
-            </div>
-          </div>
-          
-          <div class="flex items-center">
-            <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4">
-              <i class="fa-solid fa-location-dot text-blue-500 dark:text-blue-400"></i>
-            </div>
-            <div>
-              <p class="text-sm text-gray-500 dark:text-gray-400">Location</p>
-              <p class="text-gray-800 dark:text-white">New York, USA</p>
-            </div>
-          </div>
-          
-          <div class="flex items-center">
-            <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4">
-              <i class="fa-solid fa-briefcase text-blue-500 dark:text-blue-400"></i>
-            </div>
-            <div>
-              <p class="text-sm text-gray-500 dark:text-gray-400">Status</p>
-              <p class="text-gray-800 dark:text-white">Available for projects</p>
-            </div>
+          <div class="contact-details">
+            <p class="text-sm text-gray-500 dark:text-gray-400">Email</p>
+            <p class="text-gray-800 dark:text-white">john@example.com</p>
           </div>
         </div>
+        
+        <!-- Phone -->
+        <div class="flex items-center contact-item">
+          <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4 contact-icon">
+            <i class="fa-solid fa-phone text-blue-500 dark:text-blue-400"></i>
+          </div>
+          <div class="contact-details">
+            <p class="text-sm text-gray-500 dark:text-gray-400">Phone</p>
+            <p class="text-gray-800 dark:text-white">+1234567890</p>
+          </div>
+        </div>
+        
+        <!-- Location -->
+        <div class="flex items-center contact-item">
+          <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4 contact-icon">
+            <i class="fa-solid fa-location-dot text-blue-500 dark:text-blue-400"></i>
+          </div>
+          <div class="contact-details">
+            <p class="text-sm text-gray-500 dark:text-gray-400">Location</p>
+            <p class="text-gray-800 dark:text-white">New York, USA</p>
+          </div>
+        </div>
+        
+        <!-- Status -->
+        <div class="flex items-center contact-item">
+          <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4 contact-icon">
+            <i class="fa-solid fa-briefcase text-blue-500 dark:text-blue-400"></i>
+          </div>
+          <div class="contact-details">
+            <p class="text-sm text-gray-500 dark:text-gray-400">Status</p>
+            <p class="text-gray-800 dark:text-white my-status">Available for projects</p>
+          </div>
+        </div>
+      </div>
+
         
         <!-- Social Links -->
         <div class="flex space-x-4">
@@ -119,12 +124,12 @@
       </div>
       
       <!-- Timeline -->
-      <div class="relative">
+      <div class="relative timeline-container">
         <!-- Timeline line -->
         <div class="hidden lg:block absolute left-1/2 top-0 bottom-0 w-1 bg-blue-200 dark:bg-blue-900 transform -translate-x-1/2"></div>
         
         <!-- Experience 1 -->
-        <div class="flex flex-col lg:flex-row mb-16">
+        <div class="time-line-prototype flex flex-col lg:flex-row mb-16">
           <div class="lg:w-1/2 lg:pr-16 lg:text-right mb-6 lg:mb-0">
             <div class="inline-block px-4 py-1 bg-blue-500 text-white rounded-full text-sm mb-3">2020 - 2023</div>
             <h3 class="text-2xl font-bold text-gray-800 dark:text-white">Lead Developer</h3>
@@ -153,7 +158,7 @@
         </div>
         
         <!-- Experience 2 -->
-        <div class="flex flex-col lg:flex-row mb-16">
+        <div class="time-line-prototype flex flex-col lg:flex-row mb-16">
           <div class="lg:w-1/2 lg:pr-16 lg:text-right mb-6 lg:mb-0 order-3 lg:order-1">
             <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg p-6">
               <p class="text-gray-600 dark:text-gray-300 mb-4">
@@ -182,7 +187,7 @@
         </div>
         
         <!-- Experience 3 -->
-        <div class="flex flex-col lg:flex-row">
+        <div class="time-line-prototype flex flex-col lg:flex-row">
           <div class="lg:w-1/2 lg:pr-16 lg:text-right mb-6 lg:mb-0">
             <div class="inline-block px-4 py-1 bg-blue-500 text-white rounded-full text-sm mb-3">2016 - 2018</div>
             <h3 class="text-2xl font-bold text-gray-800 dark:text-white">Frontend Developer</h3>
@@ -221,7 +226,7 @@
       <p class="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">My academic background and qualifications</p>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="education-grid grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Education 1 -->
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:-translate-y-2">
         <div class="p-6">
@@ -334,66 +339,69 @@
   </div>
 
   <!-- Skills Section -->
-  <div class="bg-gray-100 dark:bg-gray-800 py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Technical Expertise</h2>
-        <div class="w-24 h-1 bg-blue-500 dark:bg-blue-400 mx-auto mt-4 rounded"></div>
-        <p class="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Technologies and skills I specialize in</p>
+  <div class="bg-gray-100 dark:bg-gray-800 py-16 tech-expertise-section">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 tech-container">
+      <div class="text-center mb-16 tech-header">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white tech-title">Technical Expertise</h2>
+        <div class="w-24 h-1 bg-blue-500 dark:bg-blue-400 mx-auto mt-4 rounded tech-divider"></div>
+        <p class="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto tech-description">
+          Technologies and skills I specialize in
+        </p>
       </div>
       
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8">
-        <div class="flex flex-col items-center">
-          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
-            <i class="fab fa-js text-4xl text-yellow-500"></i>
+      <div id="skills-container" class="skills-container grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 tech-grid">
+        <div class="flex flex-col items-center tech-item tech-item-js">
+          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4 tech-icon">
+            <i class="fab fa-js text-4xl text-yellow-500 tech-icon-js"></i>
           </div>
-          <span class="font-medium text-gray-800 dark:text-gray-200">JavaScript</span>
+          <span class="font-medium text-gray-800 dark:text-gray-200 tech-label">JavaScript</span>
         </div>
         
-        <div class="flex flex-col items-center">
-          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
-            <i class="fab fa-react text-4xl text-blue-500"></i>
+        <div class="flex flex-col items-center tech-item tech-item-react">
+          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4 tech-icon">
+            <i class="fab fa-react text-4xl text-blue-500 tech-icon-react"></i>
           </div>
-          <span class="font-medium text-gray-800 dark:text-gray-200">React</span>
+          <span class="font-medium text-gray-800 dark:text-gray-200 tech-label">React</span>
         </div>
         
-        <div class="flex flex-col items-center">
-          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
-            <i class="fab fa-node-js text-4xl text-green-600"></i>
+        <div class="flex flex-col items-center tech-item tech-item-node">
+          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4 tech-icon">
+            <i class="fab fa-node-js text-4xl text-green-600 tech-icon-node"></i>
           </div>
-          <span class="font-medium text-gray-800 dark:text-gray-200">Node.js</span>
+          <span class="font-medium text-gray-800 dark:text-gray-200 tech-label">Node.js</span>
         </div>
         
-        <div class="flex flex-col items-center">
-          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
-            <i class="fab fa-python text-4xl text-blue-700"></i>
+        <div class="flex flex-col items-center tech-item tech-item-python">
+          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4 tech-icon">
+            <i class="fab fa-python text-4xl text-blue-700 tech-icon-python"></i>
           </div>
-          <span class="font-medium text-gray-800 dark:text-gray-200">Python</span>
+          <span class="font-medium text-gray-800 dark:text-gray-200 tech-label">Python</span>
         </div>
         
-        <div class="flex flex-col items-center">
-          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
-            <i class="fa-solid fa-database text-4xl text-blue-400"></i>
+        <div class="flex flex-col items-center tech-item tech-item-sql">
+          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4 tech-icon">
+            <i class="fa-solid fa-database text-4xl text-blue-400 tech-icon-sql"></i>
           </div>
-          <span class="font-medium text-gray-800 dark:text-gray-200">SQL</span>
+          <span class="font-medium text-gray-800 dark:text-gray-200 tech-label">SQL</span>
         </div>
         
-        <div class="flex flex-col items-center">
-          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
-            <i class="fab fa-aws text-4xl text-orange-500"></i>
+        <div class="flex flex-col items-center tech-item tech-item-aws">
+          <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4 tech-icon">
+            <i class="fab fa-aws text-4xl text-orange-500 tech-icon-aws"></i>
           </div>
-          <span class="font-medium text-gray-800 dark:text-gray-200">AWS</span>
+          <span class="font-medium text-gray-800 dark:text-gray-200 tech-label">AWS</span>
         </div>
       </div>
       
-      <div class="text-center mt-12">
-        <a href="#skills" class="inline-flex items-center text-blue-500 dark:text-blue-400 font-medium hover:underline">
+      <div class="text-center mt-12 tech-footer">
+        <a href="#skills" class="inline-flex items-center text-blue-500 dark:text-blue-400 font-medium hover:underline tech-link">
           View full skills list
-          <i class="fa-solid fa-arrow-right ml-2"></i>
+          <i class="fa-solid fa-arrow-right ml-2 tech-link-icon"></i>
         </a>
       </div>
     </div>
-  </div>
+    </div>
+
   
   <!-- Call to Action -->
   <div class="bg-blue-500 dark:bg-blue-700 py-16">
@@ -413,3 +421,5 @@
     </div>
   </div>
 </div>
+
+<script type="module" src="/src/js/module/about.js"></script>

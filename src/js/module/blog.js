@@ -1,123 +1,125 @@
-// blog.js
 import { apiClient } from "@js/api/auth";
-import { showError } from "@js/utils/notifications";
+import { showSuccess, showWarning, showInfo, showError } from "@js/utils/notifications";
 
-export default class BlogPage {
-  constructor() {
-    this.apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-    this.blogPosts = [];
-    this.featuredPosts = [];
-    this.popularPosts = [];
-    this.categories = [];
-    this.pagination = {
-      currentPage: 1,
-      pageSize: 5,
-      totalPages: 1,
-      totalItems: 0
-    };
-    this.isLoading = true;
-  }
+// DOM Elements
+const blogLoader = document.getElementById("blog-loader");
+const blogError = document.getElementById("blog-error");
+const blogContent = document.querySelector(".blog-page");
+const featuredContainer = document.querySelector(".mb-16 .grid");
+const allArticlesContainer = document.querySelector(".space-y-10");
+const paginationInfo = document.querySelector(".mt-16 .text-sm");
+const prevButton = document.querySelector(".mt-16 button:first-child");
+const nextButton = document.querySelector(".mt-16 button:last-child");
+const categoryButtons = document.querySelectorAll(".flex.space-x-2 button");
+const searchInput = document.querySelector('input[type="text"]');
+const subscribeForms = document.querySelectorAll(".flex, .flex-col");
 
-  async init() {
-    try {
-      this.showLoadingState();
-      await this.fetchBlogPosts();
-      this.renderBlogPosts();
-      this.setupEventListeners();
-      this.addAnimations();
-    } catch (error) {
-      this.handleError(error);
-    } finally {
-      this.hideLoadingState();
+// State management
+let state = {
+  currentPage: 1,
+  currentCategory: "All",
+  searchTerm: "",
+  blogData: [],
+  pagination: {
+    count: 0,
+    current_page: 1,
+    total_pages: 1,
+    page_size: 10,
+  },
+};
+
+// Utility functions
+const showLoader = () => blogLoader.classList.remove("hidden");
+const hideLoader = () => blogLoader.classList.add("hidden");
+
+const hideError = () => blogError.classList.add("hidden");
+
+const debounce = (func, wait) => {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+};
+
+// Fetch blog data
+const fetchBlogs = async () => {
+  showLoader();
+  hideError();
+
+  try {
+    const data = await apiClient.get(
+      `/api/blog/?page=${state.currentPage}&category=${state.currentCategory}&search=${state.searchTerm}`
+    );
+
+    if (!data.data.status) {
+      throw new Error(data.data.message || "Failed to fetch blog data");
     }
+
+    state.blogData = data.data.data;
+    state.pagination = data.data.pagination;
+    renderBlogs();
+  } catch (error) {
+    console.log(error);
+    showError(error.message);
+  } finally {
+    hideLoader();
+  }
+};
+
+// Render blog content
+const renderBlogs = () => {
+  // Filter data based on search and category
+  let filteredData = [...state.blogData];
+
+  if (state.searchTerm) {
+    const term = state.searchTerm.toLowerCase();
+    filteredData = filteredData.filter(
+      (blog) =>
+        blog.title.toLowerCase().includes(term) ||
+        blog.summary.toLowerCase().includes(term)
+    );
   }
 
-  showLoadingState() {
-    this.isLoading = true;
-    document.getElementById('app').classList.add('opacity-75');
+  if (state.currentCategory !== "All") {
+    filteredData = filteredData.filter(
+      (blog) => blog.category === state.currentCategory
+    );
   }
 
-  hideLoadingState() {
-    this.isLoading = false;
-    document.getElementById('app').classList.remove('opacity-75');
+  // Render featured posts
+  const featuredPosts = filteredData.filter((post) => post.featured);
+  renderFeaturedPosts(featuredPosts);
+
+  // Render all posts with pagination
+  renderAllPosts(filteredData);
+
+  // Update pagination UI
+  updatePaginationUI();
+
+  // Update active category button
+  updateActiveCategory();
+};
+
+const renderFeaturedPosts = (posts) => {
+  if (posts.length === 0) {
+    featuredContainer.innerHTML = `
+        <div class="col-span-2 text-center py-12">
+          <p class="text-gray-500 dark:text-gray-400">No featured posts found</p>
+        </div>
+      `;
+    return;
   }
 
-  async fetchBlogPosts() {
-    try {
-      const params = {
-        featured: true,
-        page: this.pagination.currentPage,
-        page_size: this.pagination.pageSize
-      };
-
-      const response = await apiClient.get('/api/blog/', { params });
-      
-      if (response.data?.status) {
-        this.blogPosts = response.data.data || [];
-        this.pagination = {
-          currentPage: response.data.pagination?.current_page || 1,
-          pageSize: response.data.pagination?.page_size || 5,
-          totalPages: response.data.pagination?.total_pages || 1,
-          totalItems: response.data.pagination?.count || 0
-        };
-        
-        // Extract featured posts (first 2)
-        this.featuredPosts = this.blogPosts.slice(0, 2);
-        
-        // For demo purposes, popular posts are the most viewed
-        this.popularPosts = [...this.blogPosts]
-          .sort((a, b) => b.views - a.views)
-          .slice(0, 3);
-        
-        // Mock categories for demo
-        this.categories = [
-          { name: "Web Development", count: 12 },
-          { name: "JavaScript", count: 8 },
-          { name: "UI/UX Design", count: 5 },
-          { name: "Career Advice", count: 3 },
-          { name: "Performance", count: 7 }
-        ];
-      } else {
-        throw new Error('Invalid blog data');
-      }
-    } catch (error) {
-      console.error('Blog fetch error:', error);
-      throw new Error('Failed to load blog posts');
-    }
-  }
-
-  renderBlogPosts() {
-    // Render featured posts
-    this.renderFeaturedPosts();
-    
-    // Render all blog posts
-    this.renderAllPosts();
-    
-    // Render popular posts
-    this.renderPopularPosts();
-    
-    // Render categories
-    this.renderCategories();
-    
-    // Update pagination
-    this.updatePagination();
-  }
-
-  renderFeaturedPosts() {
-    const container = document.querySelector('.grid.grid-cols-1.md\\:grid-cols-2.gap-8');
-    if (!container || !this.featuredPosts.length) return;
-
-    container.innerHTML = '';
-
-    this.featuredPosts.forEach(post => {
-      const postEl = document.createElement('div');
-      postEl.className = 'bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl';
-      
-      postEl.innerHTML = `
+  featuredContainer.innerHTML = posts
+    .map(
+      (post) => `
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
         <div class="relative h-48">
-          ${post.featured_image_url ? 
-            `<img src="${post.featured_image_url}" alt="${post.title}" class="w-full h-full object-cover">` : 
-            `<div class="bg-gray-200 border-2 border-dashed w-full h-full"></div>`
+          ${
+            post.imageURL
+              ? `<img src="${post.imageURL}" alt="${post.title}" class="w-full h-full object-cover">`
+              : `<div class="bg-gray-200 border-2 border-dashed w-full h-full"></div>`
           }
           <div class="absolute top-4 right-4 bg-primary-500 text-white text-xs font-bold px-3 py-1 rounded-full">
             Featured
@@ -125,279 +127,204 @@ export default class BlogPage {
         </div>
         <div class="p-6">
           <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
-            <span class="mr-4">${new Date(post.published_date).toLocaleDateString()}</span>
-            <span><i class="fa-regular fa-eye mr-1"></i> ${post.views} views</span>
+            <span class="mr-4">${post.publishDate}</span>
+            <span><i class="fa-regular fa-eye mr-1"></i> ${
+              post.views
+            } views</span>
           </div>
-          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">${post.title}</h3>
-          <p class="text-gray-600 dark:text-gray-300 mb-4">${post.excerpt}</p>
-          <a href="#blog/${post.slug}" class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">${
+            post.title
+          }</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">${post.summary}</p>
+          <a href="#blog/${
+            post.id
+          }" class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium">
             Read more
             <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
           </a>
         </div>
+      </div>
+    `
+    )
+    .join("");
+};
+
+const renderAllPosts = (posts) => {
+  if (posts.length === 0) {
+    allArticlesContainer.innerHTML = `
+        <div class="text-center py-12">
+          <p class="text-gray-500 dark:text-gray-400">No blog posts found. Try a different search or category.</p>
+        </div>
       `;
-      
-      container.appendChild(postEl);
-    });
+    return;
   }
 
-  renderAllPosts() {
-    const container = document.querySelector('.space-y-10');
-    if (!container || !this.blogPosts.length) return;
+  // Apply pagination
+  const startIndex = (state.currentPage - 1) * state.pagination.page_size;
+  const paginatedPosts = posts.slice(
+    startIndex,
+    startIndex + state.pagination.page_size
+  );
 
-    // Clear existing static content
-    while (container.firstChild) {
-      container.removeChild(container.firstChild);
-    }
-
-    this.blogPosts.forEach(post => {
-      const postEl = document.createElement('div');
-      postEl.className = 'bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl md:flex';
-      
-      postEl.innerHTML = `
+  allArticlesContainer.innerHTML = paginatedPosts
+    .map(
+      (post) => `
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl md:flex">
         <div class="md:w-1/3">
-          ${post.featured_image_url ? 
-            `<img src="${post.featured_image_url}" alt="${post.title}" class="w-full h-64 md:h-full object-cover">` : 
-            `<div class="bg-gray-200 border-2 border-dashed w-full h-64 md:h-full"></div>`
+          ${
+            post.imageURL
+              ? `<img src="${post.imageURL}" alt="${post.title}" class="w-full h-64 md:h-full object-cover">`
+              : `<div class="bg-gray-200 border-2 border-dashed w-full h-64 md:h-full"></div>`
           }
         </div>
         <div class="p-6 md:w-2/3">
           <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
-            <span class="mr-4">${new Date(post.published_date).toLocaleDateString()}</span>
-            <span><i class="fa-regular fa-eye mr-1"></i> ${post.views} views</span>
+            <span class="mr-4">${post.publishDate}</span>
+            <span><i class="fa-regular fa-eye mr-1"></i> ${
+              post.views
+            } views</span>
           </div>
-          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">${post.title}</h3>
-          <p class="text-gray-600 dark:text-gray-300 mb-4">${post.excerpt}</p>
-          <a href="#blog/${post.slug}" class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">${
+            post.title
+          }</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">${post.summary}</p>
+          <a href="#blog/${
+            post.id
+          }" class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium">
             Read more
             <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
           </a>
         </div>
-      `;
-      
-      container.appendChild(postEl);
-    });
-  }
+      </div>
+    `
+    )
+    .join("");
+};
 
-  renderPopularPosts() {
-    const container = document.querySelector('.space-y-4');
-    if (!container || !this.popularPosts.length) return;
+const updatePaginationUI = () => {
+  const startIndex = (state.currentPage - 1) * state.pagination.page_size + 1;
+  const endIndex = Math.min(
+    state.currentPage * state.pagination.page_size,
+    state.blogData.length
+  );
 
-    // Clear existing static content
-    while (container.firstChild) {
-      container.removeChild(container.firstChild);
-    }
-
-    this.popularPosts.forEach(post => {
-      const postEl = document.createElement('a');
-      postEl.href = `#blog/${post.slug}`;
-      postEl.className = 'flex items-start group';
-      
-      postEl.innerHTML = `
-        <div class="flex-shrink-0 mr-4">
-          ${post.featured_image_url ? 
-            `<img src="${post.featured_image_url}" alt="${post.title}" class="w-16 h-16 object-cover rounded-lg">` : 
-            `<div class="bg-gray-200 border-2 border-dashed rounded-lg w-16 h-16"></div>`
-          }
-        </div>
-        <div>
-          <h4 class="font-medium text-gray-800 dark:text-white group-hover:text-primary-500 dark:group-hover:text-primary-400">${post.title}</h4>
-          <p class="text-sm text-gray-500 dark:text-gray-400">${new Date(post.published_date).toLocaleDateString()}</p>
-        </div>
-      `;
-      
-      container.appendChild(postEl);
-    });
-  }
-
-  renderCategories() {
-    const container = document.querySelector('.space-y-2');
-    if (!container || !this.categories.length) return;
-
-    // Clear existing static content
-    while (container.firstChild) {
-      container.removeChild(container.firstChild);
-    }
-
-    this.categories.forEach(category => {
-      const categoryEl = document.createElement('a');
-      categoryEl.href = '#';
-      categoryEl.className = 'flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700 group';
-      
-      categoryEl.innerHTML = `
-        <span class="text-gray-700 dark:text-gray-300 group-hover:text-primary-500 dark:group-hover:text-primary-400">${category.name}</span>
-        <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs font-medium px-2 py-1 rounded-full">${category.count}</span>
-      `;
-      
-      container.appendChild(categoryEl);
-    });
-  }
-
-  updatePagination() {
-    const start = (this.pagination.currentPage - 1) * this.pagination.pageSize + 1;
-    const end = Math.min(this.pagination.currentPage * this.pagination.pageSize, this.pagination.totalItems);
-    
-    const paginationInfo = document.querySelector('.text-sm.text-gray-700.dark\\:text-gray-300');
-    if (paginationInfo) {
-      paginationInfo.innerHTML = `
-        Showing <span class="font-medium">${start}</span> to <span class="font-medium">${end}</span> 
-        of <span class="font-medium">${this.pagination.totalItems}</span> articles
-      `;
-    }
-    
-    const prevButton = document.querySelector('.prevbtn');
-    const nextButton = document.querySelector('.nextbtn');
-    
-    if (prevButton) {
-      prevButton.disabled = this.pagination.currentPage === 1;
-      if (this.pagination.currentPage === 1) {
-        prevButton.classList.add('disabled:opacity-50', 'cursor-not-allowed');
-      } else {
-        prevButton.classList.remove('disabled:opacity-50', 'cursor-not-allowed');
-      }
-    }
-    
-    if (nextButton) {
-      nextButton.disabled = this.pagination.currentPage === this.pagination.totalPages;
-      if (this.pagination.currentPage === this.pagination.totalPages) {
-        nextButton.classList.add('disabled:opacity-50', 'cursor-not-allowed');
-      } else {
-        nextButton.classList.remove('disabled:opacity-50', 'cursor-not-allowed');
-      }
-    }
-  }
-
-  setupEventListeners() {
-    // Pagination buttons
-    const prevButton = document.querySelector('.prevbtn');
-    const nextButton = document.querySelector('.nextbtn');
-    
-    if (prevButton) {
-      prevButton.addEventListener('click', () => {
-        if (this.pagination.currentPage > 1) {
-          this.pagination.currentPage--;
-          this.reloadPosts();
-        }
-      });
-    }
-    
-    if (nextButton) {
-      nextButton.addEventListener('click', () => {
-        if (this.pagination.currentPage < this.pagination.totalPages) {
-          this.pagination.currentPage++;
-          this.reloadPosts();
-        }
-      });
-    }
-    
-    // Category filter buttons
-    const filterButtons = document.querySelectorAll('.bg-white.dark\\:bg-gray-800');
-    filterButtons.forEach(button => {
-      button.addEventListener('click', (e) => {
-        e.preventDefault();
-        
-        // Remove active class from all buttons
-        filterButtons.forEach(btn => {
-          btn.classList.remove('bg-primary-500', 'text-white');
-          btn.classList.add('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
-        });
-        
-        // Add active class to clicked button
-        button.classList.remove('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
-        button.classList.add('bg-primary-500', 'text-white');
-        
-        // In a real app, we would fetch filtered posts here
-        // For now, just show a loading state
-        this.showLoadingState();
-        setTimeout(() => {
-          this.hideLoadingState();
-        }, 500);
-      });
-    });
-    
-    // Search functionality
-    const searchInput = document.querySelector('input[type="text"]');
-    if (searchInput) {
-      let searchTimeout;
-      
-      searchInput.addEventListener('input', () => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-          if (searchInput.value.trim()) {
-            // In a real app, we would fetch search results
-            // For now, show loading state
-            this.showLoadingState();
-            setTimeout(() => {
-              this.hideLoadingState();
-            }, 500);
-          }
-        }, 500);
-      });
-    }
-    
-    // Newsletter subscription
-    const subscribeButtons = document.querySelectorAll('.bg-primary-500.text-white');
-    subscribeButtons.forEach(button => {
-      button.addEventListener('click', (e) => {
-        e.preventDefault();
-        const emailInput = button.previousElementSibling;
-        
-        if (emailInput && emailInput.value) {
-          // In a real app, we would send the email to the server
-          showError('Subscription functionality would be implemented in a real app');
-        } else {
-          showError('Please enter your email address');
-        }
-      });
-    });
-  }
-
-  async reloadPosts() {
-    try {
-      this.showLoadingState();
-      await this.fetchBlogPosts();
-      this.renderBlogPosts();
-    } catch (error) {
-      this.handleError(error);
-    } finally {
-      this.hideLoadingState();
-    }
-  }
-
-  addAnimations() {
-    document.querySelectorAll('.blog-page > div')
-      .forEach((section, index) => {
-        section.classList.add('opacity-0', 'translate-y-6');
-        setTimeout(() => {
-          section.classList.add('transition-all', 'duration-500', 'ease-out');
-          section.classList.remove('opacity-0', 'translate-y-6');
-        }, 100 + (index * 150));
-      });
-  }
-
-  handleError(error) {
-    console.error('Blog page error:', error);
-    showError('Failed to load blog content');
-
-    // Show error notification
-    const notification = document.createElement('div');
-    notification.className = 'fixed bottom-4 right-4 bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-center';
-    notification.innerHTML = `
-      <i class="fa-solid fa-triangle-exclamation mr-2"></i>
-      <span>Failed to load blog posts. Please refresh the page.</span>
-      <button class="ml-4 text-white hover:text-gray-200 close-error">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+  paginationInfo.innerHTML = `
+      Showing <span class="font-medium">${startIndex}</span> 
+      to <span class="font-medium">${endIndex}</span> 
+      of <span class="font-medium">${state.blogData.length}</span> articles
     `;
-    
-    document.body.appendChild(notification);
-    
-    notification.querySelector('.close-error').addEventListener('click', () => {
-      notification.remove();
-    });
-  }
-}
 
-// Initialize the blog page
-const blogPage = new BlogPage();
-blogPage.init();
+  prevButton.disabled = state.currentPage === 1;
+  nextButton.disabled = state.currentPage === state.pagination.total_pages;
+};
+
+const updateActiveCategory = () => {
+  categoryButtons.forEach((button) => {
+    const buttonCategory = button.textContent.trim();
+    if (buttonCategory === "All Posts" && state.currentCategory === "All") {
+      button.classList.add("bg-primary-500", "text-white");
+      button.classList.remove(
+        "bg-white",
+        "dark:bg-gray-800",
+        "text-gray-700",
+        "dark:text-gray-300"
+      );
+    } else if (buttonCategory === state.currentCategory) {
+      button.classList.add("bg-primary-500", "text-white");
+      button.classList.remove(
+        "bg-white",
+        "dark:bg-gray-800",
+        "text-gray-700",
+        "dark:text-gray-300"
+      );
+    } else {
+      button.classList.remove("bg-primary-500", "text-white");
+      button.classList.add(
+        "bg-white",
+        "dark:bg-gray-800",
+        "text-gray-700",
+        "dark:text-gray-300"
+      );
+    }
+  });
+};
+
+// Event handlers
+const handleCategoryFilter = (e) => {
+  const category = e.target.textContent.trim();
+  state.currentCategory = category === "All Posts" ? "All" : category;
+  state.currentPage = 1;
+  fetchBlogs();
+};
+
+const handleSearch = debounce(() => {
+  state.searchTerm = searchInput.value;
+  state.currentPage = 1;
+  fetchBlogs();
+}, 300);
+
+const handlePagination = (direction) => {
+  if (direction === "prev" && state.currentPage > 1) {
+    state.currentPage--;
+  } else if (
+    direction === "next" &&
+    state.currentPage < state.pagination.total_pages
+  ) {
+    state.currentPage++;
+  }
+  fetchBlogs();
+};
+
+const handleSubscribe = async (e) => {
+  e.preventDefault();
+  const form = e.target.closest("div");
+  const emailInput = form.querySelector('input[type="email"]');
+  const email = emailInput.value.trim();
+
+  if (!email) {
+    showWarning("Please enter a valid email address");
+    return;
+  }
+  
+  try {
+    const response = await apiClient.post("/api/subscribe/", { email });
+    
+    if(response.data.status) {
+      showSuccess(response.data.message);
+      emailInput.value = "";
+    } else {
+      throw new Error(response.data.errors?.email?.[0] || "Subscription failed");
+    }
+  } catch(error) {
+    console.error("Subscription error:", error);
+    showError(error.response.data.message || "Subscription failed. Please try again later.");
+  }
+};
+
+// Initialize event listeners
+const initEventListeners = () => {
+  categoryButtons.forEach((button) => {
+    button.addEventListener("click", handleCategoryFilter);
+  });
+
+  searchInput.addEventListener("input", handleSearch);
+
+  prevButton.addEventListener("click", () => handlePagination("prev"));
+  nextButton.addEventListener("click", () => handlePagination("next"));
+
+  subscribeForms.forEach((form) => {
+    const button = form.querySelector("button");
+    if (button) {
+      button.addEventListener("click", handleSubscribe);
+    }
+  });
+};
+
+// Initialize the page
+const init = () => {
+  initEventListeners();
+  fetchBlogs();
+};
+
+// Initialize the application
+init();

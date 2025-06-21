@@ -5,9 +5,6 @@
 @import '@fontsource/inter/600.css';
 @import '@fontsource/inter/700.css';
 
-/* 2️⃣  tailwind layers */
-@tailwind utilities;
-
 body {
-  @apply font-sans text-sm; /* Inter + 14 px by default */
+  @apply font-sans text-sm;
 }

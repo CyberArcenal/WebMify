@@ -2,9 +2,44 @@
 import { apiClient } from "@js/api/auth";
 import { showError } from "@js/utils/notifications";
 
+// Constants for category templates
+const CATEGORY_TEMPLATES = {
+  language: {
+    title: 'Programming Languages',
+    icon: 'fa-code',
+    color: 'text-indigo-500'
+  },
+  frontend: {
+    title: 'Frontend Development',
+    icon: 'fa-palette',
+    color: 'text-blue-500'
+  },
+  backend: {
+    title: 'Backend & Databases',
+    icon: 'fa-database',
+    color: 'text-green-500'
+  },
+  devops: {
+    title: 'DevOps & Cloud',
+    icon: 'fa-cloud',
+    color: 'text-yellow-500'
+  },
+  framework: {
+    title: 'Frameworks & Libraries',
+    icon: 'fa-cubes',
+    color: 'text-purple-500'
+  },
+  design: {
+    title: 'Design & Tools',
+    icon: 'fa-screwdriver-wrench',
+    color: 'text-pink-500'
+  }
+};
+
 export default class SkillsPage {
   constructor() {
-    this.skills = [];
+    this.featuredSkills = [];
+    this.additionalSkills = [];
     this.categories = {};
     this.isLoading = true;
   }
@@ -14,7 +49,9 @@ export default class SkillsPage {
       this.showLoadingState();
       await this.fetchSkills();
       this.processSkillsData();
-      this.renderSkills();
+      this.clearPrototypeSkills();
+      this.renderFeaturedSkills();
+      this.renderAdditionalSkills();
       this.addAnimations();
     } catch (error) {
       this.handleError(error);
@@ -25,107 +62,135 @@ export default class SkillsPage {
 
   showLoadingState() {
     this.isLoading = true;
-    document.getElementById('app').classList.add('opacity-75');
-    const loader = document.getElementById('skills-loader');
-    if (loader) loader.classList.remove('hidden');
+    document.getElementById("app").classList.add("opacity-75");
+    const loader = document.getElementById("skills-loader");
+    if (loader) loader.classList.remove("hidden");
   }
 
   hideLoadingState() {
     this.isLoading = false;
-    document.getElementById('app').classList.remove('opacity-75');
-    const loader = document.getElementById('skills-loader');
-    if (loader) loader.classList.add('hidden');
+    document.getElementById("app").classList.remove("opacity-75");
+    const loader = document.getElementById("skills-loader");
+    if (loader) loader.classList.add("hidden");
+  }
+
+  clearPrototypeSkills() {
+    const skillContainers = document.querySelectorAll('.skills-container');
+    skillContainers.forEach(container => {
+      container.innerHTML = '';
+    });
+    
+    const categoryCards = document.querySelectorAll('[data-category]');
+    categoryCards.forEach(card => {
+      card.style.display = 'none';
+    });
   }
 
   async fetchSkills() {
     try {
-      const response = await apiClient.get('/api/skills/?page=1&page_size=50');
-      
+      const response = await apiClient.get("/api/skills/?page=1&page_size=50");
+
       if (response.data?.status) {
-        this.skills = response.data.data;
+        this.featuredSkills = response.data.data.filter(skill => skill.featured);
+        this.additionalSkills = response.data.data.filter(skill => !skill.featured);
       } else {
-        throw new Error('Failed to load skills: Invalid API response');
+        throw new Error("Failed to load skills: Invalid API response");
       }
     } catch (error) {
-      console.error('Skills fetch error:', error);
-      throw new Error('Failed to load skills. Please try again later.');
+      console.error("Skills fetch error:", error);
+      throw new Error("Failed to load skills. Please try again later.");
     }
   }
 
   processSkillsData() {
-    // Group skills by category
     this.categories = {};
     
-    this.skills.forEach(skill => {
+    this.featuredSkills.forEach(skill => {
       if (!this.categories[skill.category]) {
         this.categories[skill.category] = [];
       }
-      
-      // Add icon color based on category
-      const skillWithColor = {
-        ...skill,
-        color: this.getSkillColor(skill.category)
-      };
-      
-      this.categories[skill.category].push(skillWithColor);
+      this.categories[skill.category].push(skill);
     });
   }
 
-  getSkillColor(category) {
-    const colorMap = {
-      'language': 'text-indigo-500',
-      'frontend': 'text-blue-500',
-      'backend': 'text-green-500',
-      'devops': 'text-yellow-500',
-      'framework': 'text-purple-500',
-      'design': 'text-pink-500'
-    };
+  renderFeaturedSkills() {
+    const gridContainer = document.getElementById('skills-grid');
+    if (!gridContainer) return;
     
-    return colorMap[category] || 'text-gray-500';
-  }
-
-  renderSkills() {
-    // Map API categories to UI categories
-    const categoryMap = {
-      'language': 'Programming Languages',
-      'frontend': 'Frontend Development',
-      'backend': 'Backend & Databases',
-      'devops': 'DevOps & Cloud',
-      'framework': 'Frameworks & Libraries',
-      'design': 'Design & Tools'
-    };
-    
-    // Render each category
     Object.entries(this.categories).forEach(([category, skills]) => {
-      const categoryName = categoryMap[category] || category;
-      const container = document.querySelector(`[data-category="${categoryName}"] .skills-container`);
+      const template = CATEGORY_TEMPLATES[category];
+      if (!template) return;
       
-      if (container) {
-        container.innerHTML = '';
-        
-        skills
-          .sort((a, b) => b.order - a.order)
-          .forEach(skill => {
-            const skillEl = this.createSkillElement(skill);
-            container.appendChild(skillEl);
-          });
-      }
+      let card = this.getOrCreateCategoryCard(category, gridContainer);
+      this.renderSkillsInCard(card, skills);
     });
     
-    // If no skills found, show empty state
-    if (this.skills.length === 0) {
+    if (this.featuredSkills.length === 0) {
       this.showEmptyState();
     }
   }
 
+  getOrCreateCategoryCard(category, gridContainer) {
+    const template = CATEGORY_TEMPLATES[category];
+    if (!template) return null;
+    
+    let card = document.querySelector(`[data-category="${template.title}"]`);
+    
+    if (!card) {
+      card = this.createCategoryCard(category);
+      gridContainer.appendChild(card);
+    }
+    
+    card.style.display = 'block';
+    return card;
+  }
+
+  createCategoryCard(category) {
+    const template = CATEGORY_TEMPLATES[category];
+    if (!template) return null;
+    
+    const card = document.createElement('div');
+    card.className = 'bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6';
+    card.dataset.category = template.title;
+    
+    card.innerHTML = `
+      <div class="flex items-center mb-6">
+        <div class="mr-4 bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 p-3 rounded-lg">
+          <i class="fa-solid ${template.icon} text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 dark:text-white">${template.title}</h3>
+      </div>
+      <div class="space-y-5 skills-container"></div>
+    `;
+    
+    return card;
+  }
+
+  renderSkillsInCard(card, skills) {
+    const container = card.querySelector('.skills-container');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    skills
+      .sort((a, b) => b.order - a.order)
+      .forEach(skill => {
+        container.appendChild(this.createSkillElement(skill));
+      });
+  }
+
   createSkillElement(skill) {
     const skillEl = document.createElement('div');
-    skillEl.className = 'skill-item';
+    skillEl.className = 'skill-item opacity-0 translate-y-4';
+    
+    const template = CATEGORY_TEMPLATES[skill.category];
+    const color = template?.color || 'text-gray-500';
+    const icon = skill.icon || 'fa-solid fa-code';
     
     skillEl.innerHTML = `
       <div class="flex justify-between mb-2">
         <span class="font-medium text-gray-700 dark:text-gray-300 flex items-center">
-          <i class="${skill.icon} ${skill.color} mr-2"></i> ${skill.name}
+          <i class="${icon} ${color} mr-2"></i> ${skill.name}
         </span>
         <span class="text-gray-600 dark:text-gray-400 font-medium">${skill.proficiency}%</span>
       </div>
@@ -135,6 +200,41 @@ export default class SkillsPage {
     `;
     
     return skillEl;
+  }
+
+  renderAdditionalSkills() {
+    const container = document.querySelector('.additional-skills-container');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    this.additionalSkills.forEach(skill => {
+      container.appendChild(this.createAdditionalSkillElement(skill));
+    });
+    
+    this.toggleAdditionalSkillsSection();
+  }
+
+  createAdditionalSkillElement(skill) {
+    const skillEl = document.createElement('div');
+    skillEl.className = 'px-5 py-3 bg-white dark:bg-gray-700 rounded-lg shadow flex items-center';
+    
+    const color = CATEGORY_TEMPLATES[skill.category]?.color || 'text-gray-500';
+    const icon = skill.icon || 'fa-solid fa-code';
+    
+    skillEl.innerHTML = `
+      <i class="${icon} text-xl mr-2 ${color}"></i>
+      <span>${skill.name}</span>
+    `;
+    
+    return skillEl;
+  }
+
+  toggleAdditionalSkillsSection() {
+    const section = document.querySelector('.additional-skills-section');
+    if (section) {
+      section.style.display = this.additionalSkills.length > 0 ? 'block' : 'none';
+    }
   }
 
   showEmptyState() {

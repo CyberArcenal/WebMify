@@ -1,3 +1,32 @@
+<style>
+  .project-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .project-card:hover {
+    transform: scale(0.98);
+  }
+  
+  .project-card .view-project-btn {
+    transform: translateY(10px);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .project-card:hover .view-project-btn {
+    transform: translateY(0);
+  }
+</style>
+<!-- Project Modal -->
+<div id="project-modal" class="project-modal-overlay fixed inset-0 z-50 hidden opacity-0 transition-opacity duration-300 bg-black/70 flex items-center justify-center p-4">
+  <div id="project-modal-content" class="w-full max-w-3xl"></div>
+</div>
+
+<style>
+.project-modal-overlay {
+  backdrop-filter: blur(4px);
+}
+</style>
+
 <div class="projects-page min-h-screen py-12">
   <!-- Page Header -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
@@ -297,3 +326,5 @@
     </div>
   </div>
 </div>
+
+<script type="module" src="/src/js/module/projects.js"></script>
