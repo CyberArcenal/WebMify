@@ -193,6 +193,18 @@ export const routes = {
     requiresAuth : false,
   },
 
+  terms: {
+    component    : '/src/pages/terms.html',
+    script       : '/src/js/module/terms.js',
+    requiresAuth : false,
+  },
+
+  privacy: {
+    component    : '/src/pages/privacy-policy.html',
+    script       : '/src/js/module/privacy-policy.js',
+    requiresAuth : false,
+  },
+
   /* ────────────  GENERAL UTILITY  ──────────── */
   'offline-info': {
     component   : '/src/pages/offline.html',

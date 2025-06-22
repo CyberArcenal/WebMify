@@ -133,9 +133,11 @@ export default class BlogDetailPage {
             "Comment submitted successfully! It will appear after approval."
           );
         } catch (error) {
+          console.error("Comment submission error:", error);
           showError(
             "Failed to submit comment: " +
-              (error.response?.data || error.message)
+              (error.response?.data?.non_field_errors
+[0] || error.message)
           );
         }
       });
@@ -249,7 +251,7 @@ export default class BlogDetailPage {
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-6" style="margin-left: ${indent}px">
       <div class="flex items-start mb-4">
         <div class="flex-shrink-0 mr-4">
-          <div class="bg-gray-200 border-2 border-dashed rounded-full w-12 h-12"></div>
+          <div class="bg-gray-200 border-2 border-dashed rounded-full w-12 h-12" style="background-image: url('/public/profile.png'); background-size: cover;"></div>
         </div>
         <div>
           <h4 class="font-bold text-gray-800 dark:text-white">${comment.author.name}</h4>
