@@ -275,3 +275,64 @@ export function hideProjectModal() {
     modal.classList.add("hidden");
   }, 300);
 }
+
+
+
+
+
+export function createBlogCard(blog, isFeatured = false) {
+  const card = document.createElement('div');
+  
+  if (isFeatured) {
+    card.className = 'bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl';
+    card.innerHTML = `
+      <div class="relative h-48">
+        ${blog.imageURL 
+          ? `<img src="${blog.imageURL}" alt="${blog.title}" class="w-full h-full object-cover">`
+          : `<div class="bg-gray-200 border-2 border-dashed w-full h-full"></div>`
+        }
+        ${blog.featured ? `
+          <div class="absolute top-4 right-4 bg-primary-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+            Featured
+          </div>` : ''
+        }
+      </div>
+      <div class="p-6">
+        <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+          <span class="mr-4">${blog.publishDate}</span>
+          <span><i class="fa-regular fa-eye mr-1"></i> ${blog.views} views</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">${blog.title}</h3>
+        <p class="text-gray-600 dark:text-gray-300 mb-4">${blog.summary}</p>
+        <a href="#blog-detail/${blog.slug}" class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium">
+          Read more
+          <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+        </a>
+      </div>
+    `;
+  } else {
+    card.className = 'bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl md:flex';
+    card.innerHTML = `
+      <div class="md:w-1/3">
+        ${blog.imageURL 
+          ? `<img src="${blog.imageURL}" alt="${blog.title}" class="w-full h-64 md:h-full object-cover">`
+          : `<div class="bg-gray-200 border-2 border-dashed w-full h-64 md:h-full"></div>`
+        }
+      </div>
+      <div class="p-6 md:w-2/3">
+        <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+          <span class="mr-4">${blog.publishDate}</span>
+          <span><i class="fa-regular fa-eye mr-1"></i> ${blog.views} views</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">${blog.title}</h3>
+        <p class="text-gray-600 dark:text-gray-300 mb-4">${blog.summary}</p>
+        <a href="#blog-detail/${blog.slug}" class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium">
+          Read more
+          <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+        </a>
+      </div>
+    `;
+  }
+  
+  return card;
+}
