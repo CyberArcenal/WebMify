@@ -44,10 +44,13 @@ export default class Router {
         return;
       }
 
+      // Get paths based on environment
+      const { componentPath, scriptPath } = this.getAssetPaths(route);
+      
       // Enhanced cache busting
       const cacheBuster = `t=${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       
-      let componentUrl = route.component;
+      let componentUrl = componentPath;
       if (componentUrl) {
         const separator = componentUrl.includes('?') ? '&' : '?';
         componentUrl = `${componentUrl}${separator}${cacheBuster}`;
@@ -66,46 +69,68 @@ export default class Router {
       const html = await response.text();
       document.getElementById("app").innerHTML = html;
 
-      await this.loadPageScript(route);
+      // Load script if it exists
+      if (scriptPath) {
+        await this.loadPageScript(scriptPath);
+      }
     } catch (error) {
       console.error("Failed to load page:", error);
       document.getElementById("app").innerHTML = "<h1>Error loading page</h1>";
     }
   }
 
-  async loadPageScript(route) {
-    if (route.script) {
-      try {
-        // Enhanced cache busting for scripts
-        const cacheBuster = `t=${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-        let scriptUrl = route.script;
-        const separator = scriptUrl.includes('?') ? '&' : '?';
-        scriptUrl = `${scriptUrl}${separator}${cacheBuster}`;
+  getAssetPaths(route) {
+    // Use development paths in dev mode
+    if (devMode) {
+      return {
+        componentPath: route.component,
+        scriptPath: route.script
+      };
+    }
+    
+    // Production paths
+    const componentName = route.component?.split('/').pop() || '';
+    const scriptName = route.script?.split('/').pop() || '';
+    
+    return {
+      componentPath: componentName ? `/${componentName}` : null,
+      scriptPath: scriptName ? `/assets/${scriptName}` : null
+    };
+  }
 
-        // Prevent reloading same script
-        if (!this.pageScripts[scriptUrl]) {
-          console.log("Loading script:", scriptUrl);
-          
-          // Clear module cache
-          delete window[scriptUrl];
-          
-          // Load with dynamic import
-          const module = await import(/* @vite-ignore */ scriptUrl);
-          this.pageScripts[scriptUrl] = true;
+  async loadPageScript(scriptPath) {
+    if (!scriptPath) return;
+    
+    try {
+      // Enhanced cache busting for scripts
+      const cacheBuster = `t=${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      let scriptUrl = scriptPath;
+      const separator = scriptUrl.includes('?') ? '&' : '?';
+      scriptUrl = `${scriptUrl}${separator}${cacheBuster}`;
 
-          if (typeof module.default === "function") {
-            try {
-              new module.default();
-            } catch (e) {
-              module.default();
-            }
-          } else {
-            console.warn("No callable default export in", scriptUrl);
+      // Prevent reloading same script
+      if (!this.pageScripts[scriptUrl]) {
+        console.log("Loading script:", scriptUrl);
+        
+        // Clear module cache
+        delete window[scriptUrl];
+        
+        // Load with dynamic import
+        const module = await import(/* @vite-ignore */ scriptUrl);
+        this.pageScripts[scriptUrl] = true;
+
+        if (typeof module.default === "function") {
+          try {
+            new module.default();
+          } catch (e) {
+            module.default();
           }
+        } else {
+          console.warn("No callable default export in", scriptUrl);
         }
-      } catch (e) {
-        console.error("Failed to load module:", e);
       }
+    } catch (e) {
+      console.error("Failed to load module:", e);
     }
   }
 
