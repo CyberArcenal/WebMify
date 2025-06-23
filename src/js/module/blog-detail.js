@@ -717,6 +717,7 @@ buildCommentTree(comments) {
       contentContainer.classList.add("hidden");
     }
   }
+
 }
 
 // Initialize the blog detail page

@@ -12,6 +12,7 @@ import "leaflet/dist/leaflet.css";
 export default class ContactPage {
   constructor() {
     this.socialLinks = null;
+    this.blogLoader = document.getElementById("blog-loader");
     this.form = document.getElementById("contact-form");
     this.statusElement = document.getElementById("form-status");
     this.faqButtons = document.querySelectorAll(
@@ -22,6 +23,7 @@ export default class ContactPage {
   }
 
   init() {
+    this.showLoadingState()
     if (this.form) {
       this.form.addEventListener("submit", this.handleFormSubmit.bind(this));
     }
@@ -29,6 +31,7 @@ export default class ContactPage {
     this.setupFAQ();
     this.loadLocationData();
     this.fetchSocialLinks();
+    this.hideLoadingState();
   }
 
   async loadLocationData() {
@@ -337,6 +340,16 @@ export default class ContactPage {
         }
       });
     });
+  }
+
+  showLoadingState() {
+    this.isLoading = true;
+    this.blogLoader.classList.remove("hidden");
+  }
+
+  hideLoadingState() {
+    this.isLoading = false;
+    this.blogLoader.classList.add("hidden");
   }
 }
 
