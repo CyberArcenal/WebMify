@@ -93,7 +93,7 @@ export default class Router {
     const scriptName = route.script?.split('/').pop() || '';
     
     return {
-      componentPath: componentName ? `/${componentName}` : null,
+      componentPath: componentName ? `/src/pages/${componentName}` : null,
       scriptPath: scriptName ? `/assets/${scriptName}` : null
     };
   }
