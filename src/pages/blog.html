@@ -1,21 +1,28 @@
 <!-- Loading indicator (optional) -->
-<div id="blog-loader" class="hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
-  <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+<div
+  id="blog-loader"
+  class="hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"
+>
+  <div
+    class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"
+  ></div>
 </div>
 
 <!-- Error container -->
 <div id="blog-error" class="hidden container mx-auto px-4 py-8 max-w-3xl"></div>
 
-
 <div class="blog-page min-h-screen">
   <!-- Page Header -->
-  <div class="relative py-24 bg-gradient-to-r from-primary-500 to-blue-600 dark:from-primary-700 dark:to-blue-800">
+  <div
+    class="relative py-24 bg-gradient-to-r from-primary-500 to-blue-600 dark:from-primary-700 dark:to-blue-800"
+  >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="text-center">
         <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">My Blog</h1>
         <div class="w-24 h-1 bg-white/80 mx-auto mb-6 rounded"></div>
         <p class="text-xl text-white/90 max-w-3xl mx-auto">
-          Insights, tutorials, and thoughts on web development, design, and technology
+          Insights, tutorials, and thoughts on web development, design, and
+          technology
         </p>
       </div>
     </div>
@@ -30,7 +37,9 @@
         <!-- Filtering Options -->
         <div class="flex flex-wrap justify-between items-center mb-10 gap-4">
           <div class="flex space-x-2 category-button-container">
-            <button class="px-4 py-2 bg-primary-500 text-white rounded-lg font-medium shadow">
+            <button
+              class="px-4 py-2 bg-primary-500 text-white rounded-lg font-medium shadow"
+            >
               All Posts
             </button>
             <!-- <button class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg font-medium shadow hover:bg-gray-50 dark:hover:bg-gray-700">
@@ -43,25 +52,33 @@
               Career
             </button> -->
           </div>
-          
+
           <div class="relative">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <div
+              class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+            >
               <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
             </div>
-            <input type="text" class="pl-10 pr-4 py-2 w-full md:w-64 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-primary-500 focus:border-primary-500" placeholder="Search articles...">
+            <input
+              type="text"
+              class="pl-10 pr-4 py-2 w-full md:w-64 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-primary-500 focus:border-primary-500"
+              placeholder="Search articles..."
+            />
           </div>
         </div>
-        
+
         <!-- Featured Blog Posts -->
         <div class="mb-16">
-          <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center">
+          <h2
+            class="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center"
+          >
             <i class="fa-solid fa-star text-yellow-500 mr-2"></i>
             Featured Articles
           </h2>
-          
+
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- Featured Post 1 -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
+            <!-- <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
               <div class="relative h-48">
                 <div class="bg-gray-200 border-2 border-dashed w-full h-full"></div>
                 <div class="absolute top-4 right-4 bg-primary-500 text-white text-xs font-bold px-3 py-1 rounded-full">
@@ -80,10 +97,10 @@
                   <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
                 </a>
               </div>
-            </div>
-            
+            </div> -->
+
             <!-- Featured Post 2 -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
+            <!-- <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
               <div class="relative h-48">
                 <div class="bg-gray-200 border-2 border-dashed w-full h-full"></div>
                 <div class="absolute top-4 right-4 bg-primary-500 text-white text-xs font-bold px-3 py-1 rounded-full">
@@ -102,17 +119,19 @@
                   <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
                 </a>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
-        
+
         <!-- All Blog Posts -->
         <div>
-          <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">All Articles</h2>
-          
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+            All Articles
+          </h2>
+
           <div class="space-y-10">
             <!-- Blog Post 1 -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl md:flex">
+            <!-- <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl md:flex">
               <div class="md:w-1/3">
                 <div class="bg-gray-200 border-2 border-dashed w-full h-64 md:h-full"></div>
               </div>
@@ -128,55 +147,76 @@
                   <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
                 </a>
               </div>
-            </div>
-
+            </div> -->
           </div>
         </div>
-        
+
         <!-- Pagination -->
-        <div class="mt-16 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 pt-8">
+        <div
+          class="mt-16 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 pt-8"
+        >
           <div>
             <p class="text-sm text-gray-700 dark:text-gray-300">
-              Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">8</span> articles
+              Showing <span class="font-medium">0</span> to
+              <span class="font-medium">0</span> of
+              <span class="font-medium">0</span> articles
             </p>
           </div>
           <div class="flex space-x-2">
-            <button class="pagination-prev px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium shadow hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50" disabled>
+            <button
+              class="pagination-prev px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium shadow hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
+              disabled
+            >
               <i class="fa-solid fa-chevron-left mr-2"></i> Previous
             </button>
-            <button class="pagination-next px-4 py-2 bg-primary-500 text-white rounded-lg font-medium shadow hover:bg-primary-600 disabled:opacity-50">
+            <button
+              class="pagination-next px-4 py-2 bg-primary-500 text-white rounded-lg font-medium shadow hover:bg-primary-600 disabled:opacity-50"
+            >
               Next <i class="fa-solid fa-chevron-right ml-2"></i>
             </button>
           </div>
         </div>
       </div>
-      
+
       <!-- Sidebar -->
       <div class="w-full lg:w-4/12">
         <!-- About Card -->
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
-          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">About the Blog</h3>
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">
+            About the Blog
+          </h3>
           <p class="text-gray-600 dark:text-gray-300 mb-4">
-            Welcome to my development blog where I share insights, tutorials, and experiences from my journey as a full-stack developer.
+            Welcome to my development blog where I share insights, tutorials,
+            and experiences from my journey as a full-stack developer.
           </p>
           <p class="text-gray-600 dark:text-gray-300">
             Subscribe to get notified when new articles are published.
           </p>
           <div class="mt-6">
             <div class="flex subscribe-form">
-              <input type="email" placeholder="Your email address" class="email-subscribe-input flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
-              <button class="subscribe-btn px-4 py-2 bg-primary-500 text-white rounded-r-lg font-medium hover:bg-primary-600">
+              <input
+                type="email"
+                placeholder="Your email address"
+                class="email-subscribe-input flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              />
+              <button
+                class="subscribe-btn px-4 py-2 bg-primary-500 text-white rounded-r-lg font-medium hover:bg-primary-600"
+              >
                 <i class="fa-solid fa-paper-plane"></i>
               </button>
             </div>
           </div>
         </div>
-        
+
         <!-- Popular Posts -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8 popular-articles-container">
-          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Popular Articles</h3>
+        <div
+          class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8 popular-articles-container"
+        >
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">
+            Popular Articles
+          </h3>
           <div class="space-y-4">
-            <a href="#blog/react-best-practices" class="flex items-start group">
+            <!-- <a href="#blog/react-best-practices" class="flex items-start group">
               <div class="flex-shrink-0 mr-4">
                 <div class="bg-gray-200 border-2 border-dashed rounded-lg w-16 h-16"></div>
               </div>
@@ -184,18 +224,22 @@
                 <h4 class="font-medium text-gray-800 dark:text-white group-hover:text-primary-500 dark:group-hover:text-primary-400">React Best Practices</h4>
                 <p class="text-sm text-gray-500 dark:text-gray-400">Feb 15, 2024</p>
               </div>
-            </a>
+            </a> -->
           </div>
         </div>
-        
+
         <!-- Categories -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 category-sidebar-container">
-          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Categories</h3>
+        <div
+          class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 category-sidebar-container"
+        >
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">
+            Categories
+          </h3>
           <div class="space-y-2">
-            <a href="#" class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700 group">
+            <!-- <a href="#" class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700 group">
               <span class="text-gray-700 dark:text-gray-300 group-hover:text-primary-500 dark:group-hover:text-primary-400">Web Development</span>
               <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs font-medium px-2 py-1 rounded-full">12</span>
-            </a>
+            </a> -->
           </div>
         </div>
       </div>
@@ -205,17 +249,30 @@
   <!-- Newsletter Section -->
   <div class="bg-gray-100 dark:bg-gray-800 py-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <div class="inline-flex items-center justify-center bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-full p-3 mb-6">
+      <div
+        class="inline-flex items-center justify-center bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-full p-3 mb-6"
+      >
         <i class="fa-solid fa-envelope-open-text text-2xl"></i>
       </div>
-      <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">Stay Updated</h2>
-      <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
-        Subscribe to my newsletter to receive the latest articles and updates directly in your inbox.
+      <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">
+        Stay Updated
+      </h2>
+      <p
+        class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8"
+      >
+        Subscribe to my newsletter to receive the latest articles and updates
+        directly in your inbox.
       </p>
       <div class="max-w-xl mx-auto">
         <div class="flex flex-col sm:flex-row gap-3 subscribe-form">
-          <input type="email" placeholder="Your email address" class="email-subscribe-input flex-1 px-5 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
-          <button class="subscribe-btn px-6 py-3 bg-primary-500 text-white rounded-lg font-medium hover:bg-primary-600 transition-colors">
+          <input
+            type="email"
+            placeholder="Your email address"
+            class="email-subscribe-input flex-1 px-5 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+          />
+          <button
+            class="subscribe-btn px-6 py-3 bg-primary-500 text-white rounded-lg font-medium hover:bg-primary-600 transition-colors"
+          >
             Subscribe
           </button>
         </div>

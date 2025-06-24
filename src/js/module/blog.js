@@ -58,6 +58,7 @@ export default class BlogPage {
     try {
       this.showLoadingState();
       this.initEventListeners();
+      // await new Promise((resolve) => setTimeout(resolve, 7000));
 
       // Debug DOM elements
       console.log("Blog elements:", {

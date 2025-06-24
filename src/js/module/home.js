@@ -17,6 +17,8 @@ export default class HomePage {
   async init() {
     try {
       this.showLoadingState();
+      this.createProjectsSkeleton();
+      // await new Promise((resolve) => setTimeout(resolve, 7000));
       await this.fetchProfileData();
       await this.fetchFeaturedProjects();
       await this.fetchSkillsData();
@@ -31,7 +33,44 @@ export default class HomePage {
       this.hideLoadingState();
     }
   }
+  // Add these new methods for skeleton handling
+  createProjectsSkeleton() {
+    const container = document.getElementById("projects-container");
+    if (!container) return;
 
+    container.innerHTML = "";
+
+    // Create 3 skeleton cards
+    for (let i = 0; i < 3; i++) {
+      const skeletonCard = this.createSkeletonCard();
+      container.appendChild(skeletonCard);
+    }
+  }
+
+  createSkeletonCard() {
+    const card = document.createElement("div");
+    card.className =
+      "bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden animate-pulse";
+
+    card.innerHTML = `
+      <div class="h-48 bg-gray-200 dark:bg-gray-600"></div>
+      <div class="p-6">
+        <div class="h-7 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mb-4"></div>
+        <div class="space-y-2 mb-5">
+          <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-full"></div>
+          <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-5/6"></div>
+          <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-3/4"></div>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded-full w-16"></div>
+          <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded-full w-16"></div>
+          <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded-full w-16"></div>
+        </div>
+      </div>
+    `;
+
+    return card;
+  }
   showLoadingState() {
     this.isLoading = true;
     document.getElementById("app").classList.add("opacity-75");
@@ -185,8 +224,8 @@ export default class HomePage {
   }
 
   populateProjects() {
-    const container = document.querySelector(".featured-projects .grid");
-    if (!container || !this.featuredProjects.length) return;
+    const container = document.getElementById("projects-container"); // Updated selector
+    if (!container) return;
 
     container.innerHTML = "";
 

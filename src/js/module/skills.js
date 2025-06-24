@@ -48,6 +48,7 @@ export default class SkillsPage {
     try {
       this.showLoadingState();
       await this.fetchSkills();
+      // await new Promise((resolve) => setTimeout(resolve, 7000));
       this.processSkillsData();
       this.clearPrototypeSkills();
       this.renderFeaturedSkills();

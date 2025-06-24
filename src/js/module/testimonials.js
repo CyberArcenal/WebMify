@@ -14,6 +14,7 @@ export default class TestimonialsPage {
     try {
       this.locateGridContainer();
       this.showLoadingState();
+      // await new Promise((resolve) => setTimeout(resolve, 7000));
       await this.fetchTestimonials();
       await this.fetchAndRenderStats();
       this.renderTestimonials();

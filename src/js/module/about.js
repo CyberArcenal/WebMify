@@ -9,6 +9,9 @@ export default class AboutPage {
     this.workExperience = [];
     this.educationData = [];
     this.isLoading = true;
+    this.globalLoader = document.getElementById('global-loader');
+    this.blogLoader = document.getElementById("blog-loader");
+    this.blogError = document.getElementById("blog-error");
     this.init();
   }
 
@@ -19,6 +22,7 @@ export default class AboutPage {
       await this.fetchWorkExperience();
       await this.fetchEducationData();
       await this.fetchSkillsData();
+      // await new Promise((resolve) => setTimeout(resolve, 7000)); // Simulate loading
       this.populateProfile();
       this.populateWorkExperience();
       this.populateEducation();
@@ -33,12 +37,12 @@ export default class AboutPage {
 
   showLoadingState() {
     this.isLoading = true;
-    document.getElementById("app").classList.add("opacity-75");
+    this.blogLoader.classList.remove("hidden");
   }
 
   hideLoadingState() {
     this.isLoading = false;
-    document.getElementById("app").classList.remove("opacity-75");
+    this.blogLoader.classList.add("hidden");
   }
 
   async fetchProfileData() {

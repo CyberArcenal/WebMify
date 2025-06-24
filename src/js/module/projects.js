@@ -27,6 +27,7 @@ export default class ProjectsPage {
 
     try {
       this.showLoadingState();
+      // await new Promise((resolve) => setTimeout(resolve, 7000));
       await this.fetchProjects();
       this.renderProjects();
       this.updatePagination();
