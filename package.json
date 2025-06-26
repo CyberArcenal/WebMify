@@ -18,7 +18,10 @@
   "dependencies": {
     "@fontsource/inter": "^5.2.6",
     "axios": "^1.10.0",
+    "dompurify": "^3.2.6",
+    "highlight.js": "^11.11.1",
     "leaflet": "^1.9.4",
+    "marked": "^15.0.12",
     "tailwind": "^4.0.0"
   }
 }

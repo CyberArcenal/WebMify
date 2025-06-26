@@ -17,6 +17,73 @@
     transform: translateY(0);
   }
 </style>
+<style>
+  /* Markdown-specific styles */
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4 {
+  @apply font-bold text-gray-800 dark:text-gray-200;
+}
+
+.markdown-content h1 {
+  @apply text-3xl mb-4 mt-8;
+}
+
+.markdown-content h2 {
+  @apply text-2xl mb-3 mt-6;
+}
+
+.markdown-content h3 {
+  @apply text-xl mb-2 mt-5;
+}
+
+.markdown-content p {
+  @apply mb-4 leading-relaxed text-gray-700 dark:text-gray-300;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  @apply list-disc pl-8 mb-4;
+}
+
+.markdown-content li {
+  @apply mb-2;
+}
+
+.markdown-content blockquote {
+  @apply border-l-4 border-blue-500 pl-4 py-2 my-4 text-gray-600 dark:text-gray-400;
+}
+
+.markdown-content a {
+  @apply text-blue-600 dark:text-blue-400 hover:underline;
+}
+
+.markdown-content pre {
+  @apply bg-gray-800 text-gray-100 p-4 rounded overflow-x-auto my-4;
+}
+
+.markdown-content code:not(pre code) {
+  @apply bg-gray-100 dark:bg-gray-800 text-red-500 dark:text-red-400 px-1 py-0.5 rounded text-sm;
+}
+
+.markdown-content img {
+  @apply my-4 rounded-lg shadow-md mx-auto max-w-full;
+}
+
+.markdown-content table {
+  @apply w-full my-6 border-collapse;
+}
+
+.markdown-content th,
+.markdown-content td {
+  @apply border border-gray-300 dark:border-gray-600 p-2;
+}
+
+.markdown-content th {
+  @apply bg-gray-100 dark:bg-gray-800 font-bold;
+}
+</style>
 <!-- Project Modal -->
 <div id="project-modal" class="project-modal-overlay fixed inset-0 z-50 hidden opacity-0 transition-opacity duration-300 bg-black/70 flex items-center justify-center p-4">
   <div id="project-modal-content" class="w-full max-w-3xl"></div>
@@ -96,7 +163,7 @@
           >
             Project Overview
           </h2>
-          <div class="prose prose-lg dark:prose-invert max-w-none">
+          <div class="prose prose-lg dark:prose-invert max-w-none markdown-content">
             <p class="text-gray-600 dark:text-gray-300 mb-4">
               This comprehensive e-commerce platform was developed for a retail
               client looking to expand their online presence. The application

@@ -259,7 +259,7 @@ export function showProjectModal(project) {
     </div>
   `;
   document.querySelector(".close-modal")?.addEventListener("click", () => {
-    this.hideProjectModal();
+    hideProjectModal();
   });
   modal.classList.remove("hidden");
   setTimeout(() => {

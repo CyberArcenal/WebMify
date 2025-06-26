@@ -5,6 +5,4 @@
 @import '@fontsource/inter/600.css';
 @import '@fontsource/inter/700.css';
 
-body {
-  @apply font-sans text-sm;
-}
+

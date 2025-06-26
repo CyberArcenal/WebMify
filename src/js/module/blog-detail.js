@@ -5,6 +5,11 @@ import {
   showWarning,
   showInfo,
 } from "@js/utils/notifications";
+// Add at the top of the file
+import hljs from "highlight.js";
+import "highlight.js/styles/github-dark.css"; // Choose your preferred theme
+import { marked } from "marked";
+import DOMPurify from "dompurify"; // For security
 
 export default class BlogDetailPage {
   constructor() {
@@ -31,6 +36,7 @@ export default class BlogDetailPage {
 
     try {
       this.showLoadingState();
+      this.setupMarkdownRenderer();
       await this.fetchBlogData();
       await this.fetchComments();
       await this.fetchRelatedArticles();
@@ -62,6 +68,17 @@ export default class BlogDetailPage {
     document.getElementById("app").classList.add("opacity-75");
     const loader = document.getElementById("blog-loader");
     if (loader) loader.classList.remove("hidden");
+  }
+  setupMarkdownRenderer() {
+    // Configure marked with GitHub-flavored Markdown
+    marked.setOptions({
+      gfm: true,
+      breaks: true,
+      highlight: (code, lang) => {
+        const validLang = hljs.getLanguage(lang) ? lang : "plaintext";
+        return hljs.highlight(code, { language: validLang }).value;
+      },
+    });
   }
   async handleSubscribe(e) {
     e.preventDefault();
@@ -136,8 +153,7 @@ export default class BlogDetailPage {
           console.error("Comment submission error:", error);
           showError(
             "Failed to submit comment: " +
-              (error.response?.data?.non_field_errors
-[0] || error.message)
+              (error.response?.data?.non_field_errors[0] || error.message)
           );
         }
       });
@@ -246,24 +262,26 @@ export default class BlogDetailPage {
     }
   }
   renderComment(comment, depth = 0) {
-  const indent = depth * 32; // 32px indent per level
-  return `
+    const indent = depth * 32; // 32px indent per level
+    return `
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-6" style="margin-left: ${indent}px">
       <div class="flex items-start mb-4">
         <div class="flex-shrink-0 mr-4">
           <div class="bg-gray-200 border-2 border-dashed rounded-full w-12 h-12" style="background-image: url('/public/profile.png'); background-size: cover;"></div>
         </div>
         <div>
-          <h4 class="font-bold text-gray-800 dark:text-white">${comment.author.name}</h4>
+          <h4 class="font-bold text-gray-800 dark:text-white">${
+            comment.author.name
+          }</h4>
           <p class="text-sm text-gray-500 dark:text-gray-400">
             ${new Date(comment.created_at).toLocaleDateString("en-US", {
               month: "short",
               day: "numeric",
               year: "numeric",
             })} at ${new Date(comment.created_at).toLocaleTimeString("en-US", {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
+      hour: "2-digit",
+      minute: "2-digit",
+    })}
           </p>
         </div>
       </div>
@@ -275,7 +293,9 @@ export default class BlogDetailPage {
         <i class="fa-regular fa-comment-dots mr-1"></i> Reply
       </button>
       
-      <div class="reply-form-container mt-4 hidden" id="reply-form-${comment.id}">
+      <div class="reply-form-container mt-4 hidden" id="reply-form-${
+        comment.id
+      }">
         <form class="reply-form" data-parent-id="${comment.id}">
           <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
@@ -310,63 +330,76 @@ export default class BlogDetailPage {
         </form>
       </div>
       
-      ${comment.replies.length > 0 ? 
-        comment.replies.map(reply => this.renderComment(reply, depth + 1)).join('') : ''}
+      ${
+        comment.replies.length > 0
+          ? comment.replies
+              .map((reply) => this.renderComment(reply, depth + 1))
+              .join("")
+          : ""
+      }
     </div>
   `;
-}
-renderComments() {
-  const container = document.getElementById("comments-container");
-  if (!container || !this.comments) return;
-  
-  if (this.comments.length === 0) {
-    container.innerHTML = `
+  }
+  renderComments() {
+    const container = document.getElementById("comments-container");
+    if (!container || !this.comments) return;
+
+    if (this.comments.length === 0) {
+      container.innerHTML = `
       <div class="text-center text-gray-500 dark:text-gray-400">
         <i class="fa-regular fa-comment-dots mr-1"></i> No comments yet.
       </div>
     `;
-    return;
-  }
-  
-  container.innerHTML = this.comments.map(comment => 
-    this.renderComment(comment)).join('');
-  
-  // Setup reply buttons
-  document.querySelectorAll('.reply-button').forEach(button => {
-    button.addEventListener('click', (e) => {
-      const commentId = e.target.dataset.commentId;
-      const formContainer = document.getElementById(`reply-form-${commentId}`);
-      formContainer.classList.toggle('hidden');
-    });
-  });
-  
-  // Setup reply forms
-  document.querySelectorAll('.reply-form').forEach(form => {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const parentId = form.dataset.parentId;
-      const inputs = form.querySelectorAll('input, textarea');
-      
-      const formData = {
-        name: inputs[0].value,
-        email: inputs[1].value,
-        content: inputs[2].value,
-        blog: this.blogData.id,
-        parent: parentId
-      };
+      return;
+    }
 
-      try {
-        const response = await apiClient.post("/api/comments/", formData);
-        this.comments = this.buildCommentTree([response.data, ...this.flatComments]);
-        this.renderComments();
-        showSuccess("Reply submitted successfully!");
-        form.reset();
-      } catch (error) {
-        showError("Failed to submit reply: " + (error.response?.data || error.message));
-      }
+    container.innerHTML = this.comments
+      .map((comment) => this.renderComment(comment))
+      .join("");
+
+    // Setup reply buttons
+    document.querySelectorAll(".reply-button").forEach((button) => {
+      button.addEventListener("click", (e) => {
+        const commentId = e.target.dataset.commentId;
+        const formContainer = document.getElementById(
+          `reply-form-${commentId}`
+        );
+        formContainer.classList.toggle("hidden");
+      });
     });
-  });
-}
+
+    // Setup reply forms
+    document.querySelectorAll(".reply-form").forEach((form) => {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const parentId = form.dataset.parentId;
+        const inputs = form.querySelectorAll("input, textarea");
+
+        const formData = {
+          name: inputs[0].value,
+          email: inputs[1].value,
+          content: inputs[2].value,
+          blog: this.blogData.id,
+          parent: parentId,
+        };
+
+        try {
+          const response = await apiClient.post("/api/comments/", formData);
+          this.comments = this.buildCommentTree([
+            response.data,
+            ...this.flatComments,
+          ]);
+          this.renderComments();
+          showSuccess("Reply submitted successfully!");
+          form.reset();
+        } catch (error) {
+          showError(
+            "Failed to submit reply: " + (error.response?.data || error.message)
+          );
+        }
+      });
+    });
+  }
   renderRelatedArticles() {
     const container = document.getElementById("related-articles-container");
     if (!container || !this.relatedArticles) return;
@@ -440,37 +473,37 @@ renderComments() {
       });
     }
   }
-async fetchComments() {
-  try {
-    const response = await apiClient.get(
-      `/api/comments/?content_type=blog&object_id=${this.blogData.id}`
-    );
-    this.flatComments = response.data.data || [];
-    this.comments = this.buildCommentTree(this.flatComments);
-    this.renderComments();
-  } catch (error) {
-    console.error("Failed to load comments", error);
-  }
-}
-
-buildCommentTree(comments) {
-  const map = {};
-  const tree = [];
-
-  comments.forEach(comment => {
-    map[comment.id] = { ...comment, replies: [] };
-  });
-
-  comments.forEach(comment => {
-    if (comment.parent && map[comment.parent]) {
-      map[comment.parent].replies.push(map[comment.id]);
-    } else {
-      tree.push(map[comment.id]);
+  async fetchComments() {
+    try {
+      const response = await apiClient.get(
+        `/api/comments/?content_type=blog&object_id=${this.blogData.id}`
+      );
+      this.flatComments = response.data.data || [];
+      this.comments = this.buildCommentTree(this.flatComments);
+      this.renderComments();
+    } catch (error) {
+      console.error("Failed to load comments", error);
     }
-  });
+  }
 
-  return tree;
-}
+  buildCommentTree(comments) {
+    const map = {};
+    const tree = [];
+
+    comments.forEach((comment) => {
+      map[comment.id] = { ...comment, replies: [] };
+    });
+
+    comments.forEach((comment) => {
+      if (comment.parent && map[comment.parent]) {
+        map[comment.parent].replies.push(map[comment.id]);
+      } else {
+        tree.push(map[comment.id]);
+      }
+    });
+
+    return tree;
+  }
 
   async fetchBlogData() {
     try {
@@ -554,8 +587,17 @@ buildCommentTree(comments) {
 
     // Update main content
     const contentContainer = document.getElementById("blog-content");
-    if (contentContainer) {
-      contentContainer.innerHTML = this.blogData.content;
+    if (contentContainer && this.blogData.content) {
+      // Convert Markdown to HTML and sanitize
+      const rawHtml = marked.parse(this.blogData.content);
+      const cleanHtml = DOMPurify.sanitize(rawHtml);
+      contentContainer.innerHTML = cleanHtml;
+
+      // Apply Prism.js highlighting to code blocks
+      this.highlightCodeBlocks();
+
+      // Add styling to Markdown elements
+      this.styleMarkdownElements(contentContainer);
     }
 
     // Update tags (if implemented in backend)
@@ -641,7 +683,78 @@ buildCommentTree(comments) {
       );
     }
   }
+  highlightCodeBlocks() {
+    document.querySelectorAll("pre code").forEach((block) => {
+      hljs.highlightElement(block);
+    });
+  }
+  styleMarkdownElements(container) {
+    // Add Tailwind classes to Markdown elements
+    container.querySelectorAll("h1").forEach((el) => {
+      el.classList.add("text-3xl", "font-bold", "mb-4", "mt-8");
+    });
 
+    container.querySelectorAll("h2").forEach((el) => {
+      el.classList.add("text-2xl", "font-bold", "mb-3", "mt-6");
+    });
+
+    container.querySelectorAll("h3").forEach((el) => {
+      el.classList.add("text-xl", "font-bold", "mb-2", "mt-5");
+    });
+
+    container.querySelectorAll("p").forEach((el) => {
+      el.classList.add("mb-4", "leading-relaxed");
+    });
+
+    container.querySelectorAll("ul, ol").forEach((el) => {
+      el.classList.add("list-disc", "pl-8", "mb-4");
+    });
+
+    container.querySelectorAll("li").forEach((el) => {
+      el.classList.add("mb-2");
+    });
+
+    container.querySelectorAll("blockquote").forEach((el) => {
+      el.classList.add(
+        "border-l-4",
+        "border-blue-500",
+        "pl-4",
+        "py-2",
+        "my-4",
+        "text-gray-600"
+      );
+    });
+
+    container.querySelectorAll("a").forEach((el) => {
+      el.classList.add("text-blue-600", "hover:underline");
+    });
+
+    container.querySelectorAll("pre").forEach((el) => {
+      el.classList.add(
+        "bg-gray-800",
+        "text-gray-100",
+        "p-4",
+        "rounded",
+        "overflow-x-auto",
+        "my-4"
+      );
+    });
+
+    container.querySelectorAll("code:not(pre code)").forEach((el) => {
+      el.classList.add(
+        "bg-gray-100",
+        "text-red-500",
+        "px-1",
+        "py-0.5",
+        "rounded",
+        "text-sm"
+      );
+    });
+
+    container.querySelectorAll("img").forEach((el) => {
+      el.classList.add("my-4", "rounded-lg", "shadow-md", "mx-auto");
+    });
+  }
   formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -717,7 +830,6 @@ buildCommentTree(comments) {
       contentContainer.classList.add("hidden");
     }
   }
-
 }
 
 // Initialize the blog detail page

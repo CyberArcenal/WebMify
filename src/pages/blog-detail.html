@@ -21,19 +21,85 @@
     },
   };
 </script>
+<style>
+  /* Markdown-specific styles */
+  .markdown-content h1,
+  .markdown-content h2,
+  .markdown-content h3,
+  .markdown-content h4 {
+    @apply font-bold text-gray-800 dark:text-gray-200;
+  }
 
+  .markdown-content h1 {
+    @apply text-3xl mb-4 mt-8;
+  }
+
+  .markdown-content h2 {
+    @apply text-2xl mb-3 mt-6;
+  }
+
+  .markdown-content h3 {
+    @apply text-xl mb-2 mt-5;
+  }
+
+  .markdown-content p {
+    @apply mb-4 leading-relaxed text-gray-700 dark:text-gray-300;
+  }
+
+  .markdown-content ul,
+  .markdown-content ol {
+    @apply list-disc pl-8 mb-4;
+  }
+
+  .markdown-content li {
+    @apply mb-2;
+  }
+
+  .markdown-content blockquote {
+    @apply border-l-4 border-blue-500 pl-4 py-2 my-4 text-gray-600 dark:text-gray-400;
+  }
+
+  .markdown-content a {
+    @apply text-blue-600 dark:text-blue-400 hover:underline;
+  }
+
+  .markdown-content pre {
+    @apply bg-gray-800 text-gray-100 p-4 rounded overflow-x-auto my-4;
+  }
+
+  .markdown-content code:not(pre code) {
+    @apply bg-gray-100 dark:bg-gray-800 text-red-500 dark:text-red-400 px-1 py-0.5 rounded text-sm;
+  }
+
+  .markdown-content img {
+    @apply my-4 rounded-lg shadow-md mx-auto max-w-full;
+  }
+
+  .markdown-content table {
+    @apply w-full my-6 border-collapse;
+  }
+
+  .markdown-content th,
+  .markdown-content td {
+    @apply border border-gray-300 dark:border-gray-600 p-2;
+  }
+
+  .markdown-content th {
+    @apply bg-gray-100 dark:bg-gray-800 font-bold;
+  }
+</style>
 <style>
   /* Add to existing styles */
-.reply-form-container {
-  transition: all 0.3s ease;
-  max-height: 0;
-  overflow: hidden;
-}
+  .reply-form-container {
+    transition: all 0.3s ease;
+    max-height: 0;
+    overflow: hidden;
+  }
 
-.reply-form-container:not(.hidden) {
-  max-height: 500px;
-  margin-top: 1rem;
-}
+  .reply-form-container:not(.hidden) {
+    max-height: 500px;
+    margin-top: 1rem;
+  }
   .blog-detail-page {
     scroll-behavior: smooth;
   }
@@ -213,245 +279,8 @@
     <!-- Article Content -->
     <article
       id="blog-content"
-      class="prose prose-lg dark:prose-invert max-w-none"
-    >
-      <p class="text-gray-600 dark:text-gray-300 mb-6">
-        Django is a powerful web framework that enables rapid development of
-        robust applications. However, as your application grows and handles more
-        traffic, performance bottlenecks can emerge. In this article, I'll share
-        practical strategies I've used to optimize Django applications in
-        production environments.
-      </p>
-
-      <h2 class="text-2xl font-bold text-gray-800 dark:text-white mt-12 mb-6">
-        1. Database Optimization
-      </h2>
-      <p class="text-gray-600 dark:text-gray-300 mb-6">
-        Database queries are often the primary bottleneck in Django
-        applications. Here are key strategies to optimize them:
-      </p>
-
-      <h3 class="text-xl font-semibold text-gray-800 dark:text-white mt-8 mb-4">
-        Use select_related and prefetch_related
-      </h3>
-      <p class="text-gray-600 dark:text-gray-300 mb-6">
-        These QuerySet methods are essential for optimizing database access when
-        dealing with related objects. <code>select_related</code> works by
-        creating a SQL join and including the fields of the related object in
-        the SELECT statement, while <code>prefetch_related</code> does a
-        separate lookup for each relationship and does the "joining" in Python.
-      </p>
-
-      <div class="bg-gray-800 rounded-lg p-4 mb-6">
-        <pre class="text-sm text-gray-200 overflow-x-auto">
-          <code class="language-python">
-# Instead of this:
-authors = [book.author for book in Book.objects.all()]
-
-# Do this:
-authors = [book.author for book in Book.objects.select_related('author')]
-          </code>
-        </pre>
-      </div>
-
-      <h3 class="text-xl font-semibold text-gray-800 dark:text-white mt-8 mb-4">
-        Database Indexing
-      </h3>
-      <p class="text-gray-600 dark:text-gray-300 mb-6">
-        Proper indexing can dramatically improve query performance. Add indexes
-        to fields that are frequently used in filters, ordering, or as foreign
-        keys.
-      </p>
-
-      <h2 class="text-2xl font-bold text-gray-800 dark:text-white mt-12 mb-6">
-        2. Caching Strategies
-      </h2>
-      <p class="text-gray-600 dark:text-gray-300 mb-6">
-        Implementing effective caching can reduce database load and improve
-        response times:
-      </p>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow">
-          <div
-            class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mb-4"
-          >
-            <i class="fa-solid fa-layer-group text-blue-500 text-xl"></i>
-          </div>
-          <h4 class="font-bold text-gray-800 dark:text-white mb-2">
-            Per-view Caching
-          </h4>
-          <p class="text-gray-600 dark:text-gray-300 text-sm">
-            Cache entire views for frequently accessed pages with stable
-            content.
-          </p>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow">
-          <div
-            class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mb-4"
-          >
-            <i class="fa-solid fa-database text-green-500 text-xl"></i>
-          </div>
-          <h4 class="font-bold text-gray-800 dark:text-white mb-2">
-            Template Fragment Caching
-          </h4>
-          <p class="text-gray-600 dark:text-gray-300 text-sm">
-            Cache specific parts of templates that are expensive to render.
-          </p>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow">
-          <div
-            class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mb-4"
-          >
-            <i class="fa-solid fa-bolt text-purple-500 text-xl"></i>
-          </div>
-          <h4 class="font-bold text-gray-800 dark:text-white mb-2">
-            Low-level Cache API
-          </h4>
-          <p class="text-gray-600 dark:text-gray-300 text-sm">
-            Cache specific computations or database queries that are reused.
-          </p>
-        </div>
-      </div>
-
-      <h2 class="text-2xl font-bold text-gray-800 dark:text-white mt-12 mb-6">
-        3. Asynchronous Tasks
-      </h2>
-      <p class="text-gray-600 dark:text-gray-300 mb-6">
-        For long-running processes, use task queues like Celery to offload work
-        from the request/response cycle:
-      </p>
-
-      <ul
-        class="text-gray-600 dark:text-gray-300 mb-6 pl-5 list-disc space-y-2"
-      >
-        <li>Sending emails</li>
-        <li>Processing uploaded files</li>
-        <li>Generating reports</li>
-        <li>External API calls</li>
-        <li>Data processing tasks</li>
-      </ul>
-
-      <div class="bg-gray-800 rounded-lg p-4 mb-6">
-        <pre class="text-sm text-gray-200 overflow-x-auto">
-          <code class="language-python">
-# Use Celery for background tasks
-from celery import shared_task
-
-@shared_task
-def send_welcome_email(user_id):
-    user = User.objects.get(id=user_id)
-    # Send email logic here
-          </code>
-        </pre>
-      </div>
-
-      <h2 class="text-2xl font-bold text-gray-800 dark:text-white mt-12 mb-6">
-        4. Static File Optimization
-      </h2>
-      <p class="text-gray-600 dark:text-gray-300 mb-6">
-        Proper handling of static files is crucial for performance:
-      </p>
-
-      <div
-        class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-500 dark:border-yellow-400 p-6 rounded-lg mb-6"
-      >
-        <div class="flex items-start">
-          <i
-            class="fa-solid fa-lightbulb text-yellow-500 text-xl mr-3 mt-1"
-          ></i>
-          <p class="text-yellow-800 dark:text-yellow-200">
-            <strong>Pro Tip:</strong> Always use Django's
-            <code>collectstatic</code> in production and serve static files from
-            a CDN to reduce server load and improve load times globally.
-          </p>
-        </div>
-      </div>
-
-      <h2 class="text-2xl font-bold text-gray-800 dark:text-white mt-12 mb-6">
-        5. Middleware Optimization
-      </h2>
-      <p class="text-gray-600 dark:text-gray-300 mb-6">
-        Review your middleware stack and remove any unnecessary middleware. Each
-        middleware adds overhead to every request. Consider:
-      </p>
-
-      <ul
-        class="text-gray-600 dark:text-gray-300 mb-6 pl-5 list-disc space-y-2"
-      >
-        <li>Removing unused middleware</li>
-        <li>Optimizing custom middleware</li>
-        <li>Using conditional middleware where appropriate</li>
-      </ul>
-
-      <h2 class="text-2xl font-bold text-gray-800 dark:text-white mt-12 mb-6">
-        Performance Comparison
-      </h2>
-      <p class="text-gray-600 dark:text-gray-300 mb-6">
-        After implementing these optimizations on a recent project, we saw
-        significant improvements:
-      </p>
-
-      <div class="bg-gray-100 dark:bg-gray-800 rounded-2xl p-6 mb-8">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div class="text-center">
-            <div
-              class="text-3xl font-bold text-blue-500 dark:text-blue-400 mb-2"
-            >
-              72%
-            </div>
-            <p class="text-gray-600 dark:text-gray-300">
-              Reduced page load time
-            </p>
-          </div>
-          <div class="text-center">
-            <div
-              class="text-3xl font-bold text-blue-500 dark:text-blue-400 mb-2"
-            >
-              65%
-            </div>
-            <p class="text-gray-600 dark:text-gray-300">
-              Fewer database queries
-            </p>
-          </div>
-          <div class="text-center">
-            <div
-              class="text-3xl font-bold text-blue-500 dark:text-blue-400 mb-2"
-            >
-              3.5×
-            </div>
-            <p class="text-gray-600 dark:text-gray-300">
-              More concurrent users
-            </p>
-          </div>
-          <div class="text-center">
-            <div
-              class="text-3xl font-bold text-blue-500 dark:text-blue-400 mb-2"
-            >
-              40%
-            </div>
-            <p class="text-gray-600 dark:text-gray-300">Lower server costs</p>
-          </div>
-        </div>
-      </div>
-
-      <h2 class="text-2xl font-bold text-gray-800 dark:text-white mt-12 mb-6">
-        Conclusion
-      </h2>
-      <p class="text-gray-600 dark:text-gray-300 mb-6">
-        Optimizing Django applications requires a systematic approach. Start by
-        identifying bottlenecks using Django Debug Toolbar or monitoring tools,
-        then apply the appropriate optimization techniques. Remember that
-        premature optimization can complicate your codebase, so focus first on
-        the biggest performance gains.
-      </p>
-      <p class="text-gray-600 dark:text-gray-300">
-        By implementing these strategies - efficient database queries, proper
-        caching, background processing, static file optimization, and middleware
-        review - you can significantly improve your Django application's
-        performance and scalability.
-      </p>
-    </article>
+      class="markdown-content prose prose-lg dark:prose-invert max-w-none"
+    ></article>
 
     <!-- Tags -->
     <div class="flex flex-wrap gap-3 mt-12 mb-8">
@@ -652,9 +481,9 @@ def send_welcome_email(user_id):
 
     <!-- Comments Section -->
     <div class="mb-16" id="comments-container">
-  <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">
-    Comments (<span id="comments-count">0</span>)
-  </h3>
+      <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+        Comments (<span id="comments-count">0</span>)
+      </h3>
 
       <!-- Comment 1 -->
       <!-- <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-6">
