@@ -358,9 +358,16 @@ export default class ProjectDetailPage {
     const container = document.querySelector(
       ".grid.grid-cols-1.sm\\:grid-cols-2.gap-6"
     );
-    if (!container || !this.projectData.gallery_images) return;
+    if (!container) {  
+      return;
+    };
 
-    container.innerHTML = "";
+    if(this.projectData.gallery_images.length === 0) {
+      container.innerHTML = `<div class='col-span-full text-center py-12'>No gallery images available</div>`;
+      return;
+    }
+
+    container.innerHTML = ""; // Clear existing content
 
     this.projectData.gallery_images.slice(0, 4).forEach((image) => {
       const galleryItem = document.createElement("div");
@@ -377,7 +384,13 @@ export default class ProjectDetailPage {
     const container = document.querySelector(
       ".grid.grid-cols-2.sm\\:grid-cols-3.md\\:grid-cols-4.gap-6"
     );
-    if (!container || !this.projectData.tech_stack_details) return;
+    if (!container) {  
+      return;
+    };
+    if (this.projectData.tech_stack_details.length===0){
+      container.innerHTML = `<div class='col-span-full text-center py-12'>No technologies available</div>`;
+      return;
+    };
 
     container.innerHTML = "";
 

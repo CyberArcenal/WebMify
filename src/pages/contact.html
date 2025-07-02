@@ -470,55 +470,6 @@
   </div>
 </div>
 
-<!-- <script>
-  // Simple form submission handling
-  document.getElementById('contact-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Form data collection
-    const formData = {
-      name: document.getElementById('name').value,
-      email: document.getElementById('email').value,
-      subject: document.getElementById('subject').value,
-      message: document.getElementById('message').value
-    };
-    
-    // In a real implementation, this would be a fetch request to your API
-    console.log('Form submitted:', formData);
-    
-    // Show success message
-    const statusElement = document.getElementById('form-status');
-    statusElement.classList.remove('hidden');
-    statusElement.classList.add('bg-green-100', 'text-green-800', 'dark:bg-green-900', 'dark:text-green-200');
-    statusElement.querySelector('span').textContent = 'Your message has been sent successfully!';
-    
-    // Reset form
-    document.getElementById('contact-form').reset();
-    
-    // Hide message after 5 seconds
-    setTimeout(() => {
-      statusElement.classList.add('hidden');
-    }, 5000);
-  });
-  
-  // FAQ accordion functionality
-  document.querySelectorAll('.bg-white.rounded-xl.shadow-lg button').forEach(button => {
-    button.addEventListener('click', () => {
-      const content = button.nextElementSibling;
-      const icon = button.querySelector('i');
-      
-      if (content.classList.contains('hidden')) {
-        content.classList.remove('hidden');
-        icon.classList.remove('fa-chevron-down');
-        icon.classList.add('fa-chevron-up');
-      } else {
-        content.classList.add('hidden');
-        icon.classList.remove('fa-chevron-up');
-        icon.classList.add('fa-chevron-down');
-      }
-    });
-  });
-</script> -->
 
 <style>
   .contact-page {

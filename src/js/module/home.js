@@ -213,12 +213,17 @@ export default class HomePage {
     // Profile image
     if (this.profileData.profile_image_url) {
       const img = document.createElement("img");
+
+      // 1. Idagdag ang crossOrigin bago ang src
+      img.crossOrigin = "anonymous";
+
+      // 2. Itakda ang src at iba pang props
       img.src = this.profileData.profile_image_url;
       img.alt = this.profileData.name;
       img.className =
         "rounded-xl w-64 h-64 md:w-80 md:h-80 object-cover shadow-lg";
 
-      // Replace placeholder with actual image
+      // Palitan ang placeholder
       elements.image.replaceWith(img);
     }
   }

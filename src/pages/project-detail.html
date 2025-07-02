@@ -1,98 +1,100 @@
-
 <style>
   .project-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-  
+
   .project-card:hover {
     transform: scale(0.98);
   }
-  
+
   .project-card .view-project-btn {
     transform: translateY(10px);
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
-  
+
   .project-card:hover .view-project-btn {
     transform: translateY(0);
   }
 </style>
 <style>
   /* Markdown-specific styles */
-.markdown-content h1,
-.markdown-content h2,
-.markdown-content h3,
-.markdown-content h4 {
-  @apply font-bold text-gray-800 dark:text-gray-200;
-}
+  .markdown-content h1,
+  .markdown-content h2,
+  .markdown-content h3,
+  .markdown-content h4 {
+    @apply font-bold text-gray-800 dark:text-gray-200;
+  }
 
-.markdown-content h1 {
-  @apply text-3xl mb-4 mt-8;
-}
+  .markdown-content h1 {
+    @apply text-3xl mb-4 mt-8;
+  }
 
-.markdown-content h2 {
-  @apply text-2xl mb-3 mt-6;
-}
+  .markdown-content h2 {
+    @apply text-2xl mb-3 mt-6;
+  }
 
-.markdown-content h3 {
-  @apply text-xl mb-2 mt-5;
-}
+  .markdown-content h3 {
+    @apply text-xl mb-2 mt-5;
+  }
 
-.markdown-content p {
-  @apply mb-4 leading-relaxed text-gray-700 dark:text-gray-300;
-}
+  .markdown-content p {
+    @apply mb-4 leading-relaxed text-gray-700 dark:text-gray-300;
+  }
 
-.markdown-content ul,
-.markdown-content ol {
-  @apply list-disc pl-8 mb-4;
-}
+  .markdown-content ul,
+  .markdown-content ol {
+    @apply list-disc pl-8 mb-4;
+  }
 
-.markdown-content li {
-  @apply mb-2;
-}
+  .markdown-content li {
+    @apply mb-2;
+  }
 
-.markdown-content blockquote {
-  @apply border-l-4 border-blue-500 pl-4 py-2 my-4 text-gray-600 dark:text-gray-400;
-}
+  .markdown-content blockquote {
+    @apply border-l-4 border-blue-500 pl-4 py-2 my-4 text-gray-600 dark:text-gray-400;
+  }
 
-.markdown-content a {
-  @apply text-blue-600 dark:text-blue-400 hover:underline;
-}
+  .markdown-content a {
+    @apply text-blue-600 dark:text-blue-400 hover:underline;
+  }
 
-.markdown-content pre {
-  @apply bg-gray-800 text-gray-100 p-4 rounded overflow-x-auto my-4;
-}
+  .markdown-content pre {
+    @apply bg-gray-800 text-gray-100 p-4 rounded overflow-x-auto my-4;
+  }
 
-.markdown-content code:not(pre code) {
-  @apply bg-gray-100 dark:bg-gray-800 text-red-500 dark:text-red-400 px-1 py-0.5 rounded text-sm;
-}
+  .markdown-content code:not(pre code) {
+    @apply bg-gray-100 dark:bg-gray-800 text-red-500 dark:text-red-400 px-1 py-0.5 rounded text-sm;
+  }
 
-.markdown-content img {
-  @apply my-4 rounded-lg shadow-md mx-auto max-w-full;
-}
+  .markdown-content img {
+    @apply my-4 rounded-lg shadow-md mx-auto max-w-full;
+  }
 
-.markdown-content table {
-  @apply w-full my-6 border-collapse;
-}
+  .markdown-content table {
+    @apply w-full my-6 border-collapse;
+  }
 
-.markdown-content th,
-.markdown-content td {
-  @apply border border-gray-300 dark:border-gray-600 p-2;
-}
+  .markdown-content th,
+  .markdown-content td {
+    @apply border border-gray-300 dark:border-gray-600 p-2;
+  }
 
-.markdown-content th {
-  @apply bg-gray-100 dark:bg-gray-800 font-bold;
-}
+  .markdown-content th {
+    @apply bg-gray-100 dark:bg-gray-800 font-bold;
+  }
 </style>
 <!-- Project Modal -->
-<div id="project-modal" class="project-modal-overlay fixed inset-0 z-50 hidden opacity-0 transition-opacity duration-300 bg-black/70 flex items-center justify-center p-4">
+<div
+  id="project-modal"
+  class="project-modal-overlay fixed inset-0 z-50 hidden opacity-0 transition-opacity duration-300 bg-black/70 flex items-center justify-center p-4"
+>
   <div id="project-modal-content" class="w-full max-w-3xl"></div>
 </div>
 
 <style>
-.project-modal-overlay {
-  backdrop-filter: blur(4px);
-}
+  .project-modal-overlay {
+    backdrop-filter: blur(4px);
+  }
 </style>
 
 <div
@@ -121,22 +123,21 @@
           <span
             id="project-type-badge"
             class="px-4 py-1 bg-white/20 text-white rounded-full text-sm font-medium"
-            >Web Application</span
+            >...</span
           >
         </div>
         <h1
           id="project-title"
           class="text-3xl md:text-5xl font-bold text-white mb-4"
         >
-          E-Commerce Platform
+          ...
         </h1>
         <div class="w-24 h-1 bg-white/80 mx-auto mb-6 rounded"></div>
         <p
           id="project-hero-description"
           class="text-xl text-white/90 max-w-3xl mx-auto"
         >
-          Full-featured online store with payment processing, inventory
-          management, and customer analytics
+          ...
         </p>
       </div>
     </div>
@@ -163,19 +164,11 @@
           >
             Project Overview
           </h2>
-          <div class="prose prose-lg dark:prose-invert max-w-none markdown-content">
-            <p class="text-gray-600 dark:text-gray-300 mb-4">
-              This comprehensive e-commerce platform was developed for a retail
-              client looking to expand their online presence. The application
-              includes a modern storefront, secure payment processing, inventory
-              management system, and customer analytics dashboard.
-            </p>
-            <p class="text-gray-600 dark:text-gray-300 mb-4">
-              Built with scalability in mind, the platform handles over 10,000
-              daily visitors and processes hundreds of transactions per hour.
-              The architecture was designed to support future expansion into
-              international markets with multi-currency support.
-            </p>
+          <div
+            class="prose prose-lg dark:prose-invert max-w-none markdown-content"
+          >
+            <p class="text-gray-600 dark:text-gray-300 mb-4"></p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4"></p>
             <h3
               class="text-xl font-semibold text-gray-800 dark:text-white mt-8 mb-4"
             >
@@ -184,32 +177,14 @@
             <ul
               class="text-gray-600 dark:text-gray-300 mb-6 pl-5 list-disc space-y-2"
             >
-              <li>Product catalog with filtering and search functionality</li>
-              <li>Secure checkout process with multiple payment gateways</li>
-              <li>Real-time inventory tracking and management</li>
-              <li>Customer accounts with order history and wishlists</li>
-              <li>Admin dashboard for sales analytics and reporting</li>
-              <li>Responsive design for all device sizes</li>
-              <li>Integration with shipping carriers for label generation</li>
             </ul>
             <h3
               class="text-xl font-semibold text-gray-800 dark:text-white mt-8 mb-4"
             >
               Challenges & Solutions
             </h3>
-            <p class="text-gray-600 dark:text-gray-300 mb-4">
-              The main challenge was creating a system that could handle sudden
-              traffic spikes during promotional events while maintaining a
-              seamless user experience. The solution involved implementing a
-              microservices architecture with auto-scaling capabilities and a
-              content delivery network for static assets.
-            </p>
-            <p class="text-gray-600 dark:text-gray-300">
-              Another significant challenge was ensuring PCI compliance for
-              payment processing. This was addressed by using tokenization and
-              partnering with a certified payment gateway provider to handle
-              sensitive data.
-            </p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4"></p>
+            <p class="text-gray-600 dark:text-gray-300"></p>
           </div>
         </div>
 
@@ -220,69 +195,9 @@
           >
             Technology Stack
           </h2>
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-            <div
-              class="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow"
-            >
-              <div
-                class="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mb-3"
-              >
-                <i class="fab fa-react text-3xl text-blue-500"></i>
-              </div>
-              <span class="font-medium text-gray-800 dark:text-white"
-                >React</span
-              >
-              <span class="text-sm text-gray-500 dark:text-gray-400"
-                >Frontend</span
-              >
-            </div>
-
-            <div
-              class="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow"
-            >
-              <div
-                class="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center mb-3"
-              >
-                <i class="fab fa-node-js text-3xl text-green-600"></i>
-              </div>
-              <span class="font-medium text-gray-800 dark:text-white"
-                >Node.js</span
-              >
-              <span class="text-sm text-gray-500 dark:text-gray-400"
-                >Backend</span
-              >
-            </div>
-
-            <div
-              class="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow"
-            >
-              <div
-                class="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mb-3"
-              >
-                <i class="fa-solid fa-database text-3xl text-blue-400"></i>
-              </div>
-              <span class="font-medium text-gray-800 dark:text-white"
-                >PostgreSQL</span
-              >
-              <span class="text-sm text-gray-500 dark:text-gray-400"
-                >Database</span
-              >
-            </div>
-
-            <div
-              class="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow"
-            >
-              <div
-                class="w-16 h-16 rounded-full bg-yellow-100 dark:bg-yellow-900 flex items-center justify-center mb-3"
-              >
-                <i class="fa-brands fa-aws text-3xl text-yellow-500"></i>
-              </div>
-              <span class="font-medium text-gray-800 dark:text-white">AWS</span>
-              <span class="text-sm text-gray-500 dark:text-gray-400"
-                >Cloud</span
-              >
-            </div>
-          </div>
+          <div
+            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6"
+          ></div>
         </div>
 
         <!-- Project Gallery -->
@@ -327,7 +242,7 @@
                   id="sidebar-project-type"
                   class="font-medium text-gray-800 dark:text-white"
                 >
-                  Web Application
+                  Loading
                 </p>
               </div>
 
@@ -339,7 +254,7 @@
                   id="sidebar-completion-date"
                   class="font-medium text-gray-800 dark:text-white"
                 >
-                  June 1, 2023
+                  Loading
                 </p>
               </div>
 
@@ -348,7 +263,7 @@
                   Development Time
                 </p>
                 <p class="font-medium text-gray-800 dark:text-white">
-                  6 Months
+                 Loading
                 </p>
               </div>
 
@@ -357,7 +272,7 @@
                   Client
                 </p>
                 <p class="font-medium text-gray-800 dark:text-white">
-                  Retail Solutions Inc.
+                  Loading
                 </p>
               </div>
 
@@ -366,30 +281,7 @@
                   Technologies
                 </p>
                 <div id="sidebar-technologies" class="flex flex-wrap gap-2">
-                  <span
-                    class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm rounded-full"
-                    >React</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm rounded-full"
-                    >Node.js</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 text-sm rounded-full"
-                    >Express</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm rounded-full"
-                    >PostgreSQL</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 text-sm rounded-full"
-                    >Redis</span
-                  >
-                  <span
-                    class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-sm rounded-full"
-                    >AWS</span
-                  >
+                
                 </div>
               </div>
             </div>
@@ -399,7 +291,7 @@
             >
               <a
                 id="project-demo-link"
-                href="https://demo.example.com"
+                href=""
                 target="_blank"
                 class="w-full flex items-center justify-center px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium shadow-md transition-colors"
               >
@@ -407,7 +299,7 @@
               </a>
               <a
                 id="project-source-link"
-                href="https://github.com/johndoe/ecommerce"
+                href=""
                 target="_blank"
                 class="w-full flex items-center justify-center px-6 py-3 bg-gray-800 hover:bg-gray-900 text-white rounded-lg font-medium shadow-md transition-colors"
               >
@@ -431,7 +323,7 @@
                 </div>
                 <div>
                   <p class="text-2xl font-bold text-gray-800 dark:text-white">
-                    75%
+                    Loading
                   </p>
                   <p class="text-sm text-gray-600 dark:text-gray-400">
                     Increase in online sales
@@ -447,7 +339,7 @@
                 </div>
                 <div>
                   <p class="text-2xl font-bold text-gray-800 dark:text-white">
-                    3.2s
+                    Loading
                   </p>
                   <p class="text-sm text-gray-600 dark:text-gray-400">
                     Average page load time
@@ -463,7 +355,7 @@
                 </div>
                 <div>
                   <p class="text-2xl font-bold text-gray-800 dark:text-white">
-                    12K+
+                    Loading
                   </p>
                   <p class="text-sm text-gray-600 dark:text-gray-400">
                     Monthly active users
@@ -479,7 +371,7 @@
                 </div>
                 <div>
                   <p class="text-2xl font-bold text-gray-800 dark:text-white">
-                    98%
+                    Loading
                   </p>
                   <p class="text-sm text-gray-600 dark:text-gray-400">
                     Test coverage
@@ -504,10 +396,7 @@
       <p
         class="text-2xl text-gray-800 dark:text-white italic max-w-3xl mx-auto mb-6"
       >
-        "John delivered exceptional work on our e-commerce platform. His
-        attention to detail and problem-solving skills helped us overcome
-        technical challenges that had stalled our project for months. The final
-        result exceeded our expectations."
+        
       </p>
       <div class="flex items-center justify-center">
         <div class="mr-4">
@@ -516,9 +405,9 @@
           ></div>
         </div>
         <div class="text-left">
-          <h4 class="font-bold text-gray-800 dark:text-white">Jane Smith</h4>
+          <h4 class="font-bold text-gray-800 dark:text-white"></h4>
           <p class="text-primary-500 dark:text-primary-400">
-            CEO, Retail Solutions Inc.
+            
           </p>
         </div>
       </div>
@@ -543,79 +432,13 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <!-- Project 1 -->
-      <div
-        class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:-translate-y-2"
-      >
-        <div
-          class="h-48 bg-gray-200 dark:bg-gray-700 border-2 border-dashed"
-        ></div>
-        <div class="p-6">
-          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">
-            Task Management App
-          </h3>
-          <p class="text-gray-600 dark:text-gray-300 mb-4">
-            Productivity application for teams to collaborate and manage
-            projects efficiently.
-          </p>
-          <a
-            href="#project-detail"
-            class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium"
-          >
-            View Project
-            <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
-          </a>
-        </div>
-      </div>
+      
 
       <!-- Project 2 -->
-      <div
-        class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:-translate-y-2"
-      >
-        <div
-          class="h-48 bg-gray-200 dark:bg-gray-700 border-2 border-dashed"
-        ></div>
-        <div class="p-6">
-          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">
-            Health & Fitness Tracker
-          </h3>
-          <p class="text-gray-600 dark:text-gray-300 mb-4">
-            Mobile application for tracking workouts, nutrition, and health
-            metrics.
-          </p>
-          <a
-            href="#project-detail"
-            class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium"
-          >
-            View Project
-            <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
-          </a>
-        </div>
-      </div>
+      
 
       <!-- Project 3 -->
-      <div
-        class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:-translate-y-2"
-      >
-        <div
-          class="h-48 bg-gray-200 dark:bg-gray-700 border-2 border-dashed"
-        ></div>
-        <div class="p-6">
-          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">
-            AI-Powered Analytics Dashboard
-          </h3>
-          <p class="text-gray-600 dark:text-gray-300 mb-4">
-            Business intelligence platform with predictive analytics and data
-            visualization.
-          </p>
-          <a
-            href="#project-detail"
-            class="inline-flex items-center text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium"
-          >
-            View Project
-            <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
-          </a>
-        </div>
-      </div>
+      
     </div>
 
     <div class="text-center mt-12">
@@ -678,6 +501,5 @@
     margin-bottom: 0.5em;
   }
 </style>
-
 
 <script type="module" src="/src/js/module/project-detail.js"></script>
