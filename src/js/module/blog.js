@@ -54,18 +54,13 @@ export default class BlogPage {
   }
 
   async init() {
-    console.log("Initializing blog page...");
+  
     try {
       this.showLoadingState();
       this.initEventListeners();
       // await new Promise((resolve) => setTimeout(resolve, 7000));
 
-      // Debug DOM elements
-      console.log("Blog elements:", {
-        loader: this.blogLoader,
-        featuredContainer: this.featuredContainer,
-        allArticlesContainer: this.allArticlesContainer,
-      });
+
 
       await Promise.all([
         this.fetchBlogs(),
@@ -73,7 +68,7 @@ export default class BlogPage {
         this.fetchCategories(),
       ]);
 
-      console.log("Initialization complete");
+
     } catch (error) {
       console.error("Initialization error:", error);
       this.handleError(error);
@@ -103,7 +98,7 @@ export default class BlogPage {
       );
 
       // Debugging: Log the response structure
-      console.log("Blog API Response:", response);
+ 
 
       // Check for successful response
       if (response.status !== 200 || !response.data?.status) {
@@ -456,7 +451,7 @@ export default class BlogPage {
       }
 
       const blog = response.data.data;
-      console.log(blog);
+    
       if (blog) {
         this.renderBlogDetail(blog);
         this.showBlogDetail();
@@ -610,7 +605,7 @@ export default class BlogPage {
 
     this.subscribeForms.forEach((form) => {
       const button = form.querySelector("button");
-      console.log("Subscribe button:", button);
+
       if (button) {
         button.addEventListener("click", this.handleSubscribe.bind(this));
       }

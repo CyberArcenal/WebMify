@@ -91,7 +91,7 @@ export default class ProjectDetailPage {
         const readMore = e.target.closest(".read-more");
         const projectId = readMore.dataset.id;
         const project = this.relatedProjects.find((p) => p.id == projectId);
-        console.log(project);
+   
         if (project) {
           showProjectModal(project);
         }

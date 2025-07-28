@@ -110,7 +110,7 @@ export default class Router {
 
       // Prevent reloading same script
       if (!this.pageScripts[scriptUrl]) {
-        console.log("Loading script:", scriptUrl);
+       
         
         // Clear module cache
         delete window[scriptUrl];

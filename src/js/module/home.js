@@ -103,7 +103,7 @@ export default class HomePage {
         const readMore = e.target.closest(".read-more");
         const projectId = readMore.dataset.id;
         const project = this.featuredProjects.find((p) => p.id == projectId);
-        console.log(project);
+
         if (project) {
           showProjectModal(project);
         }
@@ -122,7 +122,6 @@ export default class HomePage {
     try {
       const response = await apiClient.get("/api/profile/");
       if (response.data) {
-        console.log(response.data);
         this.profileData = response.data;
       } else {
         throw new Error("Empty profile data");

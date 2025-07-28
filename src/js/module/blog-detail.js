@@ -57,7 +57,7 @@ export default class BlogDetailPage {
   initEventListeners() {
     this.subscribeForms.forEach((form) => {
       const button = form.querySelector("button");
-      console.log("Subscribe button:", button);
+
       if (button) {
         button.addEventListener("click", this.handleSubscribe.bind(this));
       }
@@ -142,7 +142,7 @@ export default class BlogDetailPage {
 
         try {
           const response = await apiClient.post("/api/comments/", formData);
-          console.log(response.data);
+     
           this.comments = [response.data, ...this.comments];
           this.renderComments();
           form.reset();
@@ -211,7 +211,7 @@ export default class BlogDetailPage {
       const response = await apiClient.get(
         `/api/blog/?category=${category}&exclude=${this.blogData.id}`
       );
-      console.log("Related articles response:", response.data);
+ 
       this.relatedArticles = response.data.data;
       this.renderRelatedArticles();
     } catch (error) {

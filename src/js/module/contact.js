@@ -57,7 +57,7 @@ export default class ContactPage {
       this.socialLinks = response.data;
 
       // Update social media links
-      console.log("Social links fetched:", this.socialLinks);
+  
       this.updateSocialLinks(this.socialLinks.data);
     } catch (error) {
       console.error("Failed to load social links:", error);
@@ -113,7 +113,7 @@ export default class ContactPage {
     
     // Kunin ang URL mula sa API response para sa platform na ito
     const url = links[platformKey] || links[platformKey.toString()]; // simplify kung iba ang key
-    console.log(`Updating link for ${platformKey}: ${url}`);
+
     if (url && url !== "N/A") {
       link.href = url;
     } else {
@@ -270,6 +270,7 @@ export default class ContactPage {
   }
 
   showSuccess(message) {
+    showSuccess(message)
     this.statusElement.classList.remove("hidden");
     this.statusElement.classList.remove(
       "bg-red-100",
@@ -297,6 +298,7 @@ export default class ContactPage {
   }
 
   showError(message) {
+    showError(message)
     this.statusElement.classList.remove("hidden");
     this.statusElement.classList.remove(
       "bg-green-100",

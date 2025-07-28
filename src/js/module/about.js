@@ -64,7 +64,6 @@ export default class AboutPage {
     try {
       const response = await apiClient.get("/api/experience/");
 
-      console.log(response.data);
       if (response.data?.data) {
         this.workExperience = response.data.data;
       }

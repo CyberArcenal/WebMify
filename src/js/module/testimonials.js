@@ -58,7 +58,7 @@ export default class TestimonialsPage {
       const data = response.data.data;
 
       // I-filter para sa approved testimonials lamang
-      console.log("Fetched testimonials:", data);
+
       this.testimonials = data.filter((testimonial) => testimonial.approved);
 
       if (this.testimonials.length === 0) {
