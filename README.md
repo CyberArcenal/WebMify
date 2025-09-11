@@ -1,32 +1,32 @@
 # Darius Portfolio - Django Edition
 
-Ito ay isang modernong portfolio website na binuo gamit ang Django backend at vanilla JavaScript frontend na may advanced na features kabilang ang admin-editable content at custom email notifications.
+A modern portfolio website built with Django backend and vanilla JavaScript frontend, featuring admin-editable content, custom email notifications, and interactive elements.
 
-## 🚀 Mga Tampok
+## 🚀 Features
 
-- **Django Backend** - Admin-editable na lahat ng portfolio content
+- **Django Backend** - All portfolio content editable via admin interface
 - **Custom Client-side Router** - Smooth navigation without page refresh
-- **Newsletter System** - May email alert para sa mga nag-subscribe
-- **Custom Notification System** - showSuccess, showError, at showInfo popups
-- **Interactive Contact Page** - May live map integration
-- **Responsive Design** - Gumaganda sa lahat ng device sizes gamit ang Tailwind CSS
+- **Newsletter System** - Email alerts for new subscribers
+- **Custom Notification System** - showSuccess, showError, and showInfo popups
+- **Interactive Contact Page** - Live map integration
+- **Responsive Design** - Optimized for all device sizes using Tailwind CSS
 
 ## 🛠️ Tech Stack
 
 ### Backend
-- **Django** - Python web framework para sa backend
+- **Django** - Python web framework for backend
 - **Django Admin** - Content management system
-- **Email Integration** - Para sa newsletter at contact form notifications
+- **Email Integration** - For newsletter and contact form notifications
 
 ### Frontend
-- **Vanilla JavaScript** - Custom router at interactive features
+- **Vanilla JavaScript** - Custom router and interactive features
 - **HTML5** - Semantic markup
 - **Tailwind CSS** - Utility-first CSS framework
-- **Custom JavaScript** - Para sa notifications at dynamic content
+- **Custom JavaScript** - For notifications and dynamic content
 
-### APIs at Integrations
-- **Map Provider** (Google Maps/Leaflet) - Para sa live map sa contact page
-- **Email Service** (SMTP/SendGrid/Mailgun) - Para sa email notifications
+### APIs & Integrations
+- **Map Provider** (Google Maps/Leaflet) - For live map on contact page
+- **Email Service** (SMTP/SendGrid/Mailgun) - For email notifications
 
 ## 📁 Project Structure
 
@@ -34,9 +34,9 @@ Ito ay isang modernong portfolio website na binuo gamit ang Django backend at va
 darius-portfolio/
 ├── backend/                 # Django project
 │   ├── portfolio/          # Main Django app
-│   │   ├── models.py       # Database models para sa editable content
+│   │   ├── models.py       # Database models for editable content
 │   │   ├── admin.py        # Admin configuration
-│   │   ├── views.py        # API endpoints para sa content
+│   │   ├── views.py        # API endpoints for content
 │   │   └── urls.py         # URL routes
 │   ├── templates/          # Django templates
 │   └── requirements.txt    # Python dependencies
@@ -53,7 +53,7 @@ darius-portfolio/
 
 ## 🎯 Custom Router Implementation
 
-Ang proyektong ito ay gumagamit ng custom client-side router para sa seamless navigation:
+This project uses a custom client-side router for seamless navigation:
 
 ```javascript
 // js/router.js
@@ -166,7 +166,7 @@ function showNotification(message, type) {
 ## 📧 Newsletter Subscription
 
 ```python
-# Django view para sa newsletter subscription
+# Django view for newsletter subscription
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -179,11 +179,11 @@ def subscribe_newsletter(request):
             data = json.loads(request.body)
             email = data.get('email')
             
-            # I-save ang email sa database
+            # Save email to database
             subscriber, created = Subscriber.objects.get_or_create(email=email)
             
             if created:
-                # Magpadala ng confirmation email
+                # Send confirmation email
                 send_mail(
                     'Subscription Confirmation',
                     'Thank you for subscribing to my newsletter!',
@@ -192,7 +192,7 @@ def subscribe_newsletter(request):
                     fail_silently=False,
                 )
                 
-                # Magpadala ng alert sa admin
+                # Send alert to admin
                 send_mail(
                     'New Newsletter Subscription',
                     f'New subscriber: {email}',
@@ -251,7 +251,7 @@ function initMap() {
 </script>
 ```
 
-## 🏗️ Django Models para sa Editable Content
+## 🏗️ Django Models for Editable Content
 
 ```python
 # models.py
@@ -299,20 +299,20 @@ class Subscriber(models.Model):
         return self.email
 ```
 
-## 🚀 Paano I-setup ang Project
+## 🚀 Setup Instructions
 
-1. **I-clone ang repository**
+1. **Clone the repository**
    ```bash
    git clone <repository-url>
    cd darius-portfolio
    ```
 
-2. **I-setup ang backend**
+2. **Setup backend**
    ```bash
    cd backend
    python -m venv venv
    source venv/bin/activate  # Linux/Mac
-   # o
+   # or
    venv\Scripts\activate  # Windows
    
    pip install -r requirements.txt
@@ -321,14 +321,14 @@ class Subscriber(models.Model):
    python manage.py runserver
    ```
 
-3. **I-setup ang frontend**
-   - Ang static files ay naka-serve na through Django
-   - I-configure ang email settings sa `settings.py`
-   - I-configure ang map provider API keys
+3. **Setup frontend**
+   - Static files are served through Django
+   - Configure email settings in `settings.py`
+   - Configure map provider API keys
 
-4. **Access ang admin panel**
-   - Pumunta sa `/admin` at i-login gamit ang superuser account
-   - Idagdag ang portfolio content sa pamamagitan ng admin interface
+4. **Access admin panel**
+   - Navigate to `/admin` and login with superuser account
+   - Add portfolio content through the admin interface
 
 ## ⚡ Production Deployment Tips
 
@@ -355,17 +355,17 @@ class Subscriber(models.Model):
    ```
 
 3. **Security Considerations**
-   - Gumamit ng environment variables para sa sensitive data
-   - I-enable ang HTTPS
-   - Gumamit ng secure headers
-   - Regular na i-update ang dependencies
+   - Use environment variables for sensitive data
+   - Enable HTTPS
+   - Implement secure headers
+   - Regularly update dependencies
 
-## 📄 Mga Pahina
+## 📄 Pages
 
-- **Home** - Introduksyon at highlight ng mga skills (editable sa admin)
-- **About** - Detalyadong impormasyon tungkol sa akin (editable sa admin)
-- **Projects** - Gallery ng mga projects (editable sa admin)
-- **Blog** - Mga blog posts (editable sa admin)
-- **Contact** - Contact form na may live map at notification system
+- **Home** - Introduction and skills highlights (editable via admin)
+- **About** - Detailed information about me (editable via admin)
+- **Projects** - Project gallery (editable via admin)
+- **Blog** - Blog posts (editable via admin)
+- **Contact** - Contact form with live map and notification system
 
-Ang portfolio na ito ay dinisenyo upang ipakita ang aking mga kasanayan sa full-stack development at para magbigay ng magandang user experience sa mga bisita. Lahat ng content ay madaling i-edit sa pamamagitan ng Django admin interface.
+This portfolio is designed to showcase my full-stack development skills while providing an excellent user experience for visitors. All content is easily editable through the Django admin interface.
