@@ -25,9 +25,9 @@ const SocialLinks: React.FC<Props> = ({ links }) => {
   ];
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
-      <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-8">Connect With Me</h2>
-      <p className="text-gray-600 dark:text-gray-300 mb-6">
+    <div className="bg-card rounded-2xl shadow-xl p-8">
+      <h2 className="text-3xl font-bold text-primary-text mb-8">Connect With Me</h2>
+      <p className="text-secondary-text mb-6">
         Follow me on social media to stay updated with my latest projects and insights.
       </p>
 

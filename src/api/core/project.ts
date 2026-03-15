@@ -16,6 +16,13 @@ export interface ProjectTechStack {
   icon: string;
 }
 
+export interface ProjectTestimonial {
+    author_image: string | undefined;
+    content: string;
+    author: string;
+    position: string;
+  }
+
 export interface Project {
   id: number;
   title: string;
@@ -37,11 +44,7 @@ export interface Project {
     users: string;
     test_coverage: string;
   };
-  testimonial: {
-    content: string;
-    author: string;
-    position: string;
-  } | null;
+  testimonial: ProjectTestimonial | null;
   features: ProjectFeature[];
   challenges: string;
   solutions: string;

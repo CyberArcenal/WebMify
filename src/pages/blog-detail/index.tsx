@@ -23,13 +23,13 @@ const BlogDetailPage: React.FC = () => {
   if (error || !blog) {
     return (
       <div className="container mx-auto px-4 py-8 max-w-3xl">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-          <i className="fa-solid fa-triangle-exclamation text-red-500 text-3xl mb-4"></i>
-          <h3 className="text-xl font-bold text-red-800 mb-2">Failed to load blog post</h3>
-          <p className="text-red-600 mb-4">{error || 'Blog post not found'}</p>
+        <div className="bg-danger/10 border border-danger rounded-lg p-6 text-center">
+          <i className="fa-solid fa-triangle-exclamation text-danger text-3xl mb-4"></i>
+          <h3 className="text-xl font-bold text-danger mb-2">Failed to load blog post</h3>
+          <p className="text-danger mb-4">{error || 'Blog post not found'}</p>
           <Link
             to="/"
-            className="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+            className="inline-flex items-center px-4 py-2 bg-danger text-white rounded-lg hover:bg-danger-dark transition"
           >
             <i className="fa-solid fa-arrow-left mr-2"></i> Back to Home
           </Link>
@@ -44,7 +44,7 @@ const BlogDetailPage: React.FC = () => {
   return (
     <div className="blog-detail-page min-h-screen">
       {/* Hero Section */}
-      <div className="relative pt-16 pb-24 md:py-32 bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-700 dark:to-indigo-800">
+      <div className="relative pt-16 pb-24 md:py-32 bg-gradient-to-r from-primary to-blue-600">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <div className="inline-block mb-4">
@@ -59,7 +59,7 @@ const BlogDetailPage: React.FC = () => {
             {/* Author & Date Info */}
             <div className="flex items-center justify-center mt-8">
               <div className="flex-shrink-0 mr-4">
-                <div className="bg-gray-200 border-2 border-dashed rounded-full w-12 h-12 bg-cover bg-center"
+                <div className="bg-card-secondary border-2 border-dashed rounded-full w-12 h-12 bg-cover bg-center"
                      style={blog.author?.image_url ? { backgroundImage: `url(${blog.author.image_url})` } : {}}></div>
               </div>
               <div className="text-left">
@@ -82,7 +82,7 @@ const BlogDetailPage: React.FC = () => {
           {blog.imageURL ? (
             <img src={blog.imageURL} alt={blog.title} className="w-full h-64 md:h-96 object-cover" />
           ) : (
-            <div className="bg-gray-200 border-2 border-dashed w-full h-64 md:h-96"></div>
+            <div className="bg-card-secondary border-2 border-dashed border-color w-full h-64 md:h-96"></div>
           )}
         </div>
       </div>
@@ -90,8 +90,8 @@ const BlogDetailPage: React.FC = () => {
       {/* Blog Content */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Excerpt */}
-        <div className="bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 dark:border-blue-400 p-6 rounded-lg mb-12">
-          <p className="text-xl text-blue-800 dark:text-blue-200 italic">{excerpt}</p>
+        <div className="bg-primary-light/20 border-l-4 border-primary p-6 rounded-lg mb-12">
+          <p className="text-xl text-primary-text italic">{excerpt}</p>
         </div>
 
         {/* Article Content */}
@@ -105,7 +105,7 @@ const BlogDetailPage: React.FC = () => {
         {blog.categories && blog.categories.length > 0 && (
           <div className="flex flex-wrap gap-3 mt-12 mb-8">
             {blog.categories.map(cat => (
-              <a key={cat.id} href={`#${cat.slug}`} className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700">
+              <a key={cat.id} href={`#${cat.slug}`} className="px-4 py-2 bg-card-secondary text-secondary-text rounded-lg text-sm font-medium hover:bg-card-secondary/80">
                 #{cat.name}
               </a>
             ))}
@@ -113,8 +113,8 @@ const BlogDetailPage: React.FC = () => {
         )}
 
         {/* Share Buttons */}
-        <div className="flex items-center border-t border-b border-gray-200 dark:border-gray-700 py-6 mb-12">
-          <span className="text-gray-700 dark:text-gray-300 mr-4">Share:</span>
+        <div className="flex items-center border-t border-b border-color py-6 mb-12">
+          <span className="text-secondary-text mr-4">Share:</span>
           <div className="flex space-x-4">
             <a data-share-twitter href={`https://twitter.com/share?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(blog.title)}`} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-500 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-800">
               <i className="fab fa-twitter"></i>

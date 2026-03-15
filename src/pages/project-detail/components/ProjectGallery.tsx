@@ -8,7 +8,7 @@ interface Props {
 const ProjectGallery: React.FC<Props> = ({ images }) => {
   if (!images || images.length === 0) {
     return (
-      <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+      <div className="text-center py-12 text-secondary-text">
         No gallery images available.
       </div>
     );

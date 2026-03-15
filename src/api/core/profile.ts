@@ -14,6 +14,7 @@ export interface Profile {
   github_url: string;
   linkedin_url: string;
   twitter_url: string;
+  youtube_url: string;
   created_at: string;
   updated_at: string;
   status: string;
@@ -32,6 +33,7 @@ export interface ProfileCreateData {
   github_url?: string;
   linkedin_url?: string;
   twitter_url?: string;
+  youtube_url?: string;
 }
 
 export type ProfileUpdateData = Partial<ProfileCreateData>;

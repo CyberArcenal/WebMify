@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import subscriberAPI from '@/api/core/subscriber';
 import { showSuccess, showError } from '@/utils/notification';
+import { dialogs } from '@/utils/dialogs';
 
 const SubscribeForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +14,7 @@ const SubscribeForm: React.FC = () => {
     setLoading(true);
     try {
       await subscriberAPI.create({ email });
-      showSuccess('Successfully subscribed! Please check your email to confirm.');
+      await dialogs.success('Successfully subscribed! Please check your email to confirm.');
       setEmail('');
     } catch (err: any) {
       showError(err.message || 'Subscription failed. Please try again.');

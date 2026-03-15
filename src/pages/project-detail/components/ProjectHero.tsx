@@ -18,7 +18,7 @@ const ProjectHero: React.FC<Props> = ({ project }) => {
   };
 
   return (
-    <div className="relative py-16 md:py-24 bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-700 dark:to-indigo-800">
+    <div className="relative py-16 md:py-24 bg-gradient-to-r from-primary to-blue-600">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center">
           <div className="inline-block mb-4">

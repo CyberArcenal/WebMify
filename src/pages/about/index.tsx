@@ -6,8 +6,10 @@ import { useExperience } from './hooks/useExperience';
 import { useEducation } from './hooks/useEducation';
 import { useSkills } from '../home/hooks/useSkills';
 import Button from '@/components/UI/Button';
+import { useNavigate } from 'react-router-dom';
 
 const About: React.FC = () => {
+  const navigate = useNavigate();
   const { profile, loading: profileLoading, error: profileError } = useProfile();
   const { experiences, loading: expLoading, error: expError } = useExperience();
   const { education, loading: eduLoading, error: eduError } = useEducation();
@@ -16,7 +18,7 @@ const About: React.FC = () => {
   const isLoading = profileLoading || expLoading || eduLoading || skillsLoading;
   const hasError = profileError || expError || eduError || skillsError;
 
-  // Fade‑in animations like the original JS
+  // Fade‑in animations
   useEffect(() => {
     if (!isLoading) {
       const sections = document.querySelectorAll('.about-page > div');
@@ -36,7 +38,7 @@ const About: React.FC = () => {
 
   if (hasError) {
     return (
-      <div className="text-center py-12 text-red-500">
+      <div className="text-center py-12 text-danger">
         Error loading content. Please refresh.
       </div>
     );
@@ -71,7 +73,7 @@ const About: React.FC = () => {
   return (
     <div className="about-page min-h-screen">
       {/* Hero Section */}
-      <div className="relative py-24 bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-700 dark:to-indigo-800">
+      <div className="relative py-24 bg-gradient-to-r from-primary to-blue-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">About Me</h1>
@@ -95,7 +97,7 @@ const About: React.FC = () => {
                 alt={profile?.name}
                 className="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover shadow-lg"
               />
-              <div className="absolute -bottom-4 -right-4 bg-blue-500 dark:bg-blue-600 text-white p-3 rounded-full shadow-lg">
+              <div className="absolute -bottom-4 -right-4 bg-primary text-white p-3 rounded-full shadow-lg">
                 <i className="fa-solid fa-star text-xl"></i>
               </div>
             </div>
@@ -104,16 +106,16 @@ const About: React.FC = () => {
           {/* Profile Information */}
           <div className="w-full lg:w-7/12">
             <div className="mb-6">
-              <span className="text-blue-500 dark:text-blue-400 font-semibold">
+              <span className="text-primary font-semibold">
                 PROFESSIONAL PROFILE
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mt-2 mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-primary-text mt-2 mb-4">
                 {profile?.name}
               </h2>
-              <h3 className="text-2xl text-blue-500 dark:text-blue-400 font-semibold mb-6">
+              <h3 className="text-2xl text-primary font-semibold mb-6">
                 {profile?.title}
               </h3>
-              <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+              <p className="text-lg text-secondary-text leading-relaxed whitespace-pre-line">
                 {profile?.bio}
               </p>
             </div>
@@ -122,24 +124,24 @@ const About: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 contact-grid">
               {/* Email */}
               <div className="flex items-center contact-item">
-                <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4 contact-icon">
-                  <i className="fa-solid fa-envelope text-blue-500 dark:text-blue-400"></i>
+                <div className="w-10 h-10 rounded-full bg-primary-light/20 text-primary flex items-center justify-center mr-4 contact-icon">
+                  <i className="fa-solid fa-envelope"></i>
                 </div>
                 <div className="contact-details">
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Email</p>
-                  <p className="text-gray-800 dark:text-white">{profile?.email}</p>
+                  <p className="text-sm text-tertiary-text">Email</p>
+                  <p className="text-primary-text">{profile?.email}</p>
                 </div>
               </div>
 
               {/* Phone */}
               {profile?.phone && (
                 <div className="flex items-center contact-item">
-                  <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4 contact-icon">
-                    <i className="fa-solid fa-phone text-blue-500 dark:text-blue-400"></i>
+                  <div className="w-10 h-10 rounded-full bg-primary-light/20 text-primary flex items-center justify-center mr-4 contact-icon">
+                    <i className="fa-solid fa-phone"></i>
                   </div>
                   <div className="contact-details">
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Phone</p>
-                    <p className="text-gray-800 dark:text-white">{profile.phone}</p>
+                    <p className="text-sm text-tertiary-text">Phone</p>
+                    <p className="text-primary-text">{profile.phone}</p>
                   </div>
                 </div>
               )}
@@ -147,24 +149,24 @@ const About: React.FC = () => {
               {/* Location */}
               {profile?.address && (
                 <div className="flex items-center contact-item">
-                  <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4 contact-icon">
-                    <i className="fa-solid fa-location-dot text-blue-500 dark:text-blue-400"></i>
+                  <div className="w-10 h-10 rounded-full bg-primary-light/20 text-primary flex items-center justify-center mr-4 contact-icon">
+                    <i className="fa-solid fa-location-dot"></i>
                   </div>
                   <div className="contact-details">
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Location</p>
-                    <p className="text-gray-800 dark:text-white">{profile.address}</p>
+                    <p className="text-sm text-tertiary-text">Location</p>
+                    <p className="text-primary-text">{profile.address}</p>
                   </div>
                 </div>
               )}
 
               {/* Status */}
               <div className="flex items-center contact-item">
-                <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4 contact-icon">
-                  <i className="fa-solid fa-briefcase text-blue-500 dark:text-blue-400"></i>
+                <div className="w-10 h-10 rounded-full bg-primary-light/20 text-primary flex items-center justify-center mr-4 contact-icon">
+                  <i className="fa-solid fa-briefcase"></i>
                 </div>
                 <div className="contact-details">
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Status</p>
-                  <p className="text-gray-800 dark:text-white my-status">
+                  <p className="text-sm text-tertiary-text">Status</p>
+                  <p className="text-primary-text my-status">
                     {profile?.status_display || profile?.status || 'Available'}
                   </p>
                 </div>
@@ -176,7 +178,7 @@ const About: React.FC = () => {
               {profile?.github_url && (
                 <a
                   href={profile.github_url}
-                  className="w-12 h-12 rounded-full bg-gray-800 dark:bg-gray-700 flex items-center justify-center text-white hover:bg-gray-900 dark:hover:bg-gray-600 transition-colors"
+                  className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-gray-900 transition-colors"
                 >
                   <i className="fab fa-github"></i>
                 </a>
@@ -204,14 +206,14 @@ const About: React.FC = () => {
               {profile?.resume_url && (
                 <a
                   href={profile.resume_url}
-                  className="px-6 py-3 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-md"
+                  className="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg font-medium transition-colors shadow-md"
                 >
                   <i className="fa-solid fa-download mr-2"></i>Download Resume
                 </a>
               )}
               <a
                 href="#contact"
-                className="px-6 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg font-medium transition-colors shadow-md"
+                className="px-6 py-3 bg-card border border-color hover:bg-card-secondary text-primary-text rounded-lg font-medium transition-colors shadow-md"
               >
                 <i className="fa-solid fa-envelope mr-2"></i>Contact Me
               </a>
@@ -222,14 +224,14 @@ const About: React.FC = () => {
 
       {/* Work Experience Section */}
       {experiences.length > 0 && (
-        <div className="bg-gray-100 dark:bg-gray-800 py-16">
+        <div className="bg-card-secondary py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
+              <h2 className="text-3xl md:text-4xl font-bold text-primary-text">
                 Work Experience
               </h2>
-              <div className="w-24 h-1 bg-blue-500 dark:bg-blue-400 mx-auto mt-4 rounded"></div>
-              <p className="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              <div className="w-24 h-1 bg-primary mx-auto mt-4 rounded"></div>
+              <p className="mt-4 text-xl text-secondary-text max-w-2xl mx-auto">
                 My professional journey and career milestones
               </p>
             </div>
@@ -237,7 +239,7 @@ const About: React.FC = () => {
             {/* Timeline */}
             <div className="relative timeline-container">
               {/* Timeline line */}
-              <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-1 bg-blue-200 dark:bg-blue-900 transform -translate-x-1/2"></div>
+              <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-1 bg-primary-light transform -translate-x-1/2"></div>
 
               {experiences.map((exp, index) => {
                 const isEven = index % 2 === 0;
@@ -248,18 +250,17 @@ const About: React.FC = () => {
                     key={exp.id}
                     className={`time-line-prototype flex flex-col lg:flex-row ${isLast ? 'pb-8' : 'mb-16'}`}
                   >
-                    {/* Left or right side content based on index */}
                     {isEven ? (
                       <>
                         {/* Info side (left for even) */}
                         <div className="lg:w-1/2 lg:pr-16 lg:text-right mb-6 lg:mb-0">
-                          <div className="inline-block px-4 py-1 bg-blue-500 text-white rounded-full text-sm mb-3">
+                          <div className="inline-block px-4 py-1 bg-primary text-white rounded-full text-sm mb-3">
                             {exp.duration}
                           </div>
-                          <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
+                          <h3 className="text-2xl font-bold text-primary-text">
                             {exp.position}
                           </h3>
-                          <p className="text-xl text-blue-500 dark:text-blue-400 mb-4">
+                          <p className="text-xl text-primary mb-4">
                             {exp.company}
                           </p>
                           <div className="inline-flex justify-center lg:justify-end mb-4">
@@ -270,24 +271,24 @@ const About: React.FC = () => {
                                 className="w-16 h-16 object-contain"
                               />
                             ) : (
-                              <div className="bg-gray-200 border-2 border-dashed rounded-lg w-16 h-16"></div>
+                              <div className="bg-card-secondary border-2 border-dashed border-color rounded-lg w-16 h-16"></div>
                             )}
                           </div>
                         </div>
 
                         {/* Timeline marker */}
                         <div className="hidden lg:flex lg:w-1/2 lg:px-16 items-center justify-center">
-                          <div className="w-6 h-6 rounded-full bg-blue-500 border-4 border-white dark:border-gray-800 z-10"></div>
+                          <div className="w-6 h-6 rounded-full bg-primary border-4 border-white dark:border-card z-10"></div>
                         </div>
 
                         {/* Description side */}
                         <div className="lg:w-1/2 lg:px-16">
-                          <div className="bg-white dark:bg-gray-700 rounded-xl shadow-lg p-6">
-                            <p className="text-gray-600 dark:text-gray-300 mb-4 whitespace-pre-line">
+                          <div className="bg-card rounded-xl shadow-lg p-6">
+                            <p className="text-secondary-text mb-4 whitespace-pre-line">
                               {exp.description}
                             </p>
                             {exp.responsibilities && exp.responsibilities.length > 0 && (
-                              <ul className="text-gray-600 dark:text-gray-300 space-y-2 list-disc pl-5">
+                              <ul className="text-secondary-text space-y-2 list-disc pl-5">
                                 {exp.responsibilities.map((resp, idx) => (
                                   <li key={idx}>{resp}</li>
                                 ))}
@@ -300,12 +301,12 @@ const About: React.FC = () => {
                       <>
                         {/* For odd: description first, then marker, then info */}
                         <div className="lg:w-1/2 lg:px-16 lg:order-1">
-                          <div className="bg-white dark:bg-gray-700 rounded-xl shadow-lg p-6">
-                            <p className="text-gray-600 dark:text-gray-300 mb-4 whitespace-pre-line">
+                          <div className="bg-card rounded-xl shadow-lg p-6">
+                            <p className="text-secondary-text mb-4 whitespace-pre-line">
                               {exp.description}
                             </p>
                             {exp.responsibilities && exp.responsibilities.length > 0 && (
-                              <ul className="text-gray-600 dark:text-gray-300 space-y-2 list-disc pl-5">
+                              <ul className="text-secondary-text space-y-2 list-disc pl-5">
                                 {exp.responsibilities.map((resp, idx) => (
                                   <li key={idx}>{resp}</li>
                                 ))}
@@ -315,17 +316,17 @@ const About: React.FC = () => {
                         </div>
 
                         <div className="hidden lg:flex lg:w-1/2 lg:px-16 items-center justify-center lg:order-2">
-                          <div className="w-6 h-6 rounded-full bg-blue-500 border-4 border-white dark:border-gray-800 z-10"></div>
+                          <div className="w-6 h-6 rounded-full bg-primary border-4 border-white dark:border-card z-10"></div>
                         </div>
 
                         <div className="lg:w-1/2 lg:pl-16 lg:text-left lg:order-3 mb-6 lg:mb-0">
-                          <div className="inline-block px-4 py-1 bg-blue-500 text-white rounded-full text-sm mb-3">
+                          <div className="inline-block px-4 py-1 bg-primary text-white rounded-full text-sm mb-3">
                             {exp.duration}
                           </div>
-                          <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
+                          <h3 className="text-2xl font-bold text-primary-text">
                             {exp.position}
                           </h3>
-                          <p className="text-xl text-blue-500 dark:text-blue-400 mb-4">
+                          <p className="text-xl text-primary mb-4">
                             {exp.company}
                           </p>
                           <div className="inline-flex justify-center lg:justify-start mb-4">
@@ -336,7 +337,7 @@ const About: React.FC = () => {
                                 className="w-16 h-16 object-contain"
                               />
                             ) : (
-                              <div className="bg-gray-200 border-2 border-dashed rounded-lg w-16 h-16"></div>
+                              <div className="bg-card-secondary border-2 border-dashed border-color rounded-lg w-16 h-16"></div>
                             )}
                           </div>
                         </div>
@@ -354,11 +355,11 @@ const About: React.FC = () => {
       {education.length > 0 && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary-text">
               Education
             </h2>
-            <div className="w-24 h-1 bg-blue-500 dark:bg-blue-400 mx-auto mt-4 rounded"></div>
-            <p className="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <div className="w-24 h-1 bg-primary mx-auto mt-4 rounded"></div>
+            <p className="mt-4 text-xl text-secondary-text max-w-2xl mx-auto">
               My academic background and qualifications
             </p>
           </div>
@@ -367,15 +368,15 @@ const About: React.FC = () => {
             {education.map((edu) => (
               <div
                 key={edu.id}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:-translate-y-2"
+                className="bg-card rounded-xl shadow-lg overflow-hidden transition-transform hover:-translate-y-2"
               >
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
+                      <h3 className="text-xl font-bold text-primary-text mb-2">
                         {edu.degree}
                       </h3>
-                      <p className="text-blue-500 dark:text-blue-400">{edu.field_of_study}</p>
+                      <p className="text-primary">{edu.field_of_study}</p>
                     </div>
                     {edu.institution_logo_url ? (
                       <img
@@ -384,18 +385,18 @@ const About: React.FC = () => {
                         className="w-16 h-16 object-contain"
                       />
                     ) : (
-                      <div className="bg-gray-200 border-2 border-dashed rounded-lg w-16 h-16"></div>
+                      <div className="bg-card-secondary border-2 border-dashed border-color rounded-lg w-16 h-16"></div>
                     )}
                   </div>
-                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+                  <div className="flex items-center text-sm text-tertiary-text mb-4">
                     <i className="fa-solid fa-graduation-cap mr-2"></i>
                     <span>{edu.institution}</span>
                   </div>
-                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+                  <div className="flex items-center text-sm text-tertiary-text mb-4">
                     <i className="fa-solid fa-calendar-days mr-2"></i>
                     <span>{edu.duration}</span>
                   </div>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4 whitespace-pre-line">
+                  <p className="text-secondary-text mb-4 whitespace-pre-line">
                     {edu.description}
                   </p>
                   {edu.achievements && edu.achievements.length > 0 && (
@@ -403,7 +404,7 @@ const About: React.FC = () => {
                       {edu.achievements.map((ach, idx) => (
                         <span
                           key={idx}
-                          className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm rounded-full mr-2 mb-2 inline-block"
+                          className="px-3 py-1 bg-card-secondary text-tertiary-text text-sm rounded-full mr-2 mb-2 inline-block"
                         >
                           {ach}
                         </span>
@@ -419,35 +420,35 @@ const About: React.FC = () => {
 
       {/* Skills Section */}
       {skills.length > 0 && (
-        <div className="bg-gray-100 dark:bg-gray-800 py-16 tech-expertise-section">
+        <div className="bg-card-secondary py-16 tech-expertise-section">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 tech-container">
             <div className="text-center mb-16 tech-header">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white tech-title">
+              <h2 className="text-3xl md:text-4xl font-bold text-primary-text tech-title">
                 Technical Expertise
               </h2>
-              <div className="w-24 h-1 bg-blue-500 dark:bg-blue-400 mx-auto mt-4 rounded tech-divider"></div>
-              <p className="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto tech-description">
+              <div className="w-24 h-1 bg-primary mx-auto mt-4 rounded tech-divider"></div>
+              <p className="mt-4 text-xl text-secondary-text max-w-2xl mx-auto tech-description">
                 Technologies and skills I specialize in
               </p>
             </div>
 
             <div className="skills-container grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 tech-grid">
               {skills.map((skill) => {
-                const iconClass = defaultSkillIcons[skill.name] || skill.icon || 'fas fa-star text-gray-400';
+                const iconClass = defaultSkillIcons[skill.name] || skill.icon || 'fas fa-star text-tertiary-text';
                 return (
                   <div key={skill.id} className="flex flex-col items-center tech-item mb-4">
-                    <div className="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4 tech-icon">
+                    <div className="w-20 h-20 rounded-full bg-card-secondary flex items-center justify-center mb-4 tech-icon">
                       <i className={`${iconClass} text-4xl`}></i>
                     </div>
-                    <span className="skill-name font-medium text-gray-800 dark:text-gray-200 tech-label">
+                    <span className="skill-name font-medium text-primary-text tech-label">
                       {skill.name}
                     </span>
-                    <span className="skill-category text-sm text-gray-500 dark:text-gray-400">
+                    <span className="skill-category text-sm text-tertiary-text">
                       {skill.category}
                     </span>
-                    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-2">
+                    <div className="w-full bg-card-secondary rounded-full h-2.5 mt-2">
                       <div
-                        className="bg-blue-600 h-2.5 rounded-full"
+                        className="bg-primary h-2.5 rounded-full"
                         style={{ width: `${skill.proficiency}%` }}
                       ></div>
                     </div>
@@ -459,7 +460,7 @@ const About: React.FC = () => {
             <div className="text-center mt-12 tech-footer">
               <a
                 href="#skills"
-                className="inline-flex items-center text-blue-500 dark:text-blue-400 font-medium hover:underline tech-link"
+                className="inline-flex items-center text-primary font-medium hover:underline tech-link"
               >
                 View full skills list
                 <i className="fa-solid fa-arrow-right ml-2 tech-link-icon"></i>
@@ -470,24 +471,29 @@ const About: React.FC = () => {
       )}
 
       {/* Call to Action */}
-      <div className="bg-blue-500 dark:bg-blue-700 py-16">
+      <div className="bg-primary py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-white mb-6">
             Interested in working together?
           </h2>
-          <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-8">
+          <p className="text-xl text-white/80 max-w-2xl mx-auto mb-8">
             Whether you have a project in mind or just want to connect, I'd love to hear from you.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button
-              href="#contact"
-              className="inline-flex items-center justify-center px-8 py-3 bg-white text-blue-600 font-medium rounded-lg shadow-md hover:bg-gray-100 transition-colors"
+              variant='primary'
+              onClick={() => {navigate(`/contact`)}}
+              className="inline-flex items-center justify-center px-8 py-3 bg-indigo-700 font-medium rounded-lg shadow-md hover:bg-gray-100 transition-colors"
             >
               <i className="fa-solid fa-envelope mr-2"></i> Contact Me
             </Button>
             <Button
-              href="#projects"
-              className="inline-flex items-center justify-center px-8 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition-colors"
+              loading={isLoading}
+              variant="purple"
+              onClick={() => {
+                navigate(`/projects`);
+              }}
+              className="inline-flex items-center justify-center px-8 py-3 bg-indigo-700 text-white font-medium rounded-lg shadow-md hover:bg-indigo-800 transition-colors"
             >
               <i className="fa-solid fa-briefcase mr-2"></i> View Projects
             </Button>

@@ -30,18 +30,18 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
-      <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-8">Send a Message</h2>
+    <div className="bg-card rounded-2xl shadow-xl p-8">
+      <h2 className="text-3xl font-bold text-primary-text mb-8">Send a Message</h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Name */}
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label htmlFor="name" className="block text-sm font-medium text-secondary-text mb-2">
             Your Name
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <i className="fa-solid fa-user text-gray-400"></i>
+              <i className="fa-solid fa-user text-tertiary-text"></i>
             </div>
             <input
               type="text"
@@ -50,7 +50,7 @@ const ContactForm: React.FC = () => {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+              className="w-full pl-10 pr-4 py-3 border border-color rounded-lg focus:ring-2 focus:ring-primary focus:border-primary bg-card text-primary-text placeholder-tertiary-text"
               placeholder="John Doe"
             />
           </div>
@@ -58,12 +58,12 @@ const ContactForm: React.FC = () => {
 
         {/* Email */}
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label htmlFor="email" className="block text-sm font-medium text-secondary-text mb-2">
             Email Address
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <i className="fa-solid fa-envelope text-gray-400"></i>
+              <i className="fa-solid fa-envelope text-tertiary-text"></i>
             </div>
             <input
               type="email"
@@ -72,7 +72,7 @@ const ContactForm: React.FC = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+              className="w-full pl-10 pr-4 py-3 border border-color rounded-lg focus:ring-2 focus:ring-primary focus:border-primary bg-card text-primary-text placeholder-tertiary-text"
               placeholder="john@example.com"
             />
           </div>
@@ -80,12 +80,12 @@ const ContactForm: React.FC = () => {
 
         {/* Subject */}
         <div>
-          <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label htmlFor="subject" className="block text-sm font-medium text-secondary-text mb-2">
             Subject
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <i className="fa-solid fa-tag text-gray-400"></i>
+              <i className="fa-solid fa-tag text-tertiary-text"></i>
             </div>
             <input
               type="text"
@@ -94,7 +94,7 @@ const ContactForm: React.FC = () => {
               value={formData.subject}
               onChange={handleChange}
               required
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+              className="w-full pl-10 pr-4 py-3 border border-color rounded-lg focus:ring-2 focus:ring-primary focus:border-primary bg-card text-primary-text placeholder-tertiary-text"
               placeholder="Project Inquiry"
             />
           </div>
@@ -102,12 +102,12 @@ const ContactForm: React.FC = () => {
 
         {/* Message */}
         <div>
-          <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label htmlFor="message" className="block text-sm font-medium text-secondary-text mb-2">
             Your Message
           </label>
           <div className="relative">
             <div className="absolute top-3 left-3">
-              <i className="fa-solid fa-comment text-gray-400"></i>
+              <i className="fa-solid fa-comment text-tertiary-text"></i>
             </div>
             <textarea
               id="message"
@@ -116,7 +116,7 @@ const ContactForm: React.FC = () => {
               value={formData.message}
               onChange={handleChange}
               required
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+              className="w-full pl-10 pr-4 py-3 border border-color rounded-lg focus:ring-2 focus:ring-primary focus:border-primary bg-card text-primary-text placeholder-tertiary-text"
               placeholder="I'm interested in your services..."
             ></textarea>
           </div>
@@ -127,7 +127,7 @@ const ContactForm: React.FC = () => {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full px-6 py-4 bg-blue-500 hover:bg-blue-600 text-white text-lg font-medium rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-6 py-4 bg-primary hover:bg-primary-dark text-white text-lg font-medium rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {submitting ? (
               <i className="fa-solid fa-spinner animate-spin mr-2"></i>

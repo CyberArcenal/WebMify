@@ -8,7 +8,6 @@ interface FAQItem {
 }
 
 const faqItems: FAQItem[] = [
-
   {
     question: 'What types of projects do you take on?',
     answer: (
@@ -73,7 +72,7 @@ const faqItems: FAQItem[] = [
 ];
 
 const FAQ: React.FC = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggle = (index: number) => {
@@ -83,9 +82,9 @@ const FAQ: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="text-center mb-16">
-        <h2 className="text-3xl font-bold text-gray-800 dark:text-white">Frequently Asked Questions</h2>
-        <div className="w-24 h-1 bg-blue-500 dark:bg-blue-400 mx-auto mt-4 rounded"></div>
-        <p className="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <h2 className="text-3xl font-bold text-primary-text">Frequently Asked Questions</h2>
+        <div className="w-24 h-1 bg-primary mx-auto mt-4 rounded"></div>
+        <p className="mt-4 text-xl text-secondary-text max-w-2xl mx-auto">
           Common questions about working with me
         </p>
       </div>
@@ -94,17 +93,17 @@ const FAQ: React.FC = () => {
         {faqItems.map((item, index) => {
           const isOpen = openIndex === index;
           return (
-            <div key={index} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+            <div key={index} className="bg-card rounded-xl shadow-lg p-6">
               <button
                 onClick={() => toggle(index)}
                 className="w-full flex justify-between items-center text-left"
               >
-                <h3 className="text-xl font-bold text-gray-800 dark:text-white">{item.question}</h3>
+                <h3 className="text-xl font-bold text-primary-text">{item.question}</h3>
                 <i
-                  className={`fa-solid ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'} text-gray-500 dark:text-gray-400`}
+                  className={`fa-solid ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'} text-tertiary-text`}
                 ></i>
               </button>
-              <div className={`mt-4 text-gray-600 dark:text-gray-300 ${isOpen ? '' : 'hidden'}`}>
+              <div className={`mt-4 text-secondary-text ${isOpen ? '' : 'hidden'}`}>
                 {item.answer}
               </div>
             </div>
@@ -113,12 +112,12 @@ const FAQ: React.FC = () => {
       </div>
 
       <div className="text-center mt-16">
-        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
+        <p className="text-xl text-secondary-text max-w-2xl mx-auto mb-8">
           Have more questions? Don't hesitate to reach out!
         </p>
         <Button
-          onClick={() => navigate(`/contact`)}
-          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+          onClick={() => navigate('/contact')}
+          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark"
         >
           <i className="fa-solid fa-envelope mr-2"></i> Contact Me
         </Button>

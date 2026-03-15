@@ -11,11 +11,11 @@ const RelatedProjects: React.FC<Props> = ({ projects, onReadMore }) => {
   if (projects.length === 0) {
     return (
       <div className="text-center py-12">
-        <i className="fa-solid fa-folder-open text-gray-400 text-4xl mb-4"></i>
-        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
+        <i className="fa-solid fa-folder-open text-tertiary-text text-4xl mb-4"></i>
+        <h3 className="text-xl font-bold text-primary-text mb-2">
           No related projects
         </h3>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-secondary-text">
           Check back later for more projects.
         </p>
       </div>

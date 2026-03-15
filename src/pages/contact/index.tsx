@@ -14,10 +14,10 @@ const ContactPage: React.FC = () => {
   if (error || !location) {
     return (
       <div className="container mx-auto px-4 py-8 max-w-3xl">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-          <i className="fa-solid fa-triangle-exclamation text-red-500 text-3xl mb-4"></i>
-          <h3 className="text-xl font-bold text-red-800 mb-2">Failed to load contact information</h3>
-          <p className="text-red-600 mb-4">{error || 'Unable to load data'}</p>
+        <div className="bg-danger/10 border border-danger rounded-lg p-6 text-center">
+          <i className="fa-solid fa-triangle-exclamation text-danger text-3xl mb-4"></i>
+          <h3 className="text-xl font-bold text-danger mb-2">Failed to load contact information</h3>
+          <p className="text-danger mb-4">{error || 'Unable to load data'}</p>
         </div>
       </div>
     );
@@ -26,7 +26,7 @@ const ContactPage: React.FC = () => {
   return (
     <div className="contact-page min-h-screen">
       {/* Hero Section */}
-      <div className="relative py-24 bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-700 dark:to-indigo-800">
+      <div className="relative py-24 bg-gradient-to-r from-primary to-blue-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Get in Touch</h1>
@@ -55,10 +55,10 @@ const ContactPage: React.FC = () => {
 
       {/* Map Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+        <div className="bg-card rounded-2xl shadow-xl overflow-hidden">
           <div className="p-6">
-            <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">Find Me Here</h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
+            <h2 className="text-3xl font-bold text-primary-text mb-4">Find Me Here</h2>
+            <p className="text-secondary-text mb-6">
               Based in {location.address}, but available for remote work worldwide.
             </p>
           </div>

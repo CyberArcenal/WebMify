@@ -58,27 +58,27 @@ const CommentSection: React.FC<Props> = ({ comments, blogId, onPostComment, onPo
   };
 
   const renderComment = (comment: Comment, depth = 0) => {
-    const indent = depth * 32; // 32px indent per level
+    const indent = depth * 32;
 
     return (
       <div key={comment.id} className="mb-6" style={{ marginLeft: indent }}>
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+        <div className="bg-card rounded-xl shadow p-6">
           <div className="flex items-start mb-4">
             <div className="flex-shrink-0 mr-4">
-              <div className="bg-gray-200 border-2 border-dashed rounded-full w-12 h-12 bg-cover bg-center"
+              <div className="bg-card-secondary border-2 border-dashed rounded-full w-12 h-12 bg-cover bg-center"
                    style={comment.author?.avatar ? { backgroundImage: `url(${comment.author.avatar})` } : {}}></div>
             </div>
             <div>
-              <h4 className="font-bold text-gray-800 dark:text-white">{comment.author?.name || 'Anonymous'}</h4>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <h4 className="font-bold text-primary-text">{comment.author?.name || 'Anonymous'}</h4>
+              <p className="text-sm text-tertiary-text">
                 {formatDate(comment.created_at)}
               </p>
             </div>
           </div>
-          <p className="text-gray-600 dark:text-gray-300 mb-4">{comment.content}</p>
+          <p className="text-secondary-text mb-4">{comment.content}</p>
           <button
             onClick={() => setReplyFormVisible(replyFormVisible === comment.id ? null : comment.id)}
-            className="text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 text-sm font-medium"
+            className="text-primary hover:text-primary-dark text-sm font-medium"
           >
             <i className="fa-regular fa-comment-dots mr-1"></i> Reply
           </button>
@@ -88,34 +88,34 @@ const CommentSection: React.FC<Props> = ({ comments, blogId, onPostComment, onPo
             <div className="mt-4">
               <form onSubmit={(e) => handleReplySubmit(e, comment.id)}>
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                  <label className="block text-sm font-medium text-secondary-text mb-1">Name</label>
                   <input
                     type="text"
                     name="name"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-4 py-2 border border-color rounded-lg focus:ring-primary focus:border-primary bg-card text-primary-text"
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                  <label className="block text-sm font-medium text-secondary-text mb-1">Email</label>
                   <input
                     type="email"
                     name="email"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-4 py-2 border border-color rounded-lg focus:ring-primary focus:border-primary bg-card text-primary-text"
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Reply</label>
+                  <label className="block text-sm font-medium text-secondary-text mb-1">Reply</label>
                   <textarea
                     name="reply"
                     rows={3}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-4 py-2 border border-color rounded-lg focus:ring-primary focus:border-primary bg-card text-primary-text"
                     required
                   ></textarea>
                 </div>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium text-sm disabled:opacity-50"
+                  className="px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg font-medium text-sm disabled:opacity-50"
                 >
                   {submitting ? 'Posting...' : 'Post Reply'}
                 </button>
@@ -136,54 +136,54 @@ const CommentSection: React.FC<Props> = ({ comments, blogId, onPostComment, onPo
 
   return (
     <div className="mb-16">
-      <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+      <h3 className="text-2xl font-bold text-primary-text mb-6">
         Comments ({comments.length})
       </h3>
 
       {/* Comment form */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-8">
-        <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-4">Leave a Comment</h4>
+      <div className="bg-card rounded-xl shadow p-6 mb-8">
+        <h4 className="text-lg font-bold text-primary-text mb-4">Leave a Comment</h4>
         <form id="comment-form" onSubmit={handleCommentSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="name" className="block text-sm font-medium text-secondary-text mb-1">
                 Name
               </label>
               <input
                 type="text"
                 id="name"
                 name="name"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-2 border border-color rounded-lg focus:ring-primary focus:border-primary bg-card text-primary-text"
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-secondary-text mb-1">
                 Email
               </label>
               <input
                 type="email"
                 id="email"
                 name="email"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-2 border border-color rounded-lg focus:ring-primary focus:border-primary bg-card text-primary-text"
               />
             </div>
           </div>
           <div className="mb-6">
-            <label htmlFor="comment" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="comment" className="block text-sm font-medium text-secondary-text mb-1">
               Comment
             </label>
             <textarea
               id="comment"
               name="comment"
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+              className="w-full px-4 py-2 border border-color rounded-lg focus:ring-primary focus:border-primary bg-card text-primary-text"
               required
             ></textarea>
           </div>
           <button
             type="submit"
             disabled={submitting}
-            className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium shadow-md transition-colors disabled:opacity-50"
+            className="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg font-medium shadow-md transition-colors disabled:opacity-50"
           >
             {submitting ? 'Posting...' : 'Post Comment'}
           </button>
@@ -192,7 +192,7 @@ const CommentSection: React.FC<Props> = ({ comments, blogId, onPostComment, onPo
 
       {/* Comments list */}
       {comments.length === 0 ? (
-        <div className="text-center text-gray-500 dark:text-gray-400">
+        <div className="text-center text-tertiary-text">
           <i className="fa-regular fa-comment-dots mr-1"></i> No comments yet.
         </div>
       ) : (

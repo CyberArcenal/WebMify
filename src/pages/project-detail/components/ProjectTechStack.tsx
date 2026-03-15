@@ -5,11 +5,11 @@ interface Props {
   techStack: TechStackType[];
 }
 
-const categoryColors: Record<string, { bg: string; darkBg: string; text: string }> = {
-  frontend: { bg: 'bg-blue-100', darkBg: 'dark:bg-blue-900', text: 'text-blue-500' },
-  backend: { bg: 'bg-green-100', darkBg: 'dark:bg-green-900', text: 'text-green-500' },
-  database: { bg: 'bg-blue-100', darkBg: 'dark:bg-blue-900', text: 'text-blue-500' },
-  cloud: { bg: 'bg-yellow-100', darkBg: 'dark:bg-yellow-900', text: 'text-yellow-500' },
+const categoryColors: Record<string, { bg: string; text: string }> = {
+  frontend: { bg: 'bg-blue-100 dark:bg-blue-900', text: 'text-blue-600 dark:text-blue-300' },
+  backend: { bg: 'bg-green-100 dark:bg-green-900', text: 'text-green-600 dark:text-green-300' },
+  database: { bg: 'bg-purple-100 dark:bg-purple-900', text: 'text-purple-600 dark:text-purple-300' },
+  cloud: { bg: 'bg-yellow-100 dark:bg-yellow-900', text: 'text-yellow-600 dark:text-yellow-300' },
 };
 
 const getIconClass = (name: string, category: string): string => {
@@ -32,7 +32,7 @@ const getIconClass = (name: string, category: string): string => {
 const ProjectTechStack: React.FC<Props> = ({ techStack }) => {
   if (!techStack || techStack.length === 0) {
     return (
-      <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+      <div className="text-center py-12 text-secondary-text">
         No technology details available.
       </div>
     );
@@ -46,13 +46,13 @@ const ProjectTechStack: React.FC<Props> = ({ techStack }) => {
         return (
           <div
             key={index}
-            className="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow"
+            className="flex flex-col items-center p-4 bg-card rounded-lg shadow"
           >
-            <div className={`w-16 h-16 rounded-full ${colors.bg} ${colors.darkBg} flex items-center justify-center mb-3`}>
+            <div className={`w-16 h-16 rounded-full ${colors.bg} flex items-center justify-center mb-3`}>
               <i className={`${iconClass} text-3xl ${colors.text}`}></i>
             </div>
-            <span className="font-medium text-gray-800 dark:text-white">{tech.name}</span>
-            <span className="text-sm text-gray-500 dark:text-gray-400">{tech.category}</span>
+            <span className="font-medium text-primary-text">{tech.name}</span>
+            <span className="text-sm text-secondary-text">{tech.category}</span>
           </div>
         );
       })}
