@@ -92,21 +92,23 @@ export default class BlogDetailPage {
     }
 
     try {
-      const response = await apiClient.post("/api/subscribe/", { email });
+      const response = await apiClient.post("/api/v1/portfolio/subscribe/", {
+        email,
+      });
 
       if (response.data.status) {
         showSuccess(response.data.message);
         emailInput.value = "";
       } else {
         throw new Error(
-          response.data.errors?.email?.[0] || "Subscription failed"
+          response.data.errors?.email?.[0] || "Subscription failed",
         );
       }
     } catch (error) {
       console.error("Subscription error:", error);
       showError(
         error.response?.data?.message ||
-          "Subscription failed. Please try again later."
+          "Subscription failed. Please try again later.",
       );
     }
   }
@@ -119,7 +121,7 @@ export default class BlogDetailPage {
   // Add to BlogDetailPage class
   async fetchProfile() {
     try {
-      const response = await apiClient.get("/api/profile/");
+      const response = await apiClient.get("/api/v1/portfolio/profile/");
       this.profile = response.data;
       this.renderProfileInfo();
       this.renderAuthorBio(this.profile);
@@ -141,19 +143,22 @@ export default class BlogDetailPage {
         };
 
         try {
-          const response = await apiClient.post("/api/comments/", formData);
-     
+          const response = await apiClient.post(
+            "/api/v1/portfolio/comments/",
+            formData,
+          );
+
           this.comments = [response.data, ...this.comments];
           this.renderComments();
           form.reset();
           showSuccess(
-            "Comment submitted successfully! It will appear after approval."
+            "Comment submitted successfully! It will appear after approval.",
           );
         } catch (error) {
           console.error("Comment submission error:", error);
           showError(
             "Failed to submit comment: " +
-              (error.response?.data?.non_field_errors[0] || error.message)
+              (error.response?.data?.non_field_errors[0] || error.message),
           );
         }
       });
@@ -184,7 +189,7 @@ export default class BlogDetailPage {
     const container = document.getElementById("author-bio-container");
     if (!container) {
       console.error(
-        "No container element with ID 'author-bio-container' found."
+        "No container element with ID 'author-bio-container' found.",
       );
       return;
     }
@@ -209,10 +214,10 @@ export default class BlogDetailPage {
     try {
       const category = this.blogData.categories[0].slug;
       const response = await apiClient.get(
-        `/api/blog/?category=${category}&exclude=${this.blogData.id}`
+        `/api/v1/portfolio/blog/?category=${category}&exclude=${this.blogData.id}`,
       );
- 
-      this.relatedArticles = response.data.data;
+
+      this.relatedArticles = response.data.results;
       this.renderRelatedArticles();
     } catch (error) {
       console.error("Failed to load related articles", error);
@@ -223,7 +228,7 @@ export default class BlogDetailPage {
 
     // Twitter
     const twitterLink = document.querySelector(
-      ".author-bio-social-link-twitter"
+      ".author-bio-social-link-twitter",
     );
     if (twitterLink && this.profile.twitter_url) {
       twitterLink.href = this.profile.twitter_url;
@@ -233,7 +238,7 @@ export default class BlogDetailPage {
 
     // LinkedIn
     const linkedinLink = document.querySelector(
-      ".author-bio-social-link-linkedin"
+      ".author-bio-social-link-linkedin",
     );
     if (linkedinLink && this.profile.linkedin_url) {
       linkedinLink.href = this.profile.linkedin_url;
@@ -251,7 +256,7 @@ export default class BlogDetailPage {
 
     // YouTube (optional – hide if no URL is provided)
     const youtubeLink = document.querySelector(
-      ".author-bio-social-link-youtube"
+      ".author-bio-social-link-youtube",
     );
     if (youtubeLink) {
       if (this.profile.youtube_url) {
@@ -279,9 +284,9 @@ export default class BlogDetailPage {
               day: "numeric",
               year: "numeric",
             })} at ${new Date(comment.created_at).toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-    })}
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
           </p>
         </div>
       </div>
@@ -362,7 +367,7 @@ export default class BlogDetailPage {
       button.addEventListener("click", (e) => {
         const commentId = e.target.dataset.commentId;
         const formContainer = document.getElementById(
-          `reply-form-${commentId}`
+          `reply-form-${commentId}`,
         );
         formContainer.classList.toggle("hidden");
       });
@@ -384,7 +389,10 @@ export default class BlogDetailPage {
         };
 
         try {
-          const response = await apiClient.post("/api/comments/", formData);
+          const response = await apiClient.post(
+            "/api/v1/portfolio/comments/",
+            formData,
+          );
           this.comments = this.buildCommentTree([
             response.data,
             ...this.flatComments,
@@ -394,7 +402,8 @@ export default class BlogDetailPage {
           form.reset();
         } catch (error) {
           showError(
-            "Failed to submit reply: " + (error.response?.data || error.message)
+            "Failed to submit reply: " +
+              (error.response?.data || error.message),
           );
         }
       });
@@ -419,7 +428,7 @@ export default class BlogDetailPage {
         <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
           <span class="mr-4">${article.publishDate}</span>
           <span><i class="fa-regular fa-clock mr-1"></i> ${Math.ceil(
-            article.content.split(/\s+/).length / 200
+            article.content.split(/\s+/).length / 200,
           )} min read</span>
         </div>
         <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-3">
@@ -436,7 +445,7 @@ export default class BlogDetailPage {
         </a>
       </div>
     </div>
-  `
+  `,
       )
       .join("");
   }
@@ -444,13 +453,11 @@ export default class BlogDetailPage {
     const pageUrl = encodeURIComponent(window.location.href);
     const title = encodeURIComponent(this.blogData.title);
 
-    document.querySelector(
-      "[data-share-twitter]"
-    ).href = `https://twitter.com/share?url=${pageUrl}&text=${title}`;
+    document.querySelector("[data-share-twitter]").href =
+      `https://twitter.com/share?url=${pageUrl}&text=${title}`;
 
-    document.querySelector(
-      "[data-share-linkedin]"
-    ).href = `https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`;
+    document.querySelector("[data-share-linkedin]").href =
+      `https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`;
 
     // Add similar for other platforms
   }
@@ -462,12 +469,12 @@ export default class BlogDetailPage {
         const email = form.querySelector('input[type="email"]').value;
 
         try {
-          await apiClient.post("/api/subscribe/", { email });
+          await apiClient.post("/api/v1/portfolio/subscribe/", { email });
           alert("Subscription successful! Please check your email to confirm.");
         } catch (error) {
           showError(
             "Subscription failed: " +
-              (error.response?.data?.message || error.message)
+              (error.response?.data?.message || error.message),
           );
         }
       });
@@ -476,9 +483,9 @@ export default class BlogDetailPage {
   async fetchComments() {
     try {
       const response = await apiClient.get(
-        `/api/comments/?content_type=blog&object_id=${this.blogData.id}`
+        `/api/v1/portfolio/comments/?content_type=blog&object_id=${this.blogData.id}`,
       );
-      this.flatComments = response.data.data || [];
+      this.flatComments = response.data.results || [];
       this.comments = this.buildCommentTree(this.flatComments);
       this.renderComments();
     } catch (error) {
@@ -508,7 +515,7 @@ export default class BlogDetailPage {
   async fetchBlogData() {
     try {
       const response = await apiClient.get(
-        `/api/blog-detail/${this.blogSlug}/`
+        `/api/v1/portfolio/blog-detail/${this.blogSlug}/`,
       );
       if (response.data) {
         this.blogData = response.data;
@@ -562,7 +569,7 @@ export default class BlogDetailPage {
     const publishedDate = document.getElementById("blog-published-date");
     if (publishedDate) {
       publishedDate.textContent = this.formatDate(
-        this.blogData.published_date || this.blogData.created_at
+        this.blogData.published_date || this.blogData.created_at,
       );
     }
 
@@ -603,7 +610,7 @@ export default class BlogDetailPage {
     // Update tags (if implemented in backend)
     if (this.blogData.tags && this.blogData.tags.length > 0) {
       const tagsContainer = document.querySelector(
-        ".flex.flex-wrap.gap-3.mt-12.mb-8"
+        ".flex.flex-wrap.gap-3.mt-12.mb-8",
       );
       if (tagsContainer) {
         tagsContainer.innerHTML = "";
@@ -635,7 +642,7 @@ export default class BlogDetailPage {
 
     if (this.blogData.categories && this.blogData.categories.length > 0) {
       const tagsContainer = document.querySelector(
-        ".flex.flex-wrap.gap-3.mt-12.mb-8"
+        ".flex.flex-wrap.gap-3.mt-12.mb-8",
       );
       if (tagsContainer) {
         tagsContainer.innerHTML = "";
@@ -679,7 +686,7 @@ export default class BlogDetailPage {
       heroAuthorImg.classList.remove(
         "bg-gray-200",
         "border-2",
-        "border-dashed"
+        "border-dashed",
       );
     }
   }
@@ -721,7 +728,7 @@ export default class BlogDetailPage {
         "pl-4",
         "py-2",
         "my-4",
-        "text-gray-600"
+        "text-gray-600",
       );
     });
 
@@ -736,7 +743,7 @@ export default class BlogDetailPage {
         "p-4",
         "rounded",
         "overflow-x-auto",
-        "my-4"
+        "my-4",
       );
     });
 
@@ -747,7 +754,7 @@ export default class BlogDetailPage {
         "px-1",
         "py-0.5",
         "rounded",
-        "text-sm"
+        "text-sm",
       );
     });
 
@@ -773,7 +780,7 @@ export default class BlogDetailPage {
     if (ogTitle) ogTitle.content = this.blogData.title;
 
     const ogDescription = document.querySelector(
-      'meta[property="og:description"]'
+      'meta[property="og:description"]',
     );
     if (ogDescription)
       ogDescription.content =
@@ -796,10 +803,13 @@ export default class BlogDetailPage {
     elementsToAnimate.forEach((el, index) => {
       if (el) {
         el.classList.add("opacity-0", "translate-y-6");
-        setTimeout(() => {
-          el.classList.add("transition-all", "duration-500", "ease-out");
-          el.classList.remove("opacity-0", "translate-y-6");
-        }, 100 + index * 150);
+        setTimeout(
+          () => {
+            el.classList.add("transition-all", "duration-500", "ease-out");
+            el.classList.remove("opacity-0", "translate-y-6");
+          },
+          100 + index * 150,
+        );
       }
     });
   }

@@ -31,7 +31,7 @@ export default class BlogPage {
     this.prevButton = document.querySelector(".pagination-prev");
     this.nextButton = document.querySelector(".pagination-next");
     this.categoryButtonsContainer = document.querySelector(
-      ".category-button-container"
+      ".category-button-container",
     );
     this.searchInput = document.querySelector('input[type="text"]');
     this.subscribeForms = document.querySelectorAll(".subscribe-form");
@@ -39,10 +39,10 @@ export default class BlogPage {
     // Sidebar elements
     this.sidebar = document.querySelector(".w-full.lg\\:w-4\\/12");
     this.popularContainer = this.sidebar.querySelector(
-      ".popular-articles-container"
+      ".popular-articles-container",
     );
     this.categoriesContainer = this.sidebar.querySelector(
-      ".category-sidebar-container"
+      ".category-sidebar-container",
     );
 
     // Create blog detail container
@@ -54,21 +54,16 @@ export default class BlogPage {
   }
 
   async init() {
-  
     try {
       this.showLoadingState();
       this.initEventListeners();
       // await new Promise((resolve) => setTimeout(resolve, 7000));
-
-
 
       await Promise.all([
         this.fetchBlogs(),
         this.fetchPopularArticles(),
         this.fetchCategories(),
       ]);
-
-
     } catch (error) {
       console.error("Initialization error:", error);
       this.handleError(error);
@@ -94,11 +89,10 @@ export default class BlogPage {
           ?.slug || "";
 
       const response = await apiClient.get(
-        `/api/blog/?page=${this.pagination.current_page}&category=${categorySlug}&search=${this.searchTerm}`
+        `/api/v1/portfolio/blog/?page=${this.pagination.current_page}&category=${categorySlug}&search=${this.searchTerm}`,
       );
 
       // Debugging: Log the response structure
- 
 
       // Check for successful response
       if (response.status !== 200 || !response.data?.status) {
@@ -106,7 +100,7 @@ export default class BlogPage {
       }
 
       // Properly extract data from the response
-      this.blogData = response.data.data || [];
+      this.blogData = response.data.results || [];
       this.pagination = response.data.pagination || {
         count: 0,
         current_page: 1,
@@ -123,7 +117,7 @@ export default class BlogPage {
 
   async fetchPopularArticles() {
     try {
-      const response = await apiClient.get("/api/blog/popular/");
+      const response = await apiClient.get("/api/v1/portfolio/blog/popular/");
       if (response.data?.status) {
         this.popularArticles = response.data.data;
         this.renderPopularArticles();
@@ -138,7 +132,7 @@ export default class BlogPage {
 
   async fetchCategories() {
     try {
-      const response = await apiClient.get("/api/categories/");
+      const response = await apiClient.get("/api/v1/portfolio/categories/");
       if (response.data?.status) {
         this.categories = response.data.data;
 
@@ -169,7 +163,7 @@ export default class BlogPage {
       filteredData = filteredData.filter(
         (blog) =>
           (blog.title && blog.title.toLowerCase().includes(term)) ||
-          (blog.summary && blog.summary.toLowerCase().includes(term))
+          (blog.summary && blog.summary.toLowerCase().includes(term)),
       );
     }
 
@@ -237,7 +231,7 @@ export default class BlogPage {
               </div>
             </div>
           </a>
-        `
+        `,
           )
           .join("")}
       </div>
@@ -262,7 +256,7 @@ export default class BlogPage {
     // Clear existing buttons except the first one (All Posts)
     while (this.categoryButtonsContainer.children.length > 1) {
       this.categoryButtonsContainer.removeChild(
-        this.categoryButtonsContainer.lastChild
+        this.categoryButtonsContainer.lastChild,
       );
     }
 
@@ -312,7 +306,7 @@ export default class BlogPage {
           category.count
         }</span>
       </a>
-    `
+    `,
       )
       .join("")}
   </div>
@@ -392,7 +386,7 @@ export default class BlogPage {
       (this.pagination.current_page - 1) * this.pagination.page_size + 1;
     const endIndex = Math.min(
       this.pagination.current_page * this.pagination.page_size,
-      this.blogData.length
+      this.blogData.length,
     );
 
     this.paginationInfo.innerHTML = `
@@ -442,16 +436,16 @@ export default class BlogPage {
     this.showLoadingState();
 
     try {
-      const response = await apiClient.get(`/api/blog-detail/${blogSlug}`);
+      const response = await apiClient.get(`/api/v1/portfolio/blog-detail/${blogSlug}`);
 
       if (!response.data.status) {
         throw new Error(
-          response.data.message || "Failed to fetch blog details"
+          response.data.message || "Failed to fetch blog details",
         );
       }
 
-      const blog = response.data.data;
-    
+      const blog = response.data.result;
+
       if (blog) {
         this.renderBlogDetail(blog);
         this.showBlogDetail();
@@ -459,7 +453,7 @@ export default class BlogPage {
     } catch (error) {
       console.error("Blog detail error:", error);
       showError(
-        error.message || "Failed to load blog post. Please try again later."
+        error.message || "Failed to load blog post. Please try again later.",
       );
       // Return to blog list view on error
       this.showBlogList();
@@ -563,21 +557,23 @@ export default class BlogPage {
     }
 
     try {
-      const response = await apiClient.post("/api/subscribe/", { email });
+      const response = await apiClient.post("/api/v1/portfolio/subscribe/", {
+        email,
+      });
 
       if (response.data.status) {
         showSuccess(response.data.message);
         emailInput.value = "";
       } else {
         throw new Error(
-          response.data.errors?.email?.[0] || "Subscription failed"
+          response.data.errors?.email?.[0] || "Subscription failed",
         );
       }
     } catch (error) {
       console.error("Subscription error:", error);
       showError(
         error.response?.data?.message ||
-          "Subscription failed. Please try again later."
+          "Subscription failed. Please try again later.",
       );
     }
   }
@@ -597,10 +593,10 @@ export default class BlogPage {
     });
 
     this.prevButton.addEventListener("click", () =>
-      this.handlePagination("prev")
+      this.handlePagination("prev"),
     );
     this.nextButton.addEventListener("click", () =>
-      this.handlePagination("next")
+      this.handlePagination("next"),
     );
 
     this.subscribeForms.forEach((form) => {

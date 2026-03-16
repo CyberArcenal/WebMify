@@ -9,7 +9,7 @@ export default class AboutPage {
     this.workExperience = [];
     this.educationData = [];
     this.isLoading = true;
-    this.globalLoader = document.getElementById('global-loader');
+    this.globalLoader = document.getElementById("global-loader");
     this.blogLoader = document.getElementById("blog-loader");
     this.blogError = document.getElementById("blog-error");
     this.init();
@@ -47,7 +47,7 @@ export default class AboutPage {
 
   async fetchProfileData() {
     try {
-      const response = await apiClient.get("/api/profile/");
+      const response = await apiClient.get("/api/v1/portfolio/profile/");
       if (response.data) {
         this.profileData = response.data;
       } else {
@@ -56,16 +56,16 @@ export default class AboutPage {
     } catch (error) {
       console.error("Profile fetch error:", error);
 
-      showError(error)
+      showError(error);
     }
   }
 
   async fetchWorkExperience() {
     try {
-      const response = await apiClient.get("/api/experience/");
-
-      if (response.data?.data) {
-        this.workExperience = response.data.data;
+      const response = await apiClient.get("/api/v1/portfolio/experience/");
+      console.log(response)
+      if (response.data?.results) {
+        this.workExperience = response.data.results;
       }
     } catch (error) {
       console.error("Experience fetch error:", error);
@@ -75,9 +75,9 @@ export default class AboutPage {
 
   async fetchEducationData() {
     try {
-      const response = await apiClient.get("/api/education/");
+      const response = await apiClient.get("/api/v1/portfolio/education/");
       if (response.data) {
-        this.educationData = response.data.data;
+        this.educationData = response.data.results;
       } else {
         showError("Invalid education data");
       }
@@ -87,11 +87,11 @@ export default class AboutPage {
     }
   }
 
-  async fetchSkillsData(){
+  async fetchSkillsData() {
     try {
-      const response = await apiClient.get("/api/skills/");
+      const response = await apiClient.get("/api/v1/portfolio/skills/");
       if (response.data) {
-        this.skillsData = response.data.data;
+        this.skillsData = response.data.results;
       } else {
         showError("Invalid skills data");
       }
@@ -101,64 +101,65 @@ export default class AboutPage {
     }
   }
 
-populateSkills() {
-  // Define a mapping for default icons based on the skill name.
-  const defaultSkillIcons = {
-  "AWS": "fab fa-aws text-orange-500",
-  "Android Studio": "fab fa-android text-green-600",
-  "CSS": "fab fa-css3-alt text-blue-600",
-  "Django": "fas fa-code text-green-700",
-  "HTML5": "fab fa-html5 text-red-500",
-  "Java": "fab fa-java text-red-600",
-  "JavaScript": "fab fa-js text-yellow-500",
-  "Kotlin": "fas fa-code text-purple-600",
-  "Python": "fab fa-python text-blue-400",
-  "VSCode": "fab fa-vscode text-blue-400",
-  "tailwind": "fab fa-css3-alt text-teal-500",
-  "React": "fab fa-react text-blue-500",
-  "Node.js": "fab fa-node-js text-green-500",
-  "Vue.js": "fab fa-vuejs text-green-500",
-  "Express": "fas fa-server text-gray-500",
-  "MongoDB": "fas fa-database text-green-700",
-  "Bootstrap": "fab fa-bootstrap text-purple-600",
-  "Sass": "fab fa-sass text-pink-500",
-  "Git": "fab fa-git-alt text-orange-600",
-  "PHP": "fab fa-php text-indigo-600",
-  "Laravel": "fab fa-laravel text-red-500",
-  "C++": "fas fa-code text-blue-600"
-};
+  populateSkills() {
+    // Define a mapping for default icons based on the skill name.
+    const defaultSkillIcons = {
+      AWS: "fab fa-aws text-orange-500",
+      "Android Studio": "fab fa-android text-green-600",
+      CSS: "fab fa-css3-alt text-blue-600",
+      Django: "fas fa-code text-green-700",
+      HTML5: "fab fa-html5 text-red-500",
+      Java: "fab fa-java text-red-600",
+      JavaScript: "fab fa-js text-yellow-500",
+      Kotlin: "fas fa-code text-purple-600",
+      Python: "fab fa-python text-blue-400",
+      VSCode: "fab fa-vscode text-blue-400",
+      tailwind: "fab fa-css3-alt text-teal-500",
+      React: "fab fa-react text-blue-500",
+      "Node.js": "fab fa-node-js text-green-500",
+      "Vue.js": "fab fa-vuejs text-green-500",
+      Express: "fas fa-server text-gray-500",
+      MongoDB: "fas fa-database text-green-700",
+      Bootstrap: "fab fa-bootstrap text-purple-600",
+      Sass: "fab fa-sass text-pink-500",
+      Git: "fab fa-git-alt text-orange-600",
+      PHP: "fab fa-php text-indigo-600",
+      Laravel: "fab fa-laravel text-red-500",
+      "C++": "fas fa-code text-blue-600",
+    };
 
+    // Select the container where all skill items will be appended.
+    const skillsContainer = document.querySelector(".skills-container");
+    if (!skillsContainer) return;
+    skillsContainer.innerHTML = "";
 
-  // Select the container where all skill items will be appended.
-  const skillsContainer = document.querySelector('.skills-container');
-  if (!skillsContainer) return;  
-  skillsContainer.innerHTML = '';
-
-  // Check if skills data is available.
-  if (!this.skillsData || !this.skillsData.length) {
-    skillsContainer.innerHTML = '<p>No skills to display.</p>';
-    return;
-  }
-  
-  // Loop through each skill record and create a skill card.
-  this.skillsData.forEach(skill => {
-    // Decide the icon class:
-    // If the skill name exists in defaultSkillIcons, use that.
-    // Otherwise, use the API's icon, and if that is missing, fall back to a generic icon.
-    const iconClass = defaultSkillIcons[skill.name] || (skill.icon ? skill.icon : "fas fa-star text-gray-400");
-    
-    // Create a container for the individual skill.
-    const skillCard = document.createElement('div');
-    skillCard.className = 'flex flex-col items-center skill-card mb-4';
-    
-    // Optionally add a featured class if the skill is marked as featured.
-    if (skill.featured) {
-      skillCard.classList.add('skill-featured');
+    // Check if skills data is available.
+    if (!this.skillsData || !this.skillsData.length) {
+      skillsContainer.innerHTML = "<p>No skills to display.</p>";
+      return;
     }
-    
-    // Build the inner HTML for the skill card.
-    // It includes a circular icon, the skill name, category, and a progress bar for proficiency.
-    skillCard.innerHTML = `
+
+    // Loop through each skill record and create a skill card.
+    this.skillsData.forEach((skill) => {
+      // Decide the icon class:
+      // If the skill name exists in defaultSkillIcons, use that.
+      // Otherwise, use the API's icon, and if that is missing, fall back to a generic icon.
+      const iconClass =
+        defaultSkillIcons[skill.name] ||
+        (skill.icon ? skill.icon : "fas fa-star text-gray-400");
+
+      // Create a container for the individual skill.
+      const skillCard = document.createElement("div");
+      skillCard.className = "flex flex-col items-center skill-card mb-4";
+
+      // Optionally add a featured class if the skill is marked as featured.
+      if (skill.featured) {
+        skillCard.classList.add("skill-featured");
+      }
+
+      // Build the inner HTML for the skill card.
+      // It includes a circular icon, the skill name, category, and a progress bar for proficiency.
+      skillCard.innerHTML = `
       <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4 skill-icon">
         <i class="${iconClass} text-4xl"></i>
       </div>
@@ -168,14 +169,11 @@ populateSkills() {
         <div class="bg-blue-600 h-2.5 rounded-full" style="width: ${skill.proficiency}%;"></div>
       </div>
     `;
-    
-    // Append the constructed skill card to the container.
-    skillsContainer.appendChild(skillCard);
-  });
-}
 
-
-
+      // Append the constructed skill card to the container.
+      skillsContainer.appendChild(skillCard);
+    });
+  }
 
   populateProfile() {
     if (!this.profileData) return;
@@ -214,8 +212,7 @@ populateSkills() {
         .querySelector(".about-page .contact-item .fa-location-dot")
         .closest(".contact-item")
         .querySelector(".contact-details"),
-      status: document
-        .querySelector(".my-status"),
+      status: document.querySelector(".my-status"),
     };
 
     if (contactElements.email)
@@ -224,7 +221,7 @@ populateSkills() {
       contactElements.phone.textContent = this.profileData.phone;
     if (contactElements.address)
       contactElements.address.textContent = this.profileData.address;
-    if(contactElements.status){
+    if (contactElements.status) {
       contactElements.status.textContent = this.profileData.status;
     }
 
@@ -261,7 +258,7 @@ populateSkills() {
 
     // Alisin muna ang anumang existing na static timeline items
     const staticItems = timelineContainer.querySelectorAll(
-      ".time-line-prototype"
+      ".time-line-prototype",
     );
     staticItems.forEach((item) => item.remove());
 
@@ -385,14 +382,14 @@ populateSkills() {
             <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm rounded-full mr-2">
               ${ach}
             </span>
-          `
+          `,
               )
               .join("") || ""
           }
         </div>
       </div>
     </div>
-  `
+  `,
       )
       .join("");
 
@@ -402,10 +399,13 @@ populateSkills() {
   addAnimations() {
     document.querySelectorAll(".about-page > div").forEach((section, index) => {
       section.classList.add("opacity-0", "translate-y-6");
-      setTimeout(() => {
-        section.classList.add("transition-all", "duration-500", "ease-out");
-        section.classList.remove("opacity-0", "translate-y-6");
-      }, 100 + index * 150);
+      setTimeout(
+        () => {
+          section.classList.add("transition-all", "duration-500", "ease-out");
+          section.classList.remove("opacity-0", "translate-y-6");
+        },
+        100 + index * 150,
+      );
     });
   }
 

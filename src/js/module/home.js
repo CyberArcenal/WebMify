@@ -120,7 +120,7 @@ export default class HomePage {
   }
   async fetchProfileData() {
     try {
-      const response = await apiClient.get("/api/profile/");
+      const response = await apiClient.get("/api/v1/portfolio/profile/");
       if (response.data) {
         this.profileData = response.data;
       } else {
@@ -134,9 +134,11 @@ export default class HomePage {
 
   async fetchFeaturedProjects() {
     try {
-      const response = await apiClient.get("/api/projects/?featured=true");
-      if (response.data?.status && Array.isArray(response.data.data)) {
-        this.featuredProjects = response.data.data;
+      const response = await apiClient.get(
+        "/api/v1/portfolio/projects/?featured=true",
+      );
+      if (response.data?.status && Array.isArray(response.data.results)) {
+        this.featuredProjects = response.data.results;
       } else {
         throw new Error("Invalid projects data");
       }
@@ -178,7 +180,7 @@ export default class HomePage {
         "w-full",
         "w-40",
         "w-32",
-        "inline-block"
+        "inline-block",
       );
       element.style.height = "";
       element.style.width = "";
@@ -259,22 +261,25 @@ export default class HomePage {
   addAnimations() {
     document
       .querySelectorAll(
-        ".hero > div > div, .featured-projects, .skills-preview"
+        ".hero > div > div, .featured-projects, .skills-preview",
       )
       .forEach((section, index) => {
         section.classList.add("opacity-0", "translate-y-6");
-        setTimeout(() => {
-          section.classList.add("transition-all", "duration-500", "ease-out");
-          section.classList.remove("opacity-0", "translate-y-6");
-        }, 100 + index * 150);
+        setTimeout(
+          () => {
+            section.classList.add("transition-all", "duration-500", "ease-out");
+            section.classList.remove("opacity-0", "translate-y-6");
+          },
+          100 + index * 150,
+        );
       });
   }
 
   async fetchSkillsData() {
     try {
-      const response = await apiClient.get("/api/skills/");
+      const response = await apiClient.get("/api/v1/portfolio/skills/");
       if (response.data) {
-        this.skillsData = response.data.data;
+        this.skillsData = response.data.results;
       } else {
         showError("Invalid skills data");
       }

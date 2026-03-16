@@ -5,8 +5,8 @@ import {
   showProjectModal,
   hideProjectModal,
 } from "../utils/projectCard";
-import { marked } from 'marked';
-import DOMPurify from 'dompurify';
+import { marked } from "marked";
+import DOMPurify from "dompurify";
 export default class ProjectDetailPage {
   constructor() {
     this.projectData = null;
@@ -91,7 +91,7 @@ export default class ProjectDetailPage {
         const readMore = e.target.closest(".read-more");
         const projectId = readMore.dataset.id;
         const project = this.relatedProjects.find((p) => p.id == projectId);
-   
+
         if (project) {
           showProjectModal(project);
         }
@@ -122,7 +122,9 @@ export default class ProjectDetailPage {
 
   async fetchProjectData() {
     try {
-      const response = await apiClient.get(`/api/projects/${this.projectId}/`);
+      const response = await apiClient.get(
+        `/api/v1/portfolio/projects/${this.projectId}/`,
+      );
       if (response.data) {
         this.projectData = response.data;
 
@@ -154,10 +156,10 @@ export default class ProjectDetailPage {
     try {
       // This should come from your backend API
       const response = await apiClient.get(
-        `/api/projects/?exclude=${this.projectId}&limit=3`
+        `/api/v1/portfolio/projects/?exclude=${this.projectId}&limit=3`,
       );
-      if (response.data?.data) {
-        this.relatedProjects = response.data.data;
+      if (response.data?.results) {
+        this.relatedProjects = response.data.results;
       }
     } catch (error) {
       console.error("Failed to fetch related projects:", error);
@@ -174,7 +176,7 @@ export default class ProjectDetailPage {
 
     // Client and development time
     const detailsContainer = document.querySelector(
-      "#project-details-sidebar .space-y-4"
+      "#project-details-sidebar .space-y-4",
     );
     if (detailsContainer) {
       const clientEl =
@@ -199,7 +201,7 @@ export default class ProjectDetailPage {
     const typeBadge = document.getElementById("project-type-badge");
     if (typeBadge) {
       typeBadge.textContent = this.formatProjectType(
-        this.projectData.project_type
+        this.projectData.project_type,
       );
     }
 
@@ -234,7 +236,7 @@ export default class ProjectDetailPage {
     const sidebarType = document.getElementById("sidebar-project-type");
     if (sidebarType)
       sidebarType.textContent = this.formatProjectType(
-        this.projectData.project_type
+        this.projectData.project_type,
       );
 
     // Update technologies
@@ -286,7 +288,7 @@ export default class ProjectDetailPage {
 
   renderProjectOverviewOld() {
     const overviewContainer = document.querySelector(
-      "#project-overview .prose"
+      "#project-overview .prose",
     );
     if (!overviewContainer || !this.projectData) return;
 
@@ -333,7 +335,7 @@ export default class ProjectDetailPage {
       ${challengesHTML}
     `;
   }
-  
+
   getIconClass(name, category) {
     const iconMap = {
       Django: "fa-brands fa-python",
@@ -356,13 +358,13 @@ export default class ProjectDetailPage {
   }
   renderProjectGallery() {
     const container = document.querySelector(
-      ".grid.grid-cols-1.sm\\:grid-cols-2.gap-6"
+      ".grid.grid-cols-1.sm\\:grid-cols-2.gap-6",
     );
-    if (!container) {  
+    if (!container) {
       return;
-    };
+    }
 
-    if(this.projectData.gallery_images.length === 0) {
+    if (this.projectData.gallery_images.length === 0) {
       container.innerHTML = `<div class='col-span-full text-center py-12'>No gallery images available</div>`;
       return;
     }
@@ -382,15 +384,15 @@ export default class ProjectDetailPage {
   }
   renderTechStack() {
     const container = document.querySelector(
-      ".grid.grid-cols-2.sm\\:grid-cols-3.md\\:grid-cols-4.gap-6"
+      ".grid.grid-cols-2.sm\\:grid-cols-3.md\\:grid-cols-4.gap-6",
     );
-    if (!container) {  
+    if (!container) {
       return;
-    };
-    if (this.projectData.tech_stack_details.length===0){
+    }
+    if (this.projectData.tech_stack_details.length === 0) {
       container.innerHTML = `<div class='col-span-full text-center py-12'>No technologies available</div>`;
       return;
-    };
+    }
 
     container.innerHTML = "";
 
@@ -498,7 +500,7 @@ export default class ProjectDetailPage {
     if (!this.projectData.testimonial) {
       // Hide testimonial section if none exists
       const testimonialSection = document.querySelector(
-        ".bg-gray-100.dark\\:bg-gray-800"
+        ".bg-gray-100.dark\\:bg-gray-800",
       );
       if (testimonialSection) testimonialSection.style.display = "none";
       return;
@@ -506,7 +508,7 @@ export default class ProjectDetailPage {
     if (!this.projectData.testimonial) return;
 
     const testimonialContainer = document.querySelector(
-      ".bg-gray-100.dark\\:bg-gray-800"
+      ".bg-gray-100.dark\\:bg-gray-800",
     );
     if (!testimonialContainer) return;
 
@@ -535,7 +537,7 @@ export default class ProjectDetailPage {
 
   renderRelatedProjects() {
     const container = document.querySelector(
-      ".grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3.gap-8"
+      ".grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3.gap-8",
     );
     if (!container) return;
 
@@ -595,7 +597,7 @@ export default class ProjectDetailPage {
     if (ogTitle) ogTitle.content = this.projectData.title;
 
     const ogDescription = document.querySelector(
-      'meta[property="og:description"]'
+      'meta[property="og:description"]',
     );
     if (ogDescription)
       ogDescription.content = this.projectData.description.substring(0, 150);
@@ -614,17 +616,20 @@ export default class ProjectDetailPage {
       document.getElementById("project-details-sidebar"),
       document.querySelector(".bg-gray-100.dark\\:bg-gray-800"),
       document.querySelector(
-        ".max-w-7xl.mx-auto.px-4.sm\\:px-6.lg\\:px-8.py-16"
+        ".max-w-7xl.mx-auto.px-4.sm\\:px-6.lg\\:px-8.py-16",
       ),
     ];
 
     elementsToAnimate.forEach((el, index) => {
       if (el) {
         el.classList.add("opacity-0", "translate-y-6");
-        setTimeout(() => {
-          el.classList.add("transition-all", "duration-500", "ease-out");
-          el.classList.remove("opacity-0", "translate-y-6");
-        }, 100 + index * 150);
+        setTimeout(
+          () => {
+            el.classList.add("transition-all", "duration-500", "ease-out");
+            el.classList.remove("opacity-0", "translate-y-6");
+          },
+          100 + index * 150,
+        );
       }
     });
   }
@@ -634,7 +639,7 @@ export default class ProjectDetailPage {
 
     const errorContainer = document.getElementById("project-error");
     const contentContainer = document.getElementById(
-      "project-content-container"
+      "project-content-container",
     );
 
     if (errorContainer) {
@@ -658,22 +663,10 @@ export default class ProjectDetailPage {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-renderProjectOverview() {
-    const overviewContainer = document.querySelector("#project-overview .prose");
+  renderProjectOverview() {
+    const overviewContainer = document.querySelector(
+      "#project-overview .prose",
+    );
     if (!overviewContainer || !this.projectData) return;
 
     // Convert description to HTML
@@ -688,7 +681,10 @@ renderProjectOverview() {
         </h3>
         <ul class="text-gray-600 dark:text-gray-300 mb-6 pl-5 list-disc space-y-2">
           ${this.projectData.features
-            .map((feat) => `<li>${this.markdownToHtml(feat.description || feat)}</li>`)
+            .map(
+              (feat) =>
+                `<li>${this.markdownToHtml(feat.description || feat)}</li>`,
+            )
             .join("")}
         </ul>
       `;
@@ -698,7 +694,7 @@ renderProjectOverview() {
     let challengesHTML = "";
     const challengesHtml = this.markdownToHtml(this.projectData.challenges);
     const solutionsHtml = this.markdownToHtml(this.projectData.solutions);
-    
+
     if (challengesHtml || solutionsHtml) {
       challengesHTML = `
         <h3 class="text-xl font-semibold text-gray-800 dark:text-white mt-8 mb-4">
@@ -716,61 +712,82 @@ renderProjectOverview() {
         ${challengesHTML}
       </div>
     `;
-    
+
     // Apply styling to markdown elements
     this.styleMarkdownElements(overviewContainer);
   }
 
-markdownToHtml(markdown) {
-    if (!markdown) return '';
+  markdownToHtml(markdown) {
+    if (!markdown) return "";
     const rawHtml = marked.parse(markdown);
     return DOMPurify.sanitize(rawHtml);
   }
 
   styleMarkdownElements(container) {
     // Add Tailwind classes to Markdown elements
-    container.querySelectorAll('h1').forEach(el => {
-      el.classList.add('text-3xl', 'font-bold', 'mb-4', 'mt-8');
+    container.querySelectorAll("h1").forEach((el) => {
+      el.classList.add("text-3xl", "font-bold", "mb-4", "mt-8");
     });
-    
-    container.querySelectorAll('h2').forEach(el => {
-      el.classList.add('text-2xl', 'font-bold', 'mb-3', 'mt-6');
+
+    container.querySelectorAll("h2").forEach((el) => {
+      el.classList.add("text-2xl", "font-bold", "mb-3", "mt-6");
     });
-    
-    container.querySelectorAll('h3').forEach(el => {
-      el.classList.add('text-xl', 'font-bold', 'mb-2', 'mt-5');
+
+    container.querySelectorAll("h3").forEach((el) => {
+      el.classList.add("text-xl", "font-bold", "mb-2", "mt-5");
     });
-    
-    container.querySelectorAll('p').forEach(el => {
-      el.classList.add('mb-4', 'leading-relaxed');
+
+    container.querySelectorAll("p").forEach((el) => {
+      el.classList.add("mb-4", "leading-relaxed");
     });
-    
-    container.querySelectorAll('ul, ol').forEach(el => {
-      el.classList.add('list-disc', 'pl-8', 'mb-4');
+
+    container.querySelectorAll("ul, ol").forEach((el) => {
+      el.classList.add("list-disc", "pl-8", "mb-4");
     });
-    
-    container.querySelectorAll('li').forEach(el => {
-      el.classList.add('mb-2');
+
+    container.querySelectorAll("li").forEach((el) => {
+      el.classList.add("mb-2");
     });
-    
-    container.querySelectorAll('blockquote').forEach(el => {
-      el.classList.add('border-l-4', 'border-blue-500', 'pl-4', 'py-2', 'my-4', 'text-gray-600');
+
+    container.querySelectorAll("blockquote").forEach((el) => {
+      el.classList.add(
+        "border-l-4",
+        "border-blue-500",
+        "pl-4",
+        "py-2",
+        "my-4",
+        "text-gray-600",
+      );
     });
-    
-    container.querySelectorAll('a').forEach(el => {
-      el.classList.add('text-blue-600', 'hover:underline');
+
+    container.querySelectorAll("a").forEach((el) => {
+      el.classList.add("text-blue-600", "hover:underline");
     });
-    
-    container.querySelectorAll('pre').forEach(el => {
-      el.classList.add('bg-gray-800', 'text-gray-100', 'p-4', 'rounded', 'overflow-x-auto', 'my-4');
+
+    container.querySelectorAll("pre").forEach((el) => {
+      el.classList.add(
+        "bg-gray-800",
+        "text-gray-100",
+        "p-4",
+        "rounded",
+        "overflow-x-auto",
+        "my-4",
+      );
     });
-    
-    container.querySelectorAll('code:not(pre code)').forEach(el => {
-      el.classList.add('bg-gray-100', 'text-red-500', 'px-1', 'py-0.5', 'rounded', 'text-sm');
+
+    container.querySelectorAll("code:not(pre code)").forEach((el) => {
+      el.classList.add(
+        "bg-gray-100",
+        "text-red-500",
+        "px-1",
+        "py-0.5",
+        "rounded",
+        "text-sm",
+      );
     });
-    
-    container.querySelectorAll('img').forEach(el => {
-      el.classList.add('my-4', 'rounded-lg', 'shadow-md', 'mx-auto');
+
+    container.querySelectorAll("img").forEach((el) => {
+      el.classList.add("my-4", "rounded-lg", "shadow-md", "mx-auto");
     });
   }
 }

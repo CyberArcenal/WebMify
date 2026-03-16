@@ -69,7 +69,7 @@ class AuthStore {
       if (!refreshToken) throw new Error("No refresh token available");
 
       // Replace with actual API call
-      const response = await fetch("/api/auth/refresh", {
+      const response = await fetch("/api/refresh/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

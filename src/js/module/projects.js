@@ -59,11 +59,11 @@ export default class ProjectsPage {
   async fetchProjects() {
     try {
       const response = await apiClient.get(
-        `/api/projects/?page=${this.currentPage}&page_size=${this.pageSize}&filter=${this.filter}`
+        `/api/v1/portfolio/projects/?page=${this.currentPage}&page_size=${this.pageSize}&filter=${this.filter}`
       );
 
       if (response.data?.status) {
-        this.projects = response.data.data;
+        this.projects = response.data.results;
         this.pagination = response.data.pagination;
       } else {
         throw new Error("Failed to load projects: Invalid API response");

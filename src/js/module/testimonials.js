@@ -26,7 +26,7 @@ export default class TestimonialsPage {
   locateGridContainer() {
     // Hanapin ang testimonials grid container gamit ang class structure
     const gridContainers = document.querySelectorAll(
-      ".testimonials-page .grid"
+      ".testimonials-page .grid",
     );
     this.gridContainer = gridContainers[0];
 
@@ -45,17 +45,17 @@ export default class TestimonialsPage {
     `;
   }
   async fetchAndRenderStats() {
-    const response = await apiClient.get("/api/stats/");
-    if (response.data && response.data.data) {
-      const stats = response.data.data;
+    const response = await apiClient.get("/api/v1/portfolio/stats/");
+    if (response.data && response.data.results) {
+      const stats = response.data.results;
       this.renderStats(stats);
     }
   }
   async fetchTestimonials() {
     try {
       // Gumamit ng fetch API para kunin ang testimonials data
-      const response = await apiClient.get("/api/testimonials/");
-      const data = response.data.data;
+      const response = await apiClient.get("/api/v1/portfolio/testimonials/");
+      const data = response.data.results;
 
       // I-filter para sa approved testimonials lamang
 

@@ -16,14 +16,14 @@ export default class ContactPage {
     this.form = document.getElementById("contact-form");
     this.statusElement = document.getElementById("form-status");
     this.faqButtons = document.querySelectorAll(
-      ".bg-white.rounded-xl.shadow-lg button"
+      ".bg-white.rounded-xl.shadow-lg button",
     );
     this.mapContainer = document.querySelector(".map-container");
     this.contactInfoSection = document.querySelector(".contact-info-section");
   }
 
   init() {
-    this.showLoadingState()
+    this.showLoadingState();
     if (this.form) {
       this.form.addEventListener("submit", this.handleFormSubmit.bind(this));
     }
@@ -37,7 +37,7 @@ export default class ContactPage {
   async loadLocationData() {
     try {
       // Fetch location data from API
-      const response = await apiClient.get("/api/location/");
+      const response = await apiClient.get("/api/v1/portfolio/location/");
       const locationData = response.data;
 
       // Update contact information section
@@ -53,11 +53,11 @@ export default class ContactPage {
 
   async fetchSocialLinks() {
     try {
-      const response = await apiClient.get("/api/social-links/");
+      const response = await apiClient.get("/api/v1/portfolio/social-links/");
       this.socialLinks = response.data;
 
       // Update social media links
-  
+
       this.updateSocialLinks(this.socialLinks.data);
     } catch (error) {
       console.error("Failed to load social links:", error);
@@ -66,81 +66,83 @@ export default class ContactPage {
   }
 
   updateSocialLinks(links) {
-  if (!links || typeof links !== "object") {
-    console.warn("No social links available to update.");
-    return;
-  }
-
-  // Updated mapping: gumamit lamang ng specific icon class name (e.g., "fa-linkedin-in")
-  const platformMap = {
-    "fa-linkedin-in": "linkedin_url",
-    "fa-github": "github_url",
-    "fa-twitter": "twitter_url",
-    "fa-youtube": "youtube_url",
-    "fa-dribbble": "dribbble_url",
-    "fa-instagram": "instagram_url",
-  };
-
-  const section = document.getElementById("social-links-section");
-  if (!section) {
-    console.error("Social links section not found");
-    return;
-  }
-
-  // Hanapin ang lahat ng <a> sa loob ng section
-  const socialLinks = section.querySelectorAll("a");
-  
-  socialLinks.forEach(link => {
-    // Hanapin ang <i> elemento sa loob ng link
-    const icon = link.querySelector("i");
-    if (!icon) {
-      console.warn("No icon found in social link:", link);
+    if (!links || typeof links !== "object") {
+      console.warn("No social links available to update.");
       return;
     }
-    
-    // I-loop sa icon.classList para hanapin kung alin sa klase ang tumutugma sa mapping
-    let platformKey = null;
-    icon.classList.forEach(cls => {
-      if (platformMap.hasOwnProperty(cls)) {
-        platformKey = platformMap[cls];
+
+    // Updated mapping: gumamit lamang ng specific icon class name (e.g., "fa-linkedin-in")
+    const platformMap = {
+      "fa-linkedin-in": "linkedin_url",
+      "fa-github": "github_url",
+      "fa-twitter": "twitter_url",
+      "fa-youtube": "youtube_url",
+      "fa-dribbble": "dribbble_url",
+      "fa-instagram": "instagram_url",
+    };
+
+    const section = document.getElementById("social-links-section");
+    if (!section) {
+      console.error("Social links section not found");
+      return;
+    }
+
+    // Hanapin ang lahat ng <a> sa loob ng section
+    const socialLinks = section.querySelectorAll("a");
+
+    socialLinks.forEach((link) => {
+      // Hanapin ang <i> elemento sa loob ng link
+      const icon = link.querySelector("i");
+      if (!icon) {
+        console.warn("No icon found in social link:", link);
+        return;
+      }
+
+      // I-loop sa icon.classList para hanapin kung alin sa klase ang tumutugma sa mapping
+      let platformKey = null;
+      icon.classList.forEach((cls) => {
+        if (platformMap.hasOwnProperty(cls)) {
+          platformKey = platformMap[cls];
+        }
+      });
+
+      if (!platformKey) {
+        console.warn(
+          "No matching platform key for icon:",
+          [...icon.classList].join(" "),
+        );
+        return;
+      }
+
+      // Kunin ang URL mula sa API response para sa platform na ito
+      const url = links[platformKey] || links[platformKey.toString()]; // simplify kung iba ang key
+
+      if (url && url !== "N/A") {
+        link.href = url;
+      } else {
+        link.style.display = "none"; // Itago kung walang URL na available
       }
     });
-    
-    if (!platformKey) {
-      console.warn("No matching platform key for icon:", [...icon.classList].join(" "));
-      return;
-    }
-    
-    // Kunin ang URL mula sa API response para sa platform na ito
-    const url = links[platformKey] || links[platformKey.toString()]; // simplify kung iba ang key
-
-    if (url && url !== "N/A") {
-      link.href = url;
-    } else {
-      link.style.display = "none"; // Itago kung walang URL na available
-    }
-  });
-}
-
+  }
 
   updateContactInfo(data) {
     if (!this.contactInfoSection) return;
 
     // Update email
     const emailElement = this.contactInfoSection.querySelector(
-      '[data-field="email"]'
+      '[data-field="email"]',
     );
     if (emailElement) emailElement.textContent = data.email;
 
     // Update phone
     const phoneElement = this.contactInfoSection.querySelector(
-      '[data-field="phone"]'
+      '[data-field="phone"]',
     );
     if (phoneElement) phoneElement.textContent = data.phone;
 
     // Update address
     const addressElement = this.contactInfoSection.querySelector(
-      '[data-field="address"]'
+      '[data-field="address"]',
     );
     if (addressElement) addressElement.textContent = data.address;
 
@@ -148,7 +150,7 @@ export default class ContactPage {
     const mapDesc = document.querySelector(".max-w-7xl.mx-auto.mb-16 .p-6 p");
     if (mapDesc)
       mapDesc.textContent = `Based in ${data.address}, but available for remote work worldwide.`;
-    
+
     // Update availability section
     const availElement = document.getElementById("availability");
     if (availElement && data.availability) {
@@ -186,7 +188,7 @@ export default class ContactPage {
     const coordinates = this.parseCoordinates(coordString);
     if (!window.L) {
       console.error(
-        "Leaflet library not found. Please ensure it is included in your project."
+        "Leaflet library not found. Please ensure it is included in your project.",
       );
       return;
     }
@@ -211,12 +213,12 @@ export default class ContactPage {
       this.mapContainer.classList.remove(
         "bg-gray-200",
         "border-2",
-        "border-dashed"
+        "border-dashed",
       );
 
       // Initialize Leaflet map
       const map = L.map(this.mapContainer).setView(coordinates, 13);
-      
+
       // Add tile layer (OpenStreetMap)
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
@@ -250,7 +252,10 @@ export default class ContactPage {
       submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-2"></i> Sending...`;
 
       // Send form data to API
-      const response = await apiClient.post("/api/contact/", formData);
+      const response = await apiClient.post(
+        "/api/v1/portfolio/contact/",
+        formData,
+      );
 
       if (response.data.success) {
         this.showSuccess(response.data.message);
@@ -270,19 +275,19 @@ export default class ContactPage {
   }
 
   showSuccess(message) {
-    showSuccess(message)
+    showSuccess(message);
     this.statusElement.classList.remove("hidden");
     this.statusElement.classList.remove(
       "bg-red-100",
       "text-red-800",
       "dark:bg-red-900",
-      "dark:text-red-200"
+      "dark:text-red-200",
     );
     this.statusElement.classList.add(
       "bg-green-100",
       "text-green-800",
       "dark:bg-green-900",
-      "dark:text-green-200"
+      "dark:text-green-200",
     );
 
     const icon = this.statusElement.querySelector("i");
@@ -298,19 +303,19 @@ export default class ContactPage {
   }
 
   showError(message) {
-    showError(message)
+    showError(message);
     this.statusElement.classList.remove("hidden");
     this.statusElement.classList.remove(
       "bg-green-100",
       "text-green-800",
       "dark:bg-green-900",
-      "dark:text-green-200"
+      "dark:text-green-200",
     );
     this.statusElement.classList.add(
       "bg-red-100",
       "text-red-800",
       "dark:bg-red-900",
-      "dark:text-red-200"
+      "dark:text-red-200",
     );
 
     const icon = this.statusElement.querySelector("i");
@@ -355,6 +360,5 @@ export default class ContactPage {
   }
 }
 
-
-  const contactPage = new ContactPage();
-  contactPage.init();
+const contactPage = new ContactPage();
+contactPage.init();

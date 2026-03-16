@@ -17,7 +17,7 @@ export const apiClient = axios.create({
 apiClient.interceptors.request.use((config) => {
   // Magdagdag ng auth token kung available
   const token = authStore.getAccessToken();
-  if (token && !config.url.includes("/api/v1/auth/login")) {
+  if (token && !config.url.includes("/api/login/")) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
