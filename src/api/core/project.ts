@@ -28,7 +28,7 @@ export interface Project {
   title: string;
   slug: string;
   description: string;
-  project_type: string;
+  project_type: "web" | "mobile" | "software" | "design" | "other";
   image_url: string | null;
   demo_url: string;
   source_code_url: string;

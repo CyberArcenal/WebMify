@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import contactMessageAPI from '@/api/core/contact_message';
 import { showSuccess, showError } from '@/utils/notification';
+import { dialogs } from '@/utils/dialogs';
 
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -20,8 +21,9 @@ const ContactForm: React.FC = () => {
     setSubmitting(true);
     try {
       await contactMessageAPI.create(formData);
-      showSuccess('Your message has been sent successfully!');
       setFormData({ name: '', email: '', subject: '', message: '' });
+      await dialogs.success('Your message has been sent successfully!');
+      
     } catch (err: any) {
       showError(err.message || 'Failed to send message. Please try again later.');
     } finally {

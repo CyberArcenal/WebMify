@@ -3,6 +3,9 @@ import { apiClient } from "@/lib/fetcher";
 import { Pagination } from "../utils";
 
 export interface Experience {
+  responsibilities: any;
+  responsibilities: any;
+  responsibilities: boolean;
   id: number;
   company: string;
   position: string;

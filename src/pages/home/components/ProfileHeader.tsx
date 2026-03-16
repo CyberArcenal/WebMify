@@ -1,25 +1,54 @@
-import React from 'react';
-import { Profile } from '@/api/core/profile';
+import React from "react";
+import { Profile } from "@/api/core/profile";
+import Button from "@/components/UI/Button";
 
 interface Props {
   profile: Profile;
 }
 
 const ProfileHeader: React.FC<Props> = ({ profile }) => {
+  const socialLinks = [
+    {
+      href: `${profile?.github_url}`,
+      icon: "fab fa-github",
+      label: "GitHub",
+      color: "hover:text-gray-300!",
+    },
+    {
+      href: `${profile?.linkedin_url}`,
+      icon: "fab fa-linkedin",
+      label: "LinkedIn",
+      color: "hover:text-blue-400!",
+    },
+    {
+      href: `${profile?.twitter_url}`,
+      icon: "fab fa-twitter",
+      label: "Twitter",
+      color: "hover:text-sky-400!",
+    },
+    {
+      href: `${profile?.youtube_url}`,
+      icon: "fab fa-youtube",
+      label: "Youtube",
+      color: "hover:text-pink-400!",
+    },
+  ];
+
   return (
     <>
       {/* Profile Image */}
       <div className="w-full md:w-2/5 flex justify-center">
         <div className="relative" id="profile-image-container">
           <img
-            src={profile.profile_image_url || ''}
+            src={profile.profile_image_url || ""}
             alt={profile.name}
             crossOrigin="anonymous"
             className="rounded-xl w-64 h-64 md:w-80 md:h-80 object-cover shadow-lg"
             onError={(e) => {
               const target = e.currentTarget;
               target.onerror = null;
-              target.parentElement!.innerHTML = '<div class="bg-card-secondary border-2 border-dashed rounded-xl w-64 h-64 md:w-80 md:h-80"></div>';
+              target.parentElement!.innerHTML =
+                '<div class="bg-card-secondary border-2 border-dashed rounded-xl w-64 h-64 md:w-80 md:h-80"></div>';
             }}
           />
           <div className="absolute -bottom-4 -right-4 bg-primary text-white p-3 rounded-full shadow-lg">
@@ -61,12 +90,12 @@ const ProfileHeader: React.FC<Props> = ({ profile }) => {
 
         <div className="flex flex-wrap justify-center md:justify-start gap-4">
           {profile.resume_url && (
-            <a
+            <Button size="md"
               href={profile.resume_url}
-              className="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg font-medium transition-colors shadow-md inline-flex items-center"
+              className="px-6! py-3! hover:bg-primary-dark! text-white font-medium transition-colors shadow-md inline-flex items-center"
             >
               <i className="fa-solid fa-download mr-2"></i>Download Resume
-            </a>
+            </Button>
           )}
           <a
             href="#contact"
@@ -77,21 +106,20 @@ const ProfileHeader: React.FC<Props> = ({ profile }) => {
         </div>
 
         <div className="mt-8 flex justify-center md:justify-start space-x-4">
-          {profile.github_url && (
-            <a href={profile.github_url} className="text-tertiary-text hover:text-primary transition-colors">
-              <i className="fab fa-github fa-2x"></i>
+          {socialLinks.map((link, index) => (
+            <a
+              key={index}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`group flex items-center justify-center w-10 h-10 rounded-full bg-card/50 backdrop-blur-sm border border-border-color text-tertiary-text transition-all duration-300 hover:scale-110 hover:rotate-6 ${link.color}`}
+              aria-label={link.label}
+            >
+              <i
+                className={`${link.icon} fa-lg transition-transform duration-300 group-hover:scale-110`}
+              ></i>
             </a>
-          )}
-          {profile.linkedin_url && (
-            <a href={profile.linkedin_url} className="text-tertiary-text hover:text-primary transition-colors">
-              <i className="fab fa-linkedin fa-2x"></i>
-            </a>
-          )}
-          {profile.twitter_url && (
-            <a href={profile.twitter_url} className="text-tertiary-text hover:text-primary transition-colors">
-              <i className="fab fa-twitter fa-2x"></i>
-            </a>
-          )}
+          ))}
         </div>
       </div>
     </>

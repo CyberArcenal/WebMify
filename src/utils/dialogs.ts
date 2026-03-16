@@ -23,41 +23,42 @@ export interface AlertOptions {
   icon?: ConfirmIconType;
 }
 
-// Icon component definitions (unchanged)
+// Icon components with improved SVG styling
 const IconTemplates = {
   question: `
-    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
     </svg>
   `,
   warning: `
-    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
     </svg>
   `,
   danger: `
-    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/>
+    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.008v.008H12v-.008z" />
     </svg>
   `,
   info: `
-    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
     </svg>
   `,
   success: `
-    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
     </svg>
   `,
 };
 
+// Updated icon colors using your CSS variables
 const IconColors: Record<ConfirmIconType, string> = {
-  question: "text-[var(--info-color)] bg-[var(--status-processing-bg)]",
-  warning: "text-[var(--warning-color)] bg-[var(--status-pending-bg)]",
-  danger: "text-[var(--danger-color)] bg-[var(--status-cancelled-bg)]",
-  info: "text-[var(--info-color)] bg-[var(--status-processing-bg)]",
-  success: "text-[var(--success-color)] bg-[var(--status-completed-bg)]",
+  question: "text-[var(--primary-500)] bg-[var(--card-secondary)]",
+  warning: "text-[var(--warning)] bg-[var(--card-secondary)]",
+  danger: "text-[var(--danger)] bg-[var(--card-secondary)]",
+  info: "text-[var(--info)] bg-[var(--card-secondary)]",
+  success: "text-[var(--success)] bg-[var(--card-secondary)]",
 };
 
 class DialogManager {
@@ -91,30 +92,30 @@ class DialogManager {
     styles.textContent = `
       .dialog-backdrop {
         background-color: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(2px);
-        transition: opacity 150ms ease-out;
+        backdrop-filter: blur(4px);
+        transition: opacity 200ms ease-out;
       }
       
       .dialog-enter {
         opacity: 0;
-        transform: scale(0.9);
+        transform: scale(0.95) translateY(10px);
       }
       
       .dialog-enter-active {
         opacity: 1;
-        transform: scale(1);
+        transform: scale(1) translateY(0);
         transition: opacity 200ms cubic-bezier(0.16, 1, 0.3, 1), 
-                    transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+                    transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
       }
       
       .dialog-exit {
         opacity: 1;
-        transform: scale(1);
+        transform: scale(1) translateY(0);
       }
       
       .dialog-exit-active {
         opacity: 0;
-        transform: scale(0.9);
+        transform: scale(0.95) translateY(10px);
         transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1), 
                     transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
       }
@@ -125,7 +126,7 @@ class DialogManager {
       
       .backdrop-enter-active {
         opacity: 1;
-        transition: opacity 150ms ease-out;
+        transition: opacity 200ms ease-out;
       }
       
       .backdrop-exit {
@@ -153,7 +154,7 @@ class DialogManager {
   private createBackdrop(): HTMLDivElement {
     const backdrop = document.createElement("div");
     backdrop.className =
-      "fixed inset-0 bg-black/50 dialog-backdrop backdrop-enter pointer-events-auto";
+      "fixed inset-0 bg-black/50 backdrop-blur-sm dialog-backdrop backdrop-enter pointer-events-auto";
     return backdrop;
   }
 
@@ -190,25 +191,21 @@ class DialogManager {
   private getIconMarkup(iconType: ConfirmIconType): string {
     const colorClasses = IconColors[iconType];
     return `
-      <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${colorClasses}">
+      <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${colorClasses} shadow-sm">
         ${IconTemplates[iconType]}
       </div>
     `;
   }
 
-  // Close any existing confirm dialog and resolve it as cancelled
   private closeCurrentConfirm(): void {
     if (this.currentConfirm) {
       const { element, resolve } = this.currentConfirm;
-      // Remove without animation to avoid delay
       element.remove();
-      // Resolve as false (cancelled)
       resolve(false);
       this.currentConfirm = null;
     }
   }
 
-  // Close any existing alert dialog and resolve it
   private closeCurrentAlert(): void {
     if (this.currentAlert) {
       const { element, resolve } = this.currentAlert;
@@ -219,10 +216,8 @@ class DialogManager {
   }
 
   public showConfirm(options: ConfirmOptions = {}): Promise<boolean> {
-    // Close any existing dialogs first
     this.closeCurrentConfirm();
     this.closeCurrentAlert();
-
     this.createContainer();
 
     return new Promise((resolve) => {
@@ -253,7 +248,7 @@ class DialogManager {
           ${
             showCloseButton
               ? `
-            <button type="button" class="close-btn flex-shrink-0 text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors">
+            <button type="button" class="close-btn flex-shrink-0 w-8 h-8 rounded-full text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] hover:bg-[var(--card-secondary)] transition-all duration-200 flex items-center justify-center">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
@@ -262,56 +257,63 @@ class DialogManager {
               : ""
           }
         </div>
-        <div class="px-6 py-4 bg-[var(--card-secondary-bg)] flex justify-end gap-3 border-t border-[var(--border-color)]">
+        <div class="px-6 py-4 bg-[var(--card-secondary)] flex justify-end gap-3 border-t border-[var(--border-color)]">
           <button type="button" class="
             cancel-btn
-            px-4 py-2 text-sm font-medium
+            px-5 py-2 text-sm font-medium
             text-[var(--text-secondary)] hover:text-[var(--text-primary)] 
-            bg-[var(--card-bg)] hover:bg-[var(--card-hover-bg)]
-            rounded-lg transition-colors duration-200
-            border border-[var(--border-color)]
+            bg-transparent hover:bg-[var(--card-bg)]
+            rounded-lg transition-all duration-200
+            border border-[var(--border-color)] hover:border-[var(--primary-300)]
+            focus:outline-none focus:ring-2 focus:ring-[var(--primary-300)] focus:ring-offset-2 focus:ring-offset-[var(--card-bg)]
           ">
             ${cancelText}
           </button>
           <button type="button" class="
             confirm-btn
-            px-4 py-2 text-sm font-medium
-            bg-[var(--btn-success-bg)] hover:bg-[var(--btn-success-hover)]
-            text-[var(--btn-success-text)]
-            rounded-lg transition-colors duration-200
-            focus:outline-none focus:ring-2 focus:ring-[var(--success-color)] focus:ring-offset-2
+            px-5 py-2 text-sm font-medium
+            ${
+              icon === "danger"
+                ? "bg-[var(--danger)] hover:bg-[var(--danger)]/90 text-white"
+                : icon === "warning"
+                ? "bg-[var(--warning)] hover:bg-[var(--warning)]/90 text-white"
+                : "bg-[var(--primary-500)] hover:bg-[var(--primary-600)] text-white"
+            }
+            rounded-lg transition-all duration-200
+            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--card-bg)]
+            ${
+              icon === "danger"
+                ? "focus:ring-[var(--danger)]"
+                : icon === "warning"
+                ? "focus:ring-[var(--warning)]"
+                : "focus:ring-[var(--primary-500)]"
+            }
           ">
             ${confirmText}
           </button>
         </div>
       `;
 
-      // Append to container
       this.container!.appendChild(backdrop);
       this.container!.appendChild(dialog);
       this.currentConfirm = { element: dialog, resolve };
 
-      // Animate in backdrop first
       requestAnimationFrame(() => {
         backdrop.classList.remove("backdrop-enter");
         backdrop.classList.add("backdrop-enter-active");
       });
 
-      // Animate in dialog
       setTimeout(() => {
         this.animateIn(dialog);
       }, 50);
 
-      // Event handlers
       const cleanup = () => {
         if (this.currentConfirm?.element === dialog) {
           this.currentConfirm = null;
         }
-        // Animate out backdrop
         backdrop.classList.remove("backdrop-enter-active");
         backdrop.classList.add("backdrop-exit-active");
 
-        // Animate out dialog
         this.animateOut(dialog, () => {
           dialog.remove();
           backdrop.remove();
@@ -345,7 +347,6 @@ class DialogManager {
         }
       };
 
-      // Add event listeners
       dialog
         .querySelector<HTMLButtonElement>(".confirm-btn")!
         .addEventListener("click", onConfirm);
@@ -362,7 +363,6 @@ class DialogManager {
       backdrop.addEventListener("click", onCancel);
       document.addEventListener("keydown", onKeyDown);
 
-      // Focus the confirm button for accessibility
       setTimeout(() => {
         dialog.querySelector<HTMLButtonElement>(".confirm-btn")?.focus();
       }, 200);
@@ -370,10 +370,8 @@ class DialogManager {
   }
 
   public showAlert(options: AlertOptions): Promise<void> {
-    // Close any existing dialogs first
     this.closeCurrentConfirm();
     this.closeCurrentAlert();
-
     this.createContainer();
 
     return new Promise((resolve) => {
@@ -399,46 +397,40 @@ class DialogManager {
             </p>
           </div>
         </div>
-        <div class="px-6 py-4 bg-[var(--card-secondary-bg)] flex justify-end border-t border-[var(--border-color)]">
+        <div class="px-6 py-4 bg-[var(--card-secondary)] flex justify-end border-t border-[var(--border-color)]">
           <button type="button" class="
             alert-btn
-            px-4 py-2 text-sm font-medium
-            bg-[var(--btn-primary-bg)] hover:bg-[var(--btn-primary-hover)]
-            text-[var(--btn-primary-text)]
-            rounded-lg transition-colors duration-200
-            focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-offset-2
+            px-5 py-2 text-sm font-medium
+            bg-[var(--primary-500)] hover:bg-[var(--primary-600)]
+            text-white
+            rounded-lg transition-all duration-200
+            focus:outline-none focus:ring-2 focus:ring-[var(--primary-500)] focus:ring-offset-2 focus:ring-offset-[var(--card-bg)]
           ">
             ${buttonText}
           </button>
         </div>
       `;
 
-      // Append to container
       this.container!.appendChild(backdrop);
       this.container!.appendChild(dialog);
       this.currentAlert = { element: dialog, resolve };
 
-      // Animate in backdrop first
       requestAnimationFrame(() => {
         backdrop.classList.remove("backdrop-enter");
         backdrop.classList.add("backdrop-enter-active");
       });
 
-      // Animate in dialog
       setTimeout(() => {
         this.animateIn(dialog);
       }, 50);
 
-      // Event handlers
       const cleanup = () => {
         if (this.currentAlert?.element === dialog) {
           this.currentAlert = null;
         }
-        // Animate out backdrop
         backdrop.classList.remove("backdrop-enter-active");
         backdrop.classList.add("backdrop-exit-active");
 
-        // Animate out dialog
         this.animateOut(dialog, () => {
           dialog.remove();
           backdrop.remove();
@@ -461,14 +453,12 @@ class DialogManager {
         }
       };
 
-      // Add event listeners
       dialog
         .querySelector<HTMLButtonElement>(".alert-btn")!
         .addEventListener("click", onConfirm);
       backdrop.addEventListener("click", onConfirm);
       document.addEventListener("keydown", onKeyDown);
 
-      // Focus the button for accessibility
       setTimeout(() => {
         dialog.querySelector<HTMLButtonElement>(".alert-btn")?.focus();
       }, 200);
@@ -481,10 +471,8 @@ class DialogManager {
   }
 }
 
-// Create singleton instance
 const dialogManager = DialogManager.getInstance();
 
-// Export public API
 export const showConfirm = (options?: ConfirmOptions): Promise<boolean> => {
   return dialogManager.showConfirm(options);
 };
@@ -497,7 +485,6 @@ export const closeAllDialogs = (): void => {
   dialogManager.closeAllDialogs();
 };
 
-// Convenience functions for common dialog types
 export const dialogs = {
   confirm: showConfirm,
   alert: showAlert,

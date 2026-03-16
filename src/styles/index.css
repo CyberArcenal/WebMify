@@ -324,7 +324,7 @@ html {
   justify-content: center;
   gap: var(--size-xs);
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -663,4 +663,16 @@ html {
 
 .project-card-description p {
   margin: 0 0 0.5rem 0;
+}
+
+
+
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-bounce {
+  animation: bounce 2s infinite;
 }

@@ -178,7 +178,7 @@ const About: React.FC = () => {
               {profile?.github_url && (
                 <a
                   href={profile.github_url}
-                  className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-gray-900 transition-colors"
+                  className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-gray-900 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:rotate-6"
                 >
                   <i className="fab fa-github"></i>
                 </a>
@@ -186,7 +186,7 @@ const About: React.FC = () => {
               {profile?.linkedin_url && (
                 <a
                   href={profile.linkedin_url}
-                  className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white hover:bg-blue-700 transition-colors"
+                  className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white hover:bg-blue-700 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:rotate-6"
                 >
                   <i className="fab fa-linkedin-in"></i>
                 </a>
@@ -194,7 +194,7 @@ const About: React.FC = () => {
               {profile?.twitter_url && (
                 <a
                   href={profile.twitter_url}
-                  className="w-12 h-12 rounded-full bg-blue-400 flex items-center justify-center text-white hover:bg-blue-500 transition-colors"
+                  className="w-12 h-12 rounded-full bg-blue-400 flex items-center justify-center text-white hover:bg-blue-500 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:rotate-6"
                 >
                   <i className="fab fa-twitter"></i>
                 </a>
@@ -204,12 +204,12 @@ const About: React.FC = () => {
             {/* Action Buttons */}
             <div className="mt-8 flex flex-wrap gap-4">
               {profile?.resume_url && (
-                <a
+                <Button
                   href={profile.resume_url}
-                  className="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg font-medium transition-colors shadow-md"
+                  className="px-6! py-3! bg-primary hover:bg-primary-dark text-white rounded-lg font-medium transition-colors shadow-md"
                 >
                   <i className="fa-solid fa-download mr-2"></i>Download Resume
-                </a>
+                </Button>
               )}
               <a
                 href="#contact"
@@ -289,7 +289,7 @@ const About: React.FC = () => {
                             </p>
                             {exp.responsibilities && exp.responsibilities.length > 0 && (
                               <ul className="text-secondary-text space-y-2 list-disc pl-5">
-                                {exp.responsibilities.map((resp, idx) => (
+                                {exp.responsibilities.map((resp: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined, idx: React.Key | null | undefined) => (
                                   <li key={idx}>{resp}</li>
                                 ))}
                               </ul>
@@ -307,7 +307,7 @@ const About: React.FC = () => {
                             </p>
                             {exp.responsibilities && exp.responsibilities.length > 0 && (
                               <ul className="text-secondary-text space-y-2 list-disc pl-5">
-                                {exp.responsibilities.map((resp, idx) => (
+                                {exp.responsibilities.map((resp: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined, idx: React.Key | null | undefined) => (
                                   <li key={idx}>{resp}</li>
                                 ))}
                               </ul>
@@ -401,7 +401,7 @@ const About: React.FC = () => {
                   </p>
                   {edu.achievements && edu.achievements.length > 0 && (
                     <div className="mt-4">
-                      {edu.achievements.map((ach, idx) => (
+                      {edu.achievements.map((ach: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined, idx: React.Key | null | undefined) => (
                         <span
                           key={idx}
                           className="px-3 py-1 bg-card-secondary text-tertiary-text text-sm rounded-full mr-2 mb-2 inline-block"

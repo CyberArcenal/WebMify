@@ -4,7 +4,7 @@ import projectAPI, { Project, ProjectListParams } from '@/api/core/project';
 
 interface UseProjectsOptions {
   featured?: boolean;
-  project_type?: string;
+  project_type?: "web" | "mobile" | "software" | "design" | "other" | "all";
   search?: string;
   page?: number;
   page_size?: number;

@@ -116,10 +116,10 @@ const FAQ: React.FC = () => {
           Have more questions? Don't hesitate to reach out!
         </p>
         <Button
-          onClick={() => navigate('/contact')}
+          onClick={() => navigate('/home')}
           className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark"
         >
-          <i className="fa-solid fa-envelope mr-2"></i> Contact Me
+          <i className="fa-solid fa-envelope mr-2"></i> View Portfolio
         </Button>
       </div>
     </div>

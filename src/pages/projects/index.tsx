@@ -22,7 +22,7 @@ const ProjectsList: React.FC = () => {
   const [currentFilter, setCurrentFilter] = useState(filter);
 
   const { projects, loading, error, pagination } = useProjects({
-    project_type: currentFilter === "all" ? undefined : currentFilter,
+    project_type: currentFilter === "all" ? undefined : currentFilter as "web" | "mobile" | "software" | "design" | "other" | "all",
     page: currentPage,
     page_size: 6,
   });
@@ -85,7 +85,7 @@ const ProjectsList: React.FC = () => {
 
   return (
     <div className="projects-page min-h-screen py-12">
-      {/* Page Header */}
+
       {/* Page Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <div className="text-center">

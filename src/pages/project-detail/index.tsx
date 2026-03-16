@@ -12,12 +12,35 @@ import ProjectModal from "@/components/UI/ProjectModal";
 import type { Project } from "@/api/core/project";
 import Button from "@/components/UI/Button";
 import { useNavigate } from "react-router-dom";
+import ImageViewerModal from "@/components/UI/ImageViewerModal";
 
 const ProjectDetail: React.FC = () => {
   const navigate = useNavigate();
   const { project, relatedProjects, loading, error } = useProjectDetail();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+
+  // Sa loob ng ProjectDetail component
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [viewerIndex, setViewerIndex] = useState(0);
+
+  // Kunin ang listahan ng lahat ng images (hero + gallery)
+  const allImages = [
+    project?.image_url,
+    ...(project?.gallery_images?.map((img) => img.image_url) || []),
+  ].filter(Boolean); // tanggalin ang null/undefined
+
+  const handleImageClick = (index: number) => {
+    setViewerIndex(index);
+    setViewerOpen(true);
+  };
+
+  const handleHeroClick = () => {
+    if (project?.image_url) {
+      setViewerIndex(0);
+      setViewerOpen(true);
+    }
+  };
 
   const openModal = (project: Project) => {
     setSelectedProject(project);
@@ -67,7 +90,7 @@ const ProjectDetail: React.FC = () => {
 
   return (
     <div className="project-detail-page min-h-screen">
-      <ProjectHero project={project} />
+      <ProjectHero project={project} onImageClick={handleHeroClick}/>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="flex flex-col lg:flex-row gap-12">
@@ -77,6 +100,7 @@ const ProjectDetail: React.FC = () => {
             <div className="rounded-2xl shadow-xl overflow-hidden mb-12">
               {project.image_url ? (
                 <img
+                onClick={handleHeroClick}
                   src={project.image_url}
                   alt={project.title}
                   className="w-full h-96 md:h-[500px] object-cover"
@@ -101,7 +125,10 @@ const ProjectDetail: React.FC = () => {
               <h2 className="text-2xl md:text-3xl font-bold text-primary-text mb-6">
                 Project Gallery
               </h2>
-              <ProjectGallery images={project.gallery_images} />
+              <ProjectGallery
+                images={project.gallery_images}
+                onImageClick={(idx) => handleImageClick(idx + 1)}
+              />
             </div>
           </div>
 
@@ -152,9 +179,11 @@ const ProjectDetail: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button
-              variant='primary'
+              variant="primary"
               loading={loading}
-              onClick={() => {navigate(`/contact`)}}
+              onClick={() => {
+                navigate(`/contact`);
+              }}
               className="inline-flex items-center justify-center px-8 py-3 bg-indigo-700 font-medium rounded-lg shadow-md hover:bg-gray-100 transition-colors"
             >
               <i className="fa-solid fa-envelope mr-2"></i> Contact Me
@@ -174,6 +203,13 @@ const ProjectDetail: React.FC = () => {
         project={selectedProject}
         isOpen={modalOpen}
         onClose={closeModal}
+      />
+      <ImageViewerModal
+        isOpen={viewerOpen}
+        onClose={() => setViewerOpen(false)}
+        images={allImages as string[]}
+        initialIndex={viewerIndex}
+        showThumbnails={true}
       />
     </div>
   );

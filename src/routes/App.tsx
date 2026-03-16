@@ -1,11 +1,14 @@
 // src/App.tsx
+import NotFound from "@/components/Shared/PageNotFound";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { useOnlineStatus } from "@/hooks/useOnlineStatus";
 import Layout from "@/layouts/Layout";
 import About from "@/pages/about";
 import BlogPage from "@/pages/blog";
 import BlogDetailPage from "@/pages/blog-detail";
 import ContactPage from "@/pages/contact";
 import Home from "@/pages/home";
+import Offline from "@/pages/offline";
 import Privacy from "@/pages/privacy-policy";
 import ProjectDetail from "@/pages/project-detail";
 import ProjectsList from "@/pages/projects";
@@ -30,6 +33,13 @@ const PlaceholderPage = ({ name }: { name: string }) => (
 );
 
 function App() {
+  const isOnline = useOnlineStatus();
+
+   if (!isOnline) {
+    return <Offline />;
+  }
+
+
   return (
     <ThemeProvider>
       <Routes>
@@ -51,7 +61,7 @@ function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/about" element={<About />} />
           <Route path="/projects" element={<ProjectsList />} />
-          <Route path="*" element={<PlaceholderPage name="404 - Not Found" />} />
+          <Route path="*" element={<NotFound/>} />
         </Route>
         {/* Catch-all 404 */}
         

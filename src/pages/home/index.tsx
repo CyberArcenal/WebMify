@@ -20,6 +20,11 @@ const Home: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
+
+  useEffect(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, []);
+
   useEffect(() => {
     if (profileError) showApiError(profileError, 'Failed to load profile');
     if (projectsError) showApiError(projectsError, 'Failed to load projects');

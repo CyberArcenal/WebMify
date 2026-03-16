@@ -10,7 +10,7 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({ currentFilter, onFilterCh
     { value: 'all', label: 'All Projects' },
     { value: 'web', label: 'Web Apps' },
     { value: 'mobile', label: 'Mobile Apps' },
-    { value: 'open-source', label: 'Open Source' },
+    { value: 'software', label: 'Desktop Apps' },
   ];
 
   return (
@@ -19,7 +19,7 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({ currentFilter, onFilterCh
         <button
           key={filter.value}
           onClick={(e) => { e.stopPropagation(); onFilterChange(filter.value); }}
-          className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+          className={`px-4! py-2! text-sm m-.2 font-medium rounded-md transition-colors ${
             currentFilter === filter.value
               ? 'bg-primary text-white'
               : 'text-secondary-text hover:bg-card-secondary'

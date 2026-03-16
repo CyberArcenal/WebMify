@@ -1,18 +1,19 @@
-import React from 'react';
-import { Project } from '@/api/core/project';
+import React from "react";
+import { Project } from "@/api/core/project";
 
 interface Props {
   project: Project;
+  onImageClick?: () => void;
 }
 
-const ProjectHero: React.FC<Props> = ({ project }) => {
+const ProjectHero: React.FC<Props> = ({ project, onImageClick }) => {
   const formatProjectType = (type: string) => {
     const typeMap: Record<string, string> = {
-      web: 'Web Application',
-      mobile: 'Mobile Application',
-      'open-source': 'Open Source',
-      design: 'Design Project',
-      other: 'Other Project',
+      web: "Web Application",
+      mobile: "Mobile Application",
+      "open-source": "Open Source",
+      design: "Design Project",
+      other: "Other Project",
     };
     return typeMap[type] || type;
   };
@@ -32,12 +33,19 @@ const ProjectHero: React.FC<Props> = ({ project }) => {
           <div className="w-24 h-1 bg-white/80 mx-auto mb-6 rounded"></div>
           <p className="text-xl text-white/90 max-w-3xl mx-auto">
             {project.description.length > 150
-              ? project.description.substring(0, 150) + '...'
+              ? project.description.substring(0, 150) + "..."
               : project.description}
           </p>
         </div>
       </div>
       <div className="absolute inset-0 bg-gray-900/30"></div>
+      {project.image_url && (
+        <div
+          className="absolute inset-0 cursor-pointer"
+          onClick={onImageClick}
+          title="Click to view full image"
+        />
+      )}
     </div>
   );
 };

@@ -23,75 +23,76 @@ class NotificationManager {
   private bannerContainer: HTMLElement | null;
   private loadingOverlay: HTMLElement | null;
   private nextToastId: number;
-  private currentToast: HTMLElement | null; // ← track current toast
+  private currentToast: HTMLElement | null;
+  private toastQueue: HTMLElement[]; // Queue for multiple toasts
 
   constructor() {
     this.toastContainer = null;
     this.bannerContainer = null;
     this.loadingOverlay = null;
     this.nextToastId = 1;
-    this.currentToast = null; // ← initialize
+    this.currentToast = null;
+    this.toastQueue = [];
     this.initContainers();
   }
 
   private initContainers(): void {
-    // Remove existing containers if they exist
     if (this.toastContainer) this.toastContainer.remove();
     if (this.bannerContainer) this.bannerContainer.remove();
     if (this.loadingOverlay) this.loadingOverlay.remove();
 
-    // Create toast container (bottom right, single toast)
+    // Toast container - now supports multiple stacked toasts
     this.toastContainer = document.createElement("div");
     this.toastContainer.id = "toast-container";
     this.toastContainer.className =
-      "fixed bottom-4 right-4 z-[9999] pointer-events-none"; // ← changed
+      "fixed bottom-4 right-4 z-[9999] flex flex-col items-end gap-3 pointer-events-none";
     document.body.appendChild(this.toastContainer);
 
-    // Create banner container (below navigation) – unchanged
+    // Banner container
     this.bannerContainer = document.createElement("div");
     this.bannerContainer.id = "banner-container";
     this.bannerContainer.className = "fixed top-16 left-0 right-0 z-[9998]";
     document.body.appendChild(this.bannerContainer);
 
-    // Create loading overlay – unchanged
+    // Loading overlay with improved design
     this.loadingOverlay = document.createElement("div");
     this.loadingOverlay.id = "loading-overlay";
     this.loadingOverlay.className =
-      "fixed inset-0 bg-black/50 z-[9999] flex items-center justify-center hidden";
+      "fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] flex items-center justify-center hidden";
     this.loadingOverlay.innerHTML = `
-      <div class="bg-[var(--card-bg)] rounded-xl p-6 w-64 text-center shadow-2xl border border-[var(--border-color)]">
+      <div class="bg-[var(--card-bg)] rounded-xl p-6 w-72 text-center shadow-2xl border border-[var(--border-color)] animate-fade-in-up">
         <div class="spinner mx-auto mb-4"></div>
         <p class="text-[var(--text-primary)] font-medium">Processing request...</p>
+        <p class="text-xs text-[var(--text-tertiary)] mt-2">Please wait</p>
       </div>
     `;
     document.body.appendChild(this.loadingOverlay);
   }
 
   private getIcon(type: NotificationType): string {
-    // ... (unchanged) ...
     const icons = {
       success: `
-        <svg class="h-6 w-6 text-[var(--success-color)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <svg class="h-5 w-5 text-[var(--success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       `,
       error: `
-        <svg class="h-6 w-6 text-[var(--danger-color)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <svg class="h-5 w-5 text-[var(--danger)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       `,
       warning: `
-        <svg class="h-6 w-6 text-[var(--warning-color)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <svg class="h-5 w-5 text-[var(--warning)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
         </svg>
       `,
       info: `
-        <svg class="h-6 w-6 text-[var(--info-color)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <svg class="h-5 w-5 text-[var(--info)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
         </svg>
       `,
       critical: `
-        <svg class="h-6 w-6 text-[var(--danger-color)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <svg class="h-5 w-5 text-[var(--danger)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M10.29 3.86L1.82 18a1 1 0 00.86 1.5h18.64a1 1 0 00.86-1.5L13.71 3.86a1 1 0 00-1.72 0z"/>
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01"/>
         </svg>
@@ -103,36 +104,38 @@ class NotificationManager {
 
   private getToastClasses(type: NotificationType): string {
     const baseClasses = `
-      w-full max-w-md rounded-lg shadow-lg p-4 flex items-start pointer-events-auto
-      bg-[var(--card-bg)] border-l-4 animate-slideInBottom
+      w-full max-w-sm rounded-xl shadow-lg p-4 flex items-start pointer-events-auto
+      bg-[var(--card-bg)] border-l-4 backdrop-blur-sm bg-opacity-95
+      animate-slideInBottom hover:shadow-xl transition-shadow
     `;
 
     const typeClasses = {
-      success: "border-[var(--success-color)]",
-      error: "border-[var(--danger-color)]",
-      warning: "border-[var(--warning-color)]",
-      info: "border-[var(--info-color)]",
-      critical: "border-[var(--danger-color)]",
+      success: "border-[var(--success)]",
+      error: "border-[var(--danger)]",
+      warning: "border-[var(--warning)]",
+      info: "border-[var(--info)]",
+      critical: "border-[var(--danger)]",
     };
 
     return `${baseClasses} ${typeClasses[type]}`;
   }
 
   private getBannerClasses(type: NotificationType): string {
-    // ... (unchanged) ...
-    const baseClasses =
-      "w-full py-3 px-4 shadow-md border-b-2 animate-slideInTop";
+    const baseClasses = `
+      w-full py-3 px-4 shadow-md border-b-2 animate-slideInTop
+      backdrop-blur-sm bg-opacity-95
+    `;
 
     const typeClasses = {
       success:
-        "bg-[var(--status-completed-bg)] border-[var(--success-color)] text-[var(--text-primary)]",
+        "bg-[var(--success)]/10 border-[var(--success)] text-[var(--text-primary)]",
       error:
-        "bg-[var(--status-cancelled-bg)] border-[var(--danger-color)] text-[var(--text-primary)]",
+        "bg-[var(--danger)]/10 border-[var(--danger)] text-[var(--text-primary)]",
       warning:
-        "bg-[var(--status-pending-bg)] border-[var(--warning-color)] text-[var(--text-primary)]",
-      info: "bg-[var(--status-processing-bg)] border-[var(--info-color)] text-[var(--text-primary)]",
+        "bg-[var(--warning)]/10 border-[var(--warning)] text-[var(--text-primary)]",
+      info: "bg-[var(--info)]/10 border-[var(--info)] text-[var(--text-primary)]",
       critical:
-        "bg-[var(--status-cancelled-bg)] border-[var(--danger-color)] text-[var(--text-primary)]",
+        "bg-[var(--danger)]/10 border-[var(--danger)] text-[var(--text-primary)]",
     };
 
     return `${baseClasses} ${typeClasses[type]}`;
@@ -143,16 +146,12 @@ class NotificationManager {
     type: NotificationType = "info",
     options: NotificationOptions = {},
   ): HTMLElement {
-    // If there's already a toast, remove it first (with animation)
-    if (this.currentToast) {
-      this.removeToast(this.currentToast);
-    }
-
     const toastId = `toast-${this.nextToastId++}`;
     const defaultOptions: NotificationOptions = {
       duration: 5000,
       autoClose: true,
       swipeClose: true,
+      showClose: true,
       ...options,
     };
 
@@ -166,18 +165,25 @@ class NotificationManager {
       <div class="mr-3 mt-0.5 flex-shrink-0">
         ${this.getIcon(type)}
       </div>
-      <div class="flex-1">
+      <div class="flex-1 min-w-0">
         <p class="text-sm font-medium text-[var(--text-primary)]">${message}</p>
       </div>
-      <button class="text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] ml-2 transition-colors duration-200 flex-shrink-0">
-        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-        </svg>
-      </button>
+      ${
+        defaultOptions.showClose
+          ? `
+        <button class="flex-shrink-0 ml-2 w-6 h-6 rounded-full text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] hover:bg-[var(--card-secondary)] transition-all duration-200 flex items-center justify-center">
+          <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      `
+          : ""
+      }
     `;
 
     this.toastContainer?.appendChild(toast);
-    this.currentToast = toast; // ← store as current
+    this.toastQueue.push(toast);
+    this.currentToast = toast;
 
     // Add close button handler
     const closeBtn = toast.querySelector("button");
@@ -203,13 +209,18 @@ class NotificationManager {
   public removeToast(toastElement: HTMLElement): void {
     if (!toastElement) return;
 
-    // If this is the current toast, clear the reference
+    const index = this.toastQueue.indexOf(toastElement);
+    if (index > -1) {
+      this.toastQueue.splice(index, 1);
+    }
+
     if (this.currentToast === toastElement) {
-      this.currentToast = null;
+      this.currentToast = this.toastQueue[0] || null;
     }
 
     toastElement.classList.remove("animate-slideInBottom");
     toastElement.classList.add("animate-slideOutBottom");
+    
     setTimeout(() => {
       if (toastElement.parentNode) {
         toastElement.parentNode.removeChild(toastElement);
@@ -218,7 +229,6 @@ class NotificationManager {
   }
 
   private addSwipeClose(toast: HTMLElement): void {
-    // ... (unchanged) ...
     let startX = 0;
     let currentX = 0;
     let isDragging = false;
@@ -235,17 +245,19 @@ class NotificationManager {
       const diff = currentX - startX;
       if (diff > 0) {
         toast.style.transform = `translateX(${diff}px)`;
+        toast.style.opacity = `${1 - diff / (toast.offsetWidth * 0.5)}`;
       }
     };
 
     const onTouchEnd = () => {
       isDragging = false;
-      toast.style.transition = "transform 0.3s ease";
+      toast.style.transition = "transform 0.3s ease, opacity 0.3s ease";
       const diff = currentX - startX;
-      if (diff > toast.offsetWidth / 2) {
+      if (diff > toast.offsetWidth / 3) {
         this.removeToast(toast);
       } else {
         toast.style.transform = "translateX(0)";
+        toast.style.opacity = "1";
       }
     };
 
@@ -254,15 +266,27 @@ class NotificationManager {
     toast.addEventListener("touchend", onTouchEnd);
   }
 
-  // ... other methods (showLoading, hideLoading, createBanner, removeBanner) remain unchanged ...
   public showLoading(message = "Processing request..."): void {
+    const contentElement = this.loadingOverlay?.querySelector("div");
     const textElement = this.loadingOverlay?.querySelector("p");
     if (textElement) textElement.textContent = message;
+    if (contentElement) {
+      contentElement.classList.add("animate-fade-in-up");
+    }
     this.loadingOverlay?.classList.remove("hidden");
   }
 
   public hideLoading(): void {
-    this.loadingOverlay?.classList.add("hidden");
+    const contentElement = this.loadingOverlay?.querySelector("div");
+    if (contentElement) {
+      contentElement.classList.add("animate-fade-out-down");
+      setTimeout(() => {
+        this.loadingOverlay?.classList.add("hidden");
+        contentElement.classList.remove("animate-fade-out-down");
+      }, 300);
+    } else {
+      this.loadingOverlay?.classList.add("hidden");
+    }
   }
 
   public createBanner(
@@ -287,19 +311,19 @@ class NotificationManager {
     banner.setAttribute("aria-live", "assertive");
 
     const closeButton = defaultOptions.showClose
-      ? `<button class="text-current hover:opacity-70 ml-2 transition-opacity duration-200 flex-shrink-0">
-            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      ? `<button class="ml-3 p-1.5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-200 flex-shrink-0">
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
             </svg>
         </button>`
       : "";
 
     banner.innerHTML = `
-      <div class="container mx-auto px-4 flex items-center justify-center">
-        <div class="mr-3 flex-shrink-0">
-          ${this.getIcon(type)}
-        </div>
-        <div class="flex-1">
+      <div class="container mx-auto px-4 flex items-center justify-between">
+        <div class="flex items-center flex-1">
+          <div class="mr-3 flex-shrink-0">
+            ${this.getIcon(type)}
+          </div>
           <p class="text-sm font-medium">${message}</p>
         </div>
         ${closeButton}
@@ -337,55 +361,18 @@ class NotificationManager {
   }
 }
 
-// Singleton instance
 const notificationManager = new NotificationManager();
 
-// Add global styles – unchanged
+// Add global styles (using your existing animations from index.css)
 const style = document.createElement("style");
 style.textContent = `
-  @keyframes slideInBottom {
-    from { transform: translateY(100%); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-  
-  @keyframes slideOutBottom {
-    from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(100%); opacity: 0; }
-  }
-  
-  @keyframes slideInTop {
-    from { transform: translateY(-100%); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-  
-  @keyframes slideOutTop {
-    from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-100%); opacity: 0; }
-  }
-  
-  .animate-slideInBottom {
-    animation: slideInBottom 0.3s forwards;
-  }
-  
-  .animate-slideOutBottom {
-    animation: slideOutBottom 0.3s forwards;
-  }
-  
-  .animate-slideInTop {
-    animation: slideInTop 0.3s forwards;
-  }
-  
-  .animate-slideOutTop {
-    animation: slideOutTop 0.3s forwards;
-  }
-  
   .spinner {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     border: 3px solid var(--border-color);
     border-radius: 50%;
-    border-top: 3px solid var(--success-color);
-    animation: spin 1s linear infinite;
+    border-top: 3px solid var(--primary-500);
+    animation: spin 0.8s linear infinite;
     margin: 0 auto;
   }
   
@@ -393,10 +380,28 @@ style.textContent = `
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+  
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(1rem); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes fadeOutDown {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(1rem); }
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.3s ease-out forwards;
+  }
+  
+  .animate-fade-out-down {
+    animation: fadeOutDown 0.3s ease-out forwards;
+  }
 `;
 document.head.appendChild(style);
 
-// Export functions – unchanged
+// Export functions
 export const showToast = (
   message: string,
   type: NotificationType = "info",
@@ -452,7 +457,6 @@ export const showCriticalBanner = (
 ): HTMLElement => showBanner(message, "critical", options);
 
 export const extractErrorMessage = (error: ApiError): string => {
-  // ... unchanged ...
   if (!error.response) {
     return "Network error. Please check your connection.";
   }
@@ -527,7 +531,6 @@ export const showApiError = (
   fallback: string = "",
   options: NotificationOptions = {},
 ): void => {
-  // ... unchanged ...
   let message = "An unexpected error occurred";
   let status: number | undefined;
 
