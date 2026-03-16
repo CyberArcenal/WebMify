@@ -4,8 +4,6 @@ import { Pagination } from "../utils";
 
 export interface Education {
   achievements: any;
-  achievements: any;
-  achievements: boolean;
   id: number;
   institution: string;
   degree: string;
