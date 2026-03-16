@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useBlog } from "./hooks/useBlog";
 import CategoryFilter from "./components/CategoryFilter";
 import SearchBar from "./components/SearchBar";
@@ -23,6 +23,10 @@ const BlogPage: React.FC = () => {
   } = useBlog();
 
   const featuredBlogs = blogs.filter((b) => b.featured);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   if (error) {
     return (

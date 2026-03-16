@@ -15,6 +15,11 @@ const About: React.FC = () => {
   const { education, loading: eduLoading, error: eduError } = useEducation();
   const { skills, loading: skillsLoading, error: skillsError } = useSkills({ featured: false, limit: 100 });
 
+
+    useEffect(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, []);
+
   const isLoading = profileLoading || expLoading || eduLoading || skillsLoading;
   const hasError = profileError || expError || eduError || skillsError;
 

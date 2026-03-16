@@ -30,6 +30,10 @@ const ProjectDetail: React.FC = () => {
     ...(project?.gallery_images?.map((img) => img.image_url) || []),
   ].filter(Boolean); // tanggalin ang null/undefined
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   const handleImageClick = (index: number) => {
     setViewerIndex(index);
     setViewerOpen(true);
@@ -90,7 +94,7 @@ const ProjectDetail: React.FC = () => {
 
   return (
     <div className="project-detail-page min-h-screen">
-      <ProjectHero project={project} onImageClick={handleHeroClick}/>
+      <ProjectHero project={project} onImageClick={handleHeroClick} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="flex flex-col lg:flex-row gap-12">
@@ -100,7 +104,7 @@ const ProjectDetail: React.FC = () => {
             <div className="rounded-2xl shadow-xl overflow-hidden mb-12">
               {project.image_url ? (
                 <img
-                onClick={handleHeroClick}
+                  onClick={handleHeroClick}
                   src={project.image_url}
                   alt={project.title}
                   className="w-full h-96 md:h-[500px] object-cover"

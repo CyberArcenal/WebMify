@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect } from "react";
 
 const Privacy: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       {/* Page Title */}
       <div className="text-center mb-16">
-        <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">Privacy Policy</h1>
+        <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
+          Privacy Policy
+        </h1>
         <div className="w-24 h-1 bg-blue-500 dark:bg-blue-400 mx-auto rounded"></div>
         <p className="mt-6 text-lg text-gray-600 dark:text-gray-300">
           Last updated: 6/23/2025
@@ -16,28 +22,48 @@ const Privacy: React.FC = () => {
       <div className="prose prose-lg dark:prose-invert max-w-none">
         {/* Introduction */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">1. Introduction</h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+            1. Introduction
+          </h2>
           <p className="text-gray-600 dark:text-gray-300">
-            This Privacy Policy explains how I collect, use, and protect your personal information when you visit my portfolio website at darius-portfollio.vercel.app. By using this site, you consent to the practices described in this policy.
+            This Privacy Policy explains how I collect, use, and protect your
+            personal information when you visit my portfolio website at
+            darius-portfollio.vercel.app. By using this site, you consent to the
+            practices described in this policy.
           </p>
         </section>
 
         {/* Data Collection */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">2. Information I Collect</h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+            2. Information I Collect
+          </h2>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
             I may collect the following types of information:
           </p>
           <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4 space-y-2">
-            <li><strong>Personal Information:</strong> When you contact me through forms, I may collect your name, email address, and any other information you provide.</li>
-            <li><strong>Usage Data:</strong> Information about how you interact with my site, including IP address, browser type, pages visited, and time spent.</li>
-            <li><strong>Cookies:</strong> Small data files stored on your device to enhance your experience.</li>
+            <li>
+              <strong>Personal Information:</strong> When you contact me through
+              forms, I may collect your name, email address, and any other
+              information you provide.
+            </li>
+            <li>
+              <strong>Usage Data:</strong> Information about how you interact
+              with my site, including IP address, browser type, pages visited,
+              and time spent.
+            </li>
+            <li>
+              <strong>Cookies:</strong> Small data files stored on your device
+              to enhance your experience.
+            </li>
           </ul>
         </section>
 
         {/* Use of Information */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">3. How I Use Your Information</h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+            3. How I Use Your Information
+          </h2>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
             I use collected information for the following purposes:
           </p>
@@ -51,7 +77,9 @@ const Privacy: React.FC = () => {
 
         {/* Cookies */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">4. Cookies and Tracking</h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+            4. Cookies and Tracking
+          </h2>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
             This site uses cookies to:
           </p>
@@ -61,33 +89,47 @@ const Privacy: React.FC = () => {
             <li>Enhance your browsing experience</li>
           </ul>
           <p className="text-gray-600 dark:text-gray-300">
-            You can control cookies through your browser settings, but disabling them may affect site functionality.
+            You can control cookies through your browser settings, but disabling
+            them may affect site functionality.
           </p>
         </section>
 
         {/* Data Sharing */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">5. Data Sharing</h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+            5. Data Sharing
+          </h2>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
-            I do not sell, trade, or rent your personal information to third parties. I may share information with:
+            I do not sell, trade, or rent your personal information to third
+            parties. I may share information with:
           </p>
           <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4 space-y-2">
-            <li>Service providers who assist with site operations (under confidentiality agreements)</li>
+            <li>
+              Service providers who assist with site operations (under
+              confidentiality agreements)
+            </li>
             <li>Legal authorities when required by law or to protect rights</li>
           </ul>
         </section>
 
         {/* Data Security */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">6. Data Security</h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+            6. Data Security
+          </h2>
           <p className="text-gray-600 dark:text-gray-300">
-            I implement reasonable security measures to protect your information, but no method of transmission over the internet is 100% secure. While I strive to protect your data, I cannot guarantee absolute security.
+            I implement reasonable security measures to protect your
+            information, but no method of transmission over the internet is 100%
+            secure. While I strive to protect your data, I cannot guarantee
+            absolute security.
           </p>
         </section>
 
         {/* Your Rights */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">7. Your Rights</h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+            7. Your Rights
+          </h2>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
             Depending on your location, you may have the right to:
           </p>
@@ -104,18 +146,27 @@ const Privacy: React.FC = () => {
 
         {/* Policy Changes */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">8. Changes to This Policy</h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+            8. Changes to This Policy
+          </h2>
           <p className="text-gray-600 dark:text-gray-300">
-            I may update this policy periodically. The "Last updated" date at the top indicates when revisions were made. Continued use of the site after changes constitutes acceptance of the updated policy.
+            I may update this policy periodically. The "Last updated" date at
+            the top indicates when revisions were made. Continued use of the
+            site after changes constitutes acceptance of the updated policy.
           </p>
         </section>
 
         {/* Contact */}
         <section>
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">9. Contact Me</h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+            9. Contact Me
+          </h2>
           <p className="text-gray-600 dark:text-gray-300">
             For questions about this privacy policy, please contact me at:
-            <a href="mailto:dargab1999@gmail.com" className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+            <a
+              href="mailto:dargab1999@gmail.com"
+              className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+            >
               dargab1999@gmail.com
             </a>
           </p>

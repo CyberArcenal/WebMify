@@ -1,10 +1,10 @@
 // TestimonialsPage.tsx
-import React, { JSX, useEffect, useState } from 'react';
-import { showApiError } from '@/utils/notification';
-import testimonialAPI, { Testimonial } from '@/api/core/testimonial';
-import statsAPI, { Stats } from '@/api/core/stats';
-import Button from '@/components/UI/Button';
-import { useNavigate } from 'react-router-dom';
+import React, { JSX, useEffect, useState } from "react";
+import { showApiError } from "@/utils/notification";
+import testimonialAPI, { Testimonial } from "@/api/core/testimonial";
+import statsAPI, { Stats } from "@/api/core/stats";
+import Button from "@/components/UI/Button";
+import { useNavigate } from "react-router-dom";
 
 const TestimonialsPage: React.FC = () => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -20,21 +20,28 @@ const TestimonialsPage: React.FC = () => {
         setLoading(true);
         setError(null);
 
-        const testimonialResponse = await testimonialAPI.list({ approved: true });
+        const testimonialResponse = await testimonialAPI.list({
+          approved: true,
+        });
         setTestimonials(testimonialResponse.results);
 
         const statsData = await statsAPI.get();
         setStats(statsData);
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Failed to load testimonials';
+        const errorMessage =
+          err instanceof Error ? err.message : "Failed to load testimonials";
         setError(errorMessage);
-        showApiError(err, 'Failed to load testimonials');
+        showApiError(err, "Failed to load testimonials");
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   // Generate star rating (keep yellow-400 – brand color for stars)
@@ -44,28 +51,43 @@ const TestimonialsPage: React.FC = () => {
     const hasHalfStar = rating % 1 !== 0;
 
     for (let i = 0; i < fullStars; i++) {
-      stars.push(<i key={`full-${i}`} className="fa-solid fa-star text-yellow-400"></i>);
+      stars.push(
+        <i key={`full-${i}`} className="fa-solid fa-star text-yellow-400"></i>,
+      );
     }
 
     if (hasHalfStar) {
-      stars.push(<i key="half" className="fa-solid fa-star-half-alt text-yellow-400"></i>);
+      stars.push(
+        <i
+          key="half"
+          className="fa-solid fa-star-half-alt text-yellow-400"
+        ></i>,
+      );
     }
 
     const emptyStars = 5 - Math.ceil(rating);
     for (let i = 0; i < emptyStars; i++) {
-      stars.push(<i key={`empty-${i}`} className="fa-regular fa-star text-yellow-400"></i>);
+      stars.push(
+        <i
+          key={`empty-${i}`}
+          className="fa-regular fa-star text-yellow-400"
+        ></i>,
+      );
     }
 
     return stars;
   };
 
   // Handle image error fallback
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>,
+  ) => {
     const target = e.currentTarget;
     target.onerror = null;
     const parent = target.parentElement;
     if (parent) {
-      parent.innerHTML = '<div class="bg-card-secondary border-2 border-dashed border-color rounded-full w-16 h-16"></div>';
+      parent.innerHTML =
+        '<div class="bg-card-secondary border-2 border-dashed border-color rounded-full w-16 h-16"></div>';
     }
   };
 
@@ -128,7 +150,9 @@ const TestimonialsPage: React.FC = () => {
 
           {!loading && !error && testimonials.length === 0 && (
             <div className="col-span-full text-center py-12">
-              <p className="text-secondary-text">No approved testimonials found.</p>
+              <p className="text-secondary-text">
+                No approved testimonials found.
+              </p>
             </div>
           )}
 
@@ -143,7 +167,7 @@ const TestimonialsPage: React.FC = () => {
                   <div className="flex-shrink-0 mr-4">
                     <img
                       className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm"
-                      src={testimonial.author_image_url || ''}
+                      src={testimonial.author_image_url || ""}
                       alt={testimonial.author}
                       onError={handleImageError}
                     />
@@ -152,13 +176,15 @@ const TestimonialsPage: React.FC = () => {
                     <h3 className="text-lg font-bold text-primary-text">
                       {testimonial.author}
                     </h3>
-                    <p className="text-primary">
-                      {testimonial.author_title}
-                    </p>
+                    <p className="text-primary">{testimonial.author_title}</p>
                   </div>
                 </div>
-                <div className="flex mb-4">{generateStarRating(testimonial.rating)}</div>
-                <p className="text-secondary-text italic">"{testimonial.content}"</p>
+                <div className="flex mb-4">
+                  {generateStarRating(testimonial.rating)}
+                </div>
+                <p className="text-secondary-text italic">
+                  "{testimonial.content}"
+                </p>
                 <div className="mt-6 text-right">
                   <i className="fa-solid fa-quote-right text-3xl text-tertiary-text"></i>
                 </div>
@@ -168,28 +194,31 @@ const TestimonialsPage: React.FC = () => {
 
         {/* Stats Section */}
         <div className="mt-24 bg-card-secondary rounded-2xl p-8">
-          <div id="stats-container" className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div
+            id="stats-container"
+            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+          >
             <div className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
-                {stats ? `${stats.projects_completed}+` : 'n/a'}
+                {stats ? `${stats.projects_completed}+` : "n/a"}
               </div>
               <p className="text-secondary-text">Projects Completed</p>
             </div>
             <div className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
-                {stats ? `${stats.client_satisfaction}%` : 'n/a'}
+                {stats ? `${stats.client_satisfaction}%` : "n/a"}
               </div>
               <p className="text-secondary-text">Client Satisfaction</p>
             </div>
             <div className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
-                {stats ? `${stats.years_experience}+` : 'n/a'}
+                {stats ? `${stats.years_experience}+` : "n/a"}
               </div>
               <p className="text-secondary-text">Years Experience</p>
             </div>
             <div className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
-                {stats ? `${stats.happy_clients}+` : 'n/a'}
+                {stats ? `${stats.happy_clients}+` : "n/a"}
               </div>
               <p className="text-secondary-text">Happy Clients</p>
             </div>
@@ -200,19 +229,22 @@ const TestimonialsPage: React.FC = () => {
       {/* Call to Action */}
       <div className="bg-primary py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">Ready to work together?</h2>
+          <h2 className="text-3xl font-bold text-white mb-6">
+            Ready to work together?
+          </h2>
           <p className="text-xl text-white/80 max-w-2xl mx-auto mb-8">
-            Let's discuss how I can help bring your ideas to life and deliver outstanding results for your project.
+            Let's discuss how I can help bring your ideas to life and deliver
+            outstanding results for your project.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button
-              onClick={() => navigate('/contact')}
+              onClick={() => navigate("/contact")}
               className="inline-flex items-center justify-center px-8 py-3 bg-white  font-medium rounded-lg shadow-md hover:bg-gray-100 transition-colors"
             >
               <i className="fa-solid fa-envelope mr-2"></i> Contact Me
             </Button>
             <Button
-              onClick={() => navigate('/projects')}
+              onClick={() => navigate("/projects")}
               className="inline-flex items-center justify-center px-8 py-3 bg-primary-dark text-white font-medium rounded-lg shadow-md hover:bg-primary-dark transition-colors"
             >
               <i className="fa-solid fa-briefcase mr-2"></i> View Projects

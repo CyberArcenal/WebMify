@@ -81,7 +81,9 @@ const SkillsPage: React.FC = () => {
 
     fetchSkills();
   }, []);
-
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   // Trigger fade-in animations after featured skills are rendered
   useEffect(() => {
     if (!isLoading && featuredSkills.length > 0) {
@@ -267,12 +269,8 @@ const SkillsPage: React.FC = () => {
               <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white mb-3">
                 <i className="fa-solid fa-star text-2xl"></i>
               </div>
-              <h4 className="font-bold text-primary-text mb-1">
-                Expert
-              </h4>
-              <p className="text-secondary-text text-sm">
-                90-100%
-              </p>
+              <h4 className="font-bold text-primary-text mb-1">Expert</h4>
+              <p className="text-secondary-text text-sm">90-100%</p>
               <p className="text-secondary-text text-sm mt-2">
                 Deep expertise, can architect solutions
               </p>
@@ -281,9 +279,7 @@ const SkillsPage: React.FC = () => {
               <div className="w-16 h-16 rounded-full bg-primary/80 flex items-center justify-center text-white mb-3">
                 <i className="fa-solid fa-circle-check text-2xl"></i>
               </div>
-              <h4 className="font-bold text-primary-text mb-1">
-                Advanced
-              </h4>
+              <h4 className="font-bold text-primary-text mb-1">Advanced</h4>
               <p className="text-secondary-text text-sm">75-89%</p>
               <p className="text-secondary-text text-sm mt-2">
                 Strong skills, can build complex features
@@ -293,9 +289,7 @@ const SkillsPage: React.FC = () => {
               <div className="w-16 h-16 rounded-full bg-primary/60 flex items-center justify-center text-white mb-3">
                 <i className="fa-solid fa-check-circle text-2xl"></i>
               </div>
-              <h4 className="font-bold text-primary-text mb-1">
-                Proficient
-              </h4>
+              <h4 className="font-bold text-primary-text mb-1">Proficient</h4>
               <p className="text-secondary-text text-sm">60-74%</p>
               <p className="text-secondary-text text-sm mt-2">
                 Comfortable, can work independently
@@ -305,12 +299,8 @@ const SkillsPage: React.FC = () => {
               <div className="w-16 h-16 rounded-full bg-primary/40 flex items-center justify-center text-primary mb-3">
                 <i className="fa-solid fa-book text-2xl"></i>
               </div>
-              <h4 className="font-bold text-primary-text mb-1">
-                Learning
-              </h4>
-              <p className="text-secondary-text text-sm">
-                Below 60%
-              </p>
+              <h4 className="font-bold text-primary-text mb-1">Learning</h4>
+              <p className="text-secondary-text text-sm">Below 60%</p>
               <p className="text-secondary-text text-sm mt-2">
                 Currently learning and improving
               </p>

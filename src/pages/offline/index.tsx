@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const Offline: React.FC = () => {
   const [isChecking, setIsChecking] = useState(false);
@@ -9,12 +9,12 @@ const Offline: React.FC = () => {
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
     };
   }, []);
 
@@ -32,6 +32,10 @@ const Offline: React.FC = () => {
       }
     }, 1500);
   };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   // Determine button text and style based on state
   const getButtonContent = () => {
@@ -106,9 +110,9 @@ const Offline: React.FC = () => {
 
   const buttonClasses = `w-full flex items-center justify-center px-6 py-3 text-white font-medium rounded-lg shadow-md transition-all duration-300 hover:-translate-y-0.5 active:translate-y-px ${
     isOnline
-      ? 'bg-green-500 hover:bg-green-600'
-      : 'bg-blue-500 hover:bg-blue-600'
-  } ${isChecking ? 'opacity-70 cursor-not-allowed' : ''}`;
+      ? "bg-green-500 hover:bg-green-600"
+      : "bg-blue-500 hover:bg-blue-600"
+  } ${isChecking ? "opacity-70 cursor-not-allowed" : ""}`;
 
   return (
     <div className="offline-page min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
