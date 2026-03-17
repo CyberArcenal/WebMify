@@ -13,14 +13,22 @@ const BlogDetailPage: React.FC = () => {
   const {
     blog,
     comments,
+    commentPagination,
     relatedArticles,
     profile,
     loading,
     error,
+    loadingReplies,
+    loadRepliesPage,
+    replyPagination,
     postComment,
     postReply,
+    fetchCommentsPage,
+    loadRepliesForComment,
   } = useBlogDetail();
+
   const contentRef = useRef<HTMLDivElement>(null);
+  const commentSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (contentRef.current) {
@@ -31,6 +39,13 @@ const BlogDetailPage: React.FC = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
+  // Scroll to comment section when pagination changes
+  useEffect(() => {
+    if (commentSectionRef.current) {
+      commentSectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [commentPagination]);
 
   if (loading) return <LoadingSpinner />;
   if (error || !blog) {
@@ -58,7 +73,7 @@ const BlogDetailPage: React.FC = () => {
 
   return (
     <div className="blog-detail-page min-h-screen">
-      {/* Hero Section */}
+      {/* Hero Section - original gradient */}
       <div className="relative pt-16 pb-24 md:py-32 bg-gradient-to-r from-primary to-blue-600">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
@@ -74,14 +89,15 @@ const BlogDetailPage: React.FC = () => {
             {/* Author & Date Info */}
             <div className="flex items-center justify-center mt-8">
               <div className="flex-shrink-0 mr-4">
-                <div
-                  className="bg-card-secondary border-2 border-dashed rounded-full w-12 h-12 bg-cover bg-center"
-                  style={
-                    blog.author?.image_url
-                      ? { backgroundImage: `url(${blog.author.image_url})` }
-                      : {}
-                  }
-                ></div>
+                {blog.author?.image_url ? (
+                  <img
+                    src={blog.author.image_url}
+                    alt={blog.author.name}
+                    className="w-12 h-12 rounded-full border-2 border-white object-cover"
+                  />
+                ) : (
+                  <div className="w-12 h-12 rounded-full bg-white/20 border-2 border-white"></div>
+                )}
               </div>
               <div className="text-left">
                 <p className="font-medium text-white">
@@ -92,12 +108,10 @@ const BlogDetailPage: React.FC = () => {
                     {formatDate(blog.published_date || blog.created_at)}
                   </span>
                   <span className="mr-4">
-                    <i className="fa-regular fa-clock mr-1"></i> {readTime} min
-                    read
+                    <i className="fa-regular fa-clock mr-1"></i> {readTime} min read
                   </span>
                   <span>
-                    <i className="fa-regular fa-eye mr-1"></i> {blog.views}{" "}
-                    views
+                    <i className="fa-regular fa-eye mr-1"></i> {blog.views} views
                   </span>
                 </div>
               </div>
@@ -107,23 +121,21 @@ const BlogDetailPage: React.FC = () => {
         <div className="absolute inset-0 bg-gray-900/30"></div>
       </div>
 
-      {/* Featured Image */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 md:-mt-24 relative z-20">
-        <div className="rounded-2xl shadow-xl overflow-hidden">
-          {blog.imageURL ? (
+      {/* Featured Image (if exists) */}
+      {blog.imageURL && (
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 md:-mt-24 relative z-20">
+          <div className="rounded-xl shadow-xl overflow-hidden">
             <img
               src={blog.imageURL}
               alt={blog.title}
               className="w-full h-64 md:h-96 object-cover"
             />
-          ) : (
-            <div className="bg-card-secondary border-2 border-dashed border-color w-full h-64 md:h-96"></div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Blog Content */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      {/* Blog Content - wider container */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Excerpt */}
         <div className="bg-primary-light/20 border-l-4 border-primary p-6 rounded-lg mb-12">
           <p className="text-xl text-primary-text italic">{excerpt}</p>
@@ -193,13 +205,21 @@ const BlogDetailPage: React.FC = () => {
         {/* Author Bio */}
         <AuthorBio profile={profile} author={blog.author} />
 
-        {/* Comments */}
-        <CommentSection
-          comments={comments}
-          blogId={blog.id}
-          onPostComment={postComment}
-          onPostReply={postReply}
-        />
+        {/* Comments with pagination - with ref for scrolling */}
+        <div ref={commentSectionRef}>
+          <CommentSection
+  comments={comments}
+  blogId={blog.id}
+  pagination={commentPagination}
+  onPageChange={fetchCommentsPage}
+  onPostComment={postComment}
+  onPostReply={postReply}
+  loadRepliesForComment={loadRepliesForComment}
+  loadingReplies={loadingReplies}
+  loadRepliesPage={loadRepliesPage}          // ✅ idagdag
+  replyPagination={replyPagination}          // ✅ idagdag
+/>
+        </div>
 
         {/* Related Articles */}
         <RelatedArticles articles={relatedArticles} />

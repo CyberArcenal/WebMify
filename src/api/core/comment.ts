@@ -26,6 +26,7 @@ export interface Comment {
   created_at_display: string;
   parent: number | null;
   replies: Comment[];
+  replies_count: number;
 }
 
 export interface CommentCreateData {
