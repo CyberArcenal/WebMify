@@ -55,8 +55,8 @@
 
 ### 1. Clone the repository
 ```bash
-git clone <repository-url>
-cd webmify
+git clone https://github.com/CyberArcenal/WebMify.git
+cd WebMify
 ```
 
 ### 2. Backend (Django)
