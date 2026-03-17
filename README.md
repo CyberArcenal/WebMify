@@ -130,4 +130,4 @@ webmify/
 
 ## 📄 License
 
-MIT – feel free to use this project as a template for your own portfolio.
+GNU GENERAL PUBLIC LICENSE
