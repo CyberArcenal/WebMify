@@ -16,16 +16,20 @@ const ProjectsList: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
   const filter = searchParams.get("filter") || "all";
+  const filterParam = searchParams.get("filter");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(page);
-  const [currentFilter, setCurrentFilter] = useState(filter);
+  const [currentFilter, setCurrentFilter] = useState<number | null>(
+    filterParam ? parseInt(filterParam) : null,
+  );
 
-  const { projects, loading, error, pagination } = useProjects({
-    project_type: currentFilter === "all" ? undefined : currentFilter as "web" | "mobile" | "software" | "design" | "other" | "all",
-    page: currentPage,
-    page_size: 6,
-  });
+// Replace the useProjects call with:
+const { projects, loading, error, pagination, category } = useProjects({
+  project_type: currentFilter ?? undefined,   // use the real filter value
+  page: currentPage,
+  page_size: 6,
+});
 
   // Auto‑scroll to top kapag nagbago ang page o filter
   useEffect(() => {
@@ -61,15 +65,18 @@ const ProjectsList: React.FC = () => {
   // Sync state with URL params
   useEffect(() => {
     setCurrentPage(page);
-    setCurrentFilter(filter);
-  }, [page, filter]);
+    setCurrentFilter(filterParam ? parseInt(filterParam) : null);
+  }, [page, filterParam]);
 
-  const handleFilterChange = (newFilter: string) => {
-    setSearchParams({ page: "1", filter: newFilter });
+  const handleFilterChange = (newFilterId: number) => {
+    setSearchParams({ page: "1", filter: newFilterId.toString() });
   };
 
   const handlePageChange = (newPage: number) => {
-    setSearchParams({ page: newPage.toString(), filter: currentFilter });
+    setSearchParams({
+      page: newPage.toString(),
+      filter: currentFilter?.toString() ?? "",
+    });
   };
 
   if (error) {
@@ -85,7 +92,6 @@ const ProjectsList: React.FC = () => {
 
   return (
     <div className="projects-page min-h-screen py-12">
-
       {/* Page Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <div className="text-center">
@@ -99,7 +105,8 @@ const ProjectsList: React.FC = () => {
           </p>
           <div className="mt-8 flex justify-center">
             <FilterButtons
-              currentFilter={currentFilter}
+              categories={category}
+              currentFilter={currentFilter as number}
               onFilterChange={handleFilterChange}
             />
           </div>

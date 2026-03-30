@@ -41,7 +41,7 @@ const ProjectSidebar: React.FC<Props> = ({ project }) => {
               Project Type
             </p>
             <p className="font-medium text-primary-text">
-              {formatProjectType(project.project_type)}
+              {project.project_type.name}
             </p>
           </div>
 

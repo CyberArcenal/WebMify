@@ -1,6 +1,7 @@
 // src/api/project.ts
 import { apiClient } from "@/lib/fetcher";
 import { Pagination } from "../utils";
+import { Category } from "./category";
 
 export interface ProjectFeature {
   description: string;
@@ -28,7 +29,7 @@ export interface Project {
   title: string;
   slug: string;
   description: string;
-  project_type: "web" | "mobile" | "software" | "design" | "other";
+  project_type: Category;
   image_url: string | null;
   demo_url: string;
   source_code_url: string;
@@ -56,7 +57,7 @@ export interface Project {
 export interface ProjectCreateData {
   title: string;
   description: string;
-  project_type?: string;
+  project_type?: number;
   image?: File | null;
   demo_url?: string;
   source_code_url?: string;
@@ -68,7 +69,7 @@ export type ProjectUpdateData = Partial<ProjectCreateData>;
 
 export interface ProjectListParams {
   featured?: boolean;
-  project_type?: string;
+  project_type?: number;
   search?: string;
   page?: number;
   page_size?: number;

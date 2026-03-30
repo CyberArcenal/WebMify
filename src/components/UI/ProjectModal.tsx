@@ -39,8 +39,8 @@ const ProjectModal: React.FC<Props> = ({ project, isOpen, onClose }) => {
     default: { bg: "bg-gray-100 dark:bg-gray-700", text: "text-gray-800 dark:text-gray-200" },
   };
 
-  const typeClass = typeClasses[project.project_type] || typeClasses.default;
-  const demoText = project.project_type === "mobile" ? "App Store" : "Live Demo";
+  const typeClass = typeClasses[project.project_type.name] || typeClasses.default;
+  const demoText = project.project_type.name === "mobile" ? "App Store" : "Live Demo";
   const descriptionHtml = markdownToHtml(project.description);
 
   return (
@@ -62,13 +62,13 @@ const ProjectModal: React.FC<Props> = ({ project, isOpen, onClose }) => {
 
           <div className="flex items-center mb-4">
             <span className={`px-3 py-1 ${typeClass.bg} ${typeClass.text} rounded-full text-sm font-medium mr-4`}>
-              {project.project_type === "web"
+              {project.project_type.name === "web"
                 ? "Web App"
-                : project.project_type === "mobile"
+                : project.project_type.name === "mobile"
                 ? "Mobile"
-                : project.project_type === "open-source"
+                : project.project_type.name === "open-source"
                 ? "Open Source"
-                : project.project_type}
+                : project.project_type.name}
             </span>
             {project.featured && (
               <span className="px-3 py-1 bg-primary-light dark:bg-primary-dark text-primary-dark dark:text-primary-light rounded-full text-sm font-medium">

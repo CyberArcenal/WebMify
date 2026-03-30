@@ -7,16 +7,6 @@ interface Props {
 }
 
 const ProjectHero: React.FC<Props> = ({ project, onImageClick }) => {
-  const formatProjectType = (type: string) => {
-    const typeMap: Record<string, string> = {
-      web: "Web Application",
-      mobile: "Mobile Application",
-      "open-source": "Open Source",
-      design: "Design Project",
-      other: "Other Project",
-    };
-    return typeMap[type] || type;
-  };
 
   return (
     <div className="relative py-16 md:py-24 bg-gradient-to-r from-primary to-blue-600">
@@ -24,7 +14,7 @@ const ProjectHero: React.FC<Props> = ({ project, onImageClick }) => {
         <div className="text-center">
           <div className="inline-block mb-4">
             <span className="px-4 py-1 bg-white/20 text-white rounded-full text-sm font-medium">
-              {formatProjectType(project.project_type)}
+              {project.project_type.name}
             </span>
           </div>
           <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">

@@ -19,7 +19,7 @@ const ProjectCard: React.FC<Props> = ({ project, onReadMore }) => {
     default: { bg: 'bg-gray-100 dark:bg-gray-700', text: 'text-gray-800 dark:text-gray-200' },
   };
 
-  const typeClass = typeClasses[project.project_type] || typeClasses.default;
+  const typeClass = typeClasses[project.project_type.name] || typeClasses.default;
 
   const techTags = project.technologies_list.map((tech) => (
     <span
@@ -48,9 +48,9 @@ const ProjectCard: React.FC<Props> = ({ project, onReadMore }) => {
     navigate(`/projects/${project.id}`);
   };
 
-  const demoText = project.project_type === 'mobile' ? 'App Store' : 'Live Demo';
+  const demoText = project.project_type.name === 'mobile' ? 'App Store' : 'Live Demo';
   const demoIcon =
-    project.project_type === 'mobile' ? (
+    project.project_type.name === 'mobile' ? (
       <i className="fa-brands fa-app-store-ios ml-1"></i>
     ) : (
       <i className="fa-solid fa-arrow-up-right-from-square ml-1 text-sm"></i>
@@ -92,13 +92,13 @@ const ProjectCard: React.FC<Props> = ({ project, onReadMore }) => {
         <div className="flex justify-between items-start mb-4">
           <h3 className="text-xl font-bold text-primary-text line-clamp-1">{project.title}</h3>
           <span className={`text-xs px-2 py-1 ${typeClass.bg} ${typeClass.text} rounded-full flex-shrink-0`}>
-            {project.project_type === 'web'
+            {project.project_type.name === 'web'
               ? 'Web App'
-              : project.project_type === 'mobile'
+              : project.project_type.name === 'mobile'
               ? 'Mobile'
-              : project.project_type === 'open-source'
+              : project.project_type.name === 'open-source'
               ? 'Open Source'
-              : project.project_type}
+              : project.project_type.name}
           </span>
         </div>
 
