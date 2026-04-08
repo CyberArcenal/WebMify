@@ -11,6 +11,7 @@ import SkeletonProjectCard from '@/components/UI/SkeletonProjectCard';
 import SkillsPreview from '@/components/UI/SkillsPreview';
 import SkeletonSkills from '@/components/UI/SkeletonSkills';
 import ProjectModal from '@/components/UI/ProjectModal';
+import ChatWidget from './components/ChatWidget';
 
 const Home: React.FC = () => {
   const { profile, loading: profileLoading, error: profileError } = useProfile();
@@ -145,6 +146,8 @@ const Home: React.FC = () => {
 
       {/* Project Modal */}
       <ProjectModal project={selectedProject} isOpen={modalOpen} onClose={closeModal} />
+      {/* Chat Widget */}
+      <ChatWidget />
     </div>
   );
 };
