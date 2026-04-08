@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Profile } from "@/api/core/profile";
 import Button from "@/components/UI/Button";
 
@@ -7,6 +7,31 @@ interface Props {
 }
 
 const ProfileHeader: React.FC<Props> = ({ profile }) => {
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    if (!profile.resume_url) return;
+    setIsDownloading(true);
+    try {
+      const response = await fetch(profile.resume_url);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      // Kunin ang filename mula sa URL o mag-set ng default
+      const filename = profile.resume_url.split("/").pop() || "resume.pdf";
+      link.setAttribute("download", filename);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed:", error);
+      alert("Failed to download. Please try again.");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
   const socialLinks = [
     {
       href: `${profile?.github_url}`,
@@ -90,11 +115,16 @@ const ProfileHeader: React.FC<Props> = ({ profile }) => {
 
         <div className="flex flex-wrap justify-center md:justify-start gap-4">
           {profile.resume_url && (
-            <Button size="md"
-              href={profile.resume_url}
+            <Button
+              size="md"
+              onClick={handleDownload}
+              disabled={isDownloading}
               className="px-6! py-3! hover:bg-primary-dark! text-white font-medium transition-colors shadow-md inline-flex items-center"
             >
-              <i className="fa-solid fa-download mr-2"></i>Download Resume
+              <i
+                className={`fa-solid ${isDownloading ? "fa-spinner fa-spin" : "fa-download"} mr-2`}
+              ></i>
+              {isDownloading ? "Downloading..." : "Download Resume"}
             </Button>
           )}
           <a
