@@ -1,24 +1,32 @@
-import React, { useEffect } from 'react';
-import { formatDate } from '@/utils/formatters';
-import LoadingSpinner from '../home/components/LoadingSpinner';
-import { useProfile } from '../home/hooks/useProfile';
-import { useExperience } from './hooks/useExperience';
-import { useEducation } from './hooks/useEducation';
-import { useSkills } from '../home/hooks/useSkills';
-import Button from '@/components/UI/Button';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { formatDate } from "@/utils/formatters";
+import LoadingSpinner from "../home/components/LoadingSpinner";
+import { useProfile } from "../home/hooks/useProfile";
+import { useExperience } from "./hooks/useExperience";
+import { useEducation } from "./hooks/useEducation";
+import { useSkills } from "../home/hooks/useSkills";
+import Button from "@/components/UI/Button";
+import { useNavigate } from "react-router-dom";
 
 const About: React.FC = () => {
   const navigate = useNavigate();
-  const { profile, loading: profileLoading, error: profileError } = useProfile();
+  const {
+    profile,
+    loading: profileLoading,
+    error: profileError,
+  } = useProfile();
   const { experiences, loading: expLoading, error: expError } = useExperience();
   const { education, loading: eduLoading, error: eduError } = useEducation();
-  const { skills, loading: skillsLoading, error: skillsError } = useSkills({ featured: false, limit: 100 });
+  const {
+    skills,
+    loading: skillsLoading,
+    error: skillsError,
+  } = useSkills({ featured: false, limit: 100 });
+  const [isDownloading, setIsDownloading] = useState(false);
 
-
-    useEffect(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, []);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   const isLoading = profileLoading || expLoading || eduLoading || skillsLoading;
   const hasError = profileError || expError || eduError || skillsError;
@@ -26,16 +34,43 @@ const About: React.FC = () => {
   // Fade‑in animations
   useEffect(() => {
     if (!isLoading) {
-      const sections = document.querySelectorAll('.about-page > div');
+      const sections = document.querySelectorAll(".about-page > div");
       sections.forEach((section, index) => {
-        section.classList.add('opacity-0', 'translate-y-6');
-        setTimeout(() => {
-          section.classList.add('transition-all', 'duration-500', 'ease-out');
-          section.classList.remove('opacity-0', 'translate-y-6');
-        }, 100 + index * 150);
+        section.classList.add("opacity-0", "translate-y-6");
+        setTimeout(
+          () => {
+            section.classList.add("transition-all", "duration-500", "ease-out");
+            section.classList.remove("opacity-0", "translate-y-6");
+          },
+          100 + index * 150,
+        );
       });
     }
   }, [isLoading]);
+
+  const handleDownload = async () => {
+    if (!profile?.resume_url) return;
+    setIsDownloading(true);
+    try {
+      const response = await fetch(profile?.resume_url);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      // Kunin ang filename mula sa URL o mag-set ng default
+      const filename = profile?.resume_url.split("/").pop() || "resume.pdf";
+      link.setAttribute("download", filename);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed:", error);
+      alert("Failed to download. Please try again.");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -51,28 +86,28 @@ const About: React.FC = () => {
 
   // Icon mapping (same as original)
   const defaultSkillIcons: Record<string, string> = {
-    AWS: 'fab fa-aws text-orange-500',
-    'Android Studio': 'fab fa-android text-green-600',
-    CSS: 'fab fa-css3-alt text-blue-600',
-    Django: 'fas fa-code text-green-700',
-    HTML5: 'fab fa-html5 text-red-500',
-    Java: 'fab fa-java text-red-600',
-    JavaScript: 'fab fa-js text-yellow-500',
-    Kotlin: 'fas fa-code text-purple-600',
-    Python: 'fab fa-python text-blue-400',
-    VSCode: 'fab fa-vscode text-blue-400',
-    tailwind: 'fab fa-css3-alt text-teal-500',
-    React: 'fab fa-react text-blue-500',
-    'Node.js': 'fab fa-node-js text-green-500',
-    'Vue.js': 'fab fa-vuejs text-green-500',
-    Express: 'fas fa-server text-gray-500',
-    MongoDB: 'fas fa-database text-green-700',
-    Bootstrap: 'fab fa-bootstrap text-purple-600',
-    Sass: 'fab fa-sass text-pink-500',
-    Git: 'fab fa-git-alt text-orange-600',
-    PHP: 'fab fa-php text-indigo-600',
-    Laravel: 'fab fa-laravel text-red-500',
-    'C++': 'fas fa-code text-blue-600',
+    AWS: "fab fa-aws text-orange-500",
+    "Android Studio": "fab fa-android text-green-600",
+    CSS: "fab fa-css3-alt text-blue-600",
+    Django: "fas fa-code text-green-700",
+    HTML5: "fab fa-html5 text-red-500",
+    Java: "fab fa-java text-red-600",
+    JavaScript: "fab fa-js text-yellow-500",
+    Kotlin: "fas fa-code text-purple-600",
+    Python: "fab fa-python text-blue-400",
+    VSCode: "fab fa-vscode text-blue-400",
+    tailwind: "fab fa-css3-alt text-teal-500",
+    React: "fab fa-react text-blue-500",
+    "Node.js": "fab fa-node-js text-green-500",
+    "Vue.js": "fab fa-vuejs text-green-500",
+    Express: "fas fa-server text-gray-500",
+    MongoDB: "fas fa-database text-green-700",
+    Bootstrap: "fab fa-bootstrap text-purple-600",
+    Sass: "fab fa-sass text-pink-500",
+    Git: "fab fa-git-alt text-orange-600",
+    PHP: "fab fa-php text-indigo-600",
+    Laravel: "fab fa-laravel text-red-500",
+    "C++": "fas fa-code text-blue-600",
   };
 
   return (
@@ -81,10 +116,13 @@ const About: React.FC = () => {
       <div className="relative py-24 bg-gradient-to-r from-primary to-blue-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">About Me</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              About Me
+            </h1>
             <div className="w-24 h-1 bg-white/80 mx-auto mb-6 rounded"></div>
             <p className="text-xl text-white/90 max-w-3xl mx-auto">
-              Learn about my journey, professional experience, and educational background
+              Learn about my journey, professional experience, and educational
+              background
             </p>
           </div>
         </div>
@@ -98,7 +136,7 @@ const About: React.FC = () => {
           <div className="w-full lg:w-5/12 flex justify-center">
             <div className="relative">
               <img
-                src={profile?.profile_image_url || '/default-avatar.png'}
+                src={profile?.profile_image_url || "/default-avatar.png"}
                 alt={profile?.name}
                 className="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover shadow-lg"
               />
@@ -172,7 +210,7 @@ const About: React.FC = () => {
                 <div className="contact-details">
                   <p className="text-sm text-tertiary-text">Status</p>
                   <p className="text-primary-text my-status">
-                    {profile?.status_display || profile?.status || 'Available'}
+                    {profile?.status_display || profile?.status || "Available"}
                   </p>
                 </div>
               </div>
@@ -210,10 +248,14 @@ const About: React.FC = () => {
             <div className="mt-8 flex flex-wrap gap-4">
               {profile?.resume_url && (
                 <Button
-                  href={profile.resume_url}
+                  onClick={handleDownload}
+                  disabled={isDownloading}
                   className="px-6! py-3! bg-primary hover:bg-primary-dark text-white rounded-lg font-medium transition-colors shadow-md"
                 >
-                  <i className="fa-solid fa-download mr-2"></i>Download Resume
+                  <i
+                    className={`fa-solid ${isDownloading ? "fa-spinner fa-spin" : "fa-download"} mr-2`}
+                  ></i>
+                  {isDownloading ? "Downloading..." : "Download Resume"}
                 </Button>
               )}
               <a
@@ -227,7 +269,7 @@ const About: React.FC = () => {
         </div>
       </div>
 
-      {/* Work Experience Section */}
+      {/* Work Experience Section - FIXED LAYOUT */}
       {experiences.length > 0 && (
         <div className="bg-card-secondary py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -241,113 +283,86 @@ const About: React.FC = () => {
               </p>
             </div>
 
-            {/* Timeline */}
+            {/* Timeline - FIXED */}
             <div className="relative timeline-container">
               {/* Timeline line */}
-              <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-1 bg-primary-light transform -translate-x-1/2"></div>
+              <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-1 bg-primary-light transform -translate-x-1/2 z-0"></div>
 
               {experiences.map((exp, index) => {
                 const isEven = index % 2 === 0;
-                const isLast = index === experiences.length - 1;
 
                 return (
                   <div
                     key={exp.id}
-                    className={`time-line-prototype flex flex-col lg:flex-row ${isLast ? 'pb-8' : 'mb-16'}`}
+                    className={`mb-16 flex flex-col lg:flex-row ${
+                      isEven ? "" : "lg:flex-row-reverse"
+                    } items-start lg:items-center gap-8 lg:gap-12 relative z-10`}
                   >
-                    {isEven ? (
-                      <>
-                        {/* Info side (left for even) */}
-                        <div className="lg:w-1/2 lg:pr-16 lg:text-right mb-6 lg:mb-0">
-                          <div className="inline-block px-4 py-1 bg-primary text-white rounded-full text-sm mb-3">
-                            {exp.duration}
-                          </div>
-                          <h3 className="text-2xl font-bold text-primary-text">
-                            {exp.position}
-                          </h3>
-                          <p className="text-xl text-primary mb-4">
-                            {exp.company}
-                          </p>
-                          <div className="inline-flex justify-center lg:justify-end mb-4">
-                            {exp.company_logo_url ? (
-                              <img
-                                src={exp.company_logo_url}
-                                alt={exp.company}
-                                className="w-16 h-16 object-contain"
-                              />
-                            ) : (
-                              <div className="bg-card-secondary border-2 border-dashed border-color rounded-lg w-16 h-16"></div>
-                            )}
-                          </div>
+                    {/* Info side (position, company, duration, logo) */}
+                    {/* Kapag even → kaliwa (text-right), kapag odd → kanan (text-left) */}
+                    <div
+                      className={`lg:w-5/12 flex flex-col ${
+                        isEven
+                          ? "lg:items-end lg:text-right"
+                          : "lg:items-start lg:text-left"
+                      }`}
+                    >
+                      <div>
+                        <div className="inline-block px-4 py-1 bg-primary text-white rounded-full text-sm mb-3">
+                          {exp.duration}
                         </div>
+                      </div>
 
-                        {/* Timeline marker */}
-                        <div className="hidden lg:flex lg:w-1/2 lg:px-16 items-center justify-center">
-                          <div className="w-6 h-6 rounded-full bg-primary border-4 border-white dark:border-card z-10"></div>
-                        </div>
+                      <h3 className="text-2xl font-bold text-primary-text">
+                        {exp.position}
+                      </h3>
+                      <p className="text-xl text-primary mb-4">{exp.company}</p>
+                      <div>
+       <div
+                        className={`inline-flex justify-center ${
+                          isEven ? "lg:justify-end" : "lg:justify-start"
+                        } mb-4`}
+                      >
+                        {exp.company_logo_url ? (
+                          <img
+                            src={exp.company_logo_url}
+                            alt={exp.company}
+                            className="w-16 h-16 object-contain"
+                          />
+                        ) : (
+                          <div className="bg-card-secondary border-2 border-dashed border-color rounded-lg w-16 h-16"></div>
+                        )}
+                      </div>
+                      </div>
+               
+                    </div>
 
-                        {/* Description side */}
-                        <div className="lg:w-1/2 lg:px-16">
-                          <div className="bg-card rounded-xl shadow-lg p-6">
-                            <p className="text-secondary-text mb-4 whitespace-pre-line">
-                              {exp.description}
-                            </p>
-                            {exp.responsibilities && exp.responsibilities.length > 0 && (
-                              <ul className="text-secondary-text space-y-2 list-disc pl-5">
-                                {exp.responsibilities.map((resp: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined, idx: React.Key | null | undefined) => (
+                    {/* Center dot + connector space */}
+                    <div className="hidden lg:flex w-12 flex-shrink-0 items-center justify-center">
+                      <div className="w-6 h-6 rounded-full bg-primary border-4 border-white dark:border-card z-10"></div>
+                    </div>
+
+                    {/* Description side */}
+                    <div className="lg:w-5/12">
+                      <div className="bg-card rounded-xl shadow-lg p-6">
+                        <p className="text-secondary-text mb-4 whitespace-pre-line">
+                          {exp.description}
+                        </p>
+                        {exp.responsibilities &&
+                          exp.responsibilities.length > 0 && (
+                            <ul className="text-secondary-text space-y-2 list-disc pl-5">
+                              {exp.responsibilities.map(
+                                (
+                                  resp: any,
+                                  idx: React.Key | null | undefined,
+                                ) => (
                                   <li key={idx}>{resp}</li>
-                                ))}
-                              </ul>
-                            )}
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        {/* For odd: description first, then marker, then info */}
-                        <div className="lg:w-1/2 lg:px-16 lg:order-1">
-                          <div className="bg-card rounded-xl shadow-lg p-6">
-                            <p className="text-secondary-text mb-4 whitespace-pre-line">
-                              {exp.description}
-                            </p>
-                            {exp.responsibilities && exp.responsibilities.length > 0 && (
-                              <ul className="text-secondary-text space-y-2 list-disc pl-5">
-                                {exp.responsibilities.map((resp: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined, idx: React.Key | null | undefined) => (
-                                  <li key={idx}>{resp}</li>
-                                ))}
-                              </ul>
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="hidden lg:flex lg:w-1/2 lg:px-16 items-center justify-center lg:order-2">
-                          <div className="w-6 h-6 rounded-full bg-primary border-4 border-white dark:border-card z-10"></div>
-                        </div>
-
-                        <div className="lg:w-1/2 lg:pl-16 lg:text-left lg:order-3 mb-6 lg:mb-0">
-                          <div className="inline-block px-4 py-1 bg-primary text-white rounded-full text-sm mb-3">
-                            {exp.duration}
-                          </div>
-                          <h3 className="text-2xl font-bold text-primary-text">
-                            {exp.position}
-                          </h3>
-                          <p className="text-xl text-primary mb-4">
-                            {exp.company}
-                          </p>
-                          <div className="inline-flex justify-center lg:justify-start mb-4">
-                            {exp.company_logo_url ? (
-                              <img
-                                src={exp.company_logo_url}
-                                alt={exp.company}
-                                className="w-16 h-16 object-contain"
-                              />
-                            ) : (
-                              <div className="bg-card-secondary border-2 border-dashed border-color rounded-lg w-16 h-16"></div>
-                            )}
-                          </div>
-                        </div>
-                      </>
-                    )}
+                                ),
+                              )}
+                            </ul>
+                          )}
+                      </div>
+                    </div>
                   </div>
                 );
               })}
@@ -406,14 +421,16 @@ const About: React.FC = () => {
                   </p>
                   {edu.achievements && edu.achievements.length > 0 && (
                     <div className="mt-4">
-                      {edu.achievements.map((ach: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined, idx: React.Key | null | undefined) => (
-                        <span
-                          key={idx}
-                          className="px-3 py-1 bg-card-secondary text-tertiary-text text-sm rounded-full mr-2 mb-2 inline-block"
-                        >
-                          {ach}
-                        </span>
-                      ))}
+                      {edu.achievements.map(
+                        (ach: any, idx: React.Key | null | undefined) => (
+                          <span
+                            key={idx}
+                            className="px-3 py-1 bg-card-secondary text-tertiary-text text-sm rounded-full mr-2 mb-2 inline-block"
+                          >
+                            {ach}
+                          </span>
+                        ),
+                      )}
                     </div>
                   )}
                 </div>
@@ -439,9 +456,15 @@ const About: React.FC = () => {
 
             <div className="skills-container grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 tech-grid">
               {skills.map((skill) => {
-                const iconClass = defaultSkillIcons[skill.name] || skill.icon || 'fas fa-star text-tertiary-text';
+                const iconClass =
+                  defaultSkillIcons[skill.name] ||
+                  skill.icon ||
+                  "fas fa-star text-tertiary-text";
                 return (
-                  <div key={skill.id} className="flex flex-col items-center tech-item mb-4">
+                  <div
+                    key={skill.id}
+                    className="flex flex-col items-center tech-item mb-4"
+                  >
                     <div className="w-20 h-20 rounded-full bg-card-secondary flex items-center justify-center mb-4 tech-icon">
                       <i className={`${iconClass} text-4xl`}></i>
                     </div>
@@ -482,12 +505,15 @@ const About: React.FC = () => {
             Interested in working together?
           </h2>
           <p className="text-xl text-white/80 max-w-2xl mx-auto mb-8">
-            Whether you have a project in mind or just want to connect, I'd love to hear from you.
+            Whether you have a project in mind or just want to connect, I'd love
+            to hear from you.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button
-              variant='primary'
-              onClick={() => {navigate(`/contact`)}}
+              variant="primary"
+              onClick={() => {
+                navigate(`/contact`);
+              }}
               className="inline-flex items-center justify-center px-8 py-3 bg-indigo-700 font-medium rounded-lg shadow-md hover:bg-gray-100 transition-colors"
             >
               <i className="fa-solid fa-envelope mr-2"></i> Contact Me

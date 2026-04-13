@@ -63,23 +63,16 @@ const ProfileHeader: React.FC<Props> = ({ profile }) => {
     <>
       {/* Profile Image */}
       <div className="w-full md:w-2/5 flex justify-center">
-        <div className="relative" id="profile-image-container">
-          <img
-            src={profile.profile_image_url || ""}
-            alt={profile.name}
-            crossOrigin="anonymous"
-            className="rounded-xl w-64 h-64 md:w-80 md:h-80 object-cover shadow-lg"
-            onError={(e) => {
-              const target = e.currentTarget;
-              target.onerror = null;
-              target.parentElement!.innerHTML =
-                '<div class="bg-card-secondary border-2 border-dashed rounded-xl w-64 h-64 md:w-80 md:h-80"></div>';
-            }}
-          />
-          <div className="absolute -bottom-4 -right-4 bg-primary text-white p-3 rounded-full shadow-lg">
-            <i className="fa-solid fa-star text-xl"></i>
-          </div>
-        </div>
+       <div className="relative">
+              <img
+                src={profile?.profile_image_url || "/default-avatar.png"}
+                alt={profile?.name}
+                className="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover shadow-lg"
+              />
+              <div className="absolute -bottom-4 -right-4 bg-primary text-white p-3 rounded-full shadow-lg">
+                <i className="fa-solid fa-star text-xl"></i>
+              </div>
+            </div>
       </div>
 
       {/* Profile Info */}
